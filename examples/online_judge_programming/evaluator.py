@@ -21,11 +21,22 @@ def run_with_timeout(program_path, timeout_seconds=60):
     Returns:
         Result of the function or raises TimeoutError
     """
-    cmd = ["python", "submit.py", program_path, "-p", "alphabet", "-l", "Python 3", "-f"]
+    cmd = [
+        "python",
+        "submit.py",
+        program_path,
+        "-p",
+        "alphabet",
+        "-l",
+        "Python 3",
+        "-f",
+    ]
 
     try:
         # Run the command and grab its output using subprocess.Popen
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        proc = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        )
         stdout, stderr = proc.communicate(timeout=timeout_seconds)
         exit_code = proc.returncode
         if exit_code != 0:
@@ -67,7 +78,8 @@ def evaluate(program_path):
 
         # Use subprocess to run with timeout
         score, done, correct, total = run_with_timeout(
-            program_path, timeout_seconds=60  # Single timeout
+            program_path,
+            timeout_seconds=60,  # Single timeout
         )
 
         end_time = time.time()

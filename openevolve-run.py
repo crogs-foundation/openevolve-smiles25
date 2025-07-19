@@ -2,6 +2,7 @@
 """
 Entry point script for OpenEvolve
 """
+
 import sys
 from openevolve.cli import main
 

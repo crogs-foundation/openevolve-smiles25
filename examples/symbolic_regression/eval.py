@@ -1,6 +1,5 @@
 from typing import Dict, Any  # List removed as it's not used
 import json
-import os
 from pathlib import Path
 import numpy as np
 
@@ -14,7 +13,6 @@ import sys
 # import traceback # Not used
 # import json # Not used
 # Example custom JSON encoder if you need to save results with numpy types
-import json
 
 
 class NumpyFloatJSONEncoder(json.JSONEncoder):
@@ -72,12 +70,16 @@ def compute_output_base_metrics(y_pred: np.ndarray, y: np.ndarray) -> Dict[str, 
     var_y = np.var(y_filtered)
 
     if var_y == 0:
-        nmse = 0.0 if mse == 0 else float("inf")  # Consistent if true values are constant
+        nmse = (
+            0.0 if mse == 0 else float("inf")
+        )  # Consistent if true values are constant
     else:
         nmse = mse / var_y
 
     sum_sq_res = np.sum((y_filtered - y_pred_filtered) ** 2)
-    sum_sq_total = np.sum((y_filtered - np.mean(y_filtered)) ** 2)  # Use mean of filtered y
+    sum_sq_total = np.sum(
+        (y_filtered - np.mean(y_filtered)) ** 2
+    )  # Use mean of filtered y
 
     if sum_sq_total == 0:  # True values (after filtering) are constant
         r2 = (
@@ -121,7 +123,10 @@ def compute_output_base_metrics(y_pred: np.ndarray, y: np.ndarray) -> Dict[str, 
 
 
 def objective_function(
-    params: np.ndarray, model_func: callable, X_matrix: np.ndarray, y_true_vector: np.ndarray
+    params: np.ndarray,
+    model_func: callable,
+    X_matrix: np.ndarray,
+    y_true_vector: np.ndarray,
 ) -> float:
     """
     Objective function for scipy.optimize.minimize.
@@ -130,7 +135,10 @@ def objective_function(
     # model_func callable status is checked before calling minimize in the evaluation function.
     try:
         predictions = model_func(X_matrix, params)
-        if not isinstance(predictions, np.ndarray) or predictions.shape != y_true_vector.shape:
+        if (
+            not isinstance(predictions, np.ndarray)
+            or predictions.shape != y_true_vector.shape
+        ):
             # print(f"Debug: Objective func - Bad prediction shape/type. Got {type(predictions)}, shape {getattr(predictions, 'shape', 'N/A')}. Expected {y_true_vector.shape}")
             return float("inf")
         if np.any(np.isnan(predictions)) or np.any(np.isinf(predictions)):
@@ -177,7 +185,9 @@ def evaluation(
         test_x = np.load(p_data_path / "X_test_for_eval.npy")
         test_y = np.load(p_data_path / "y_test_for_eval.npy").squeeze()  # Ensure 1D
         test_x_ood = np.load(p_data_path / "X_ood_test_for_eval.npy")
-        test_y_ood = np.load(p_data_path / "y_ood_test_for_eval.npy").squeeze()  # Ensure 1D
+        test_y_ood = np.load(
+            p_data_path / "y_ood_test_for_eval.npy"
+        ).squeeze()  # Ensure 1D
     except FileNotFoundError as e:
         return _create_error_return(f"Data file not found: {e.filename}")
     except Exception as e:
@@ -190,7 +200,9 @@ def evaluation(
         if not p_program_path.is_file():
             raise FileNotFoundError(f"Program file not found: {program_path}")
 
-        spec = importlib.util.spec_from_file_location("custom_model_module", str(p_program_path))
+        spec = importlib.util.spec_from_file_location(
+            "custom_model_module", str(p_program_path)
+        )
         if spec is None or spec.loader is None:
             raise ImportError(f"Could not create module spec from {program_path}")
 
@@ -199,7 +211,9 @@ def evaluation(
 
         model_func = getattr(custom_model_module, "func", None)
         if not callable(model_func):
-            raise AttributeError(f"'func' function not found or not callable in {program_path}")
+            raise AttributeError(
+                f"'func' function not found or not callable in {program_path}"
+            )
     except Exception as e:
         return _create_error_return(
             f"Failed to load model function 'func' from '{program_path}': {str(e)}"
@@ -212,13 +226,15 @@ def evaluation(
     optimization_critical_error_msg = None
 
     # Try to get num_params from the model if it provides it, otherwise default
-    num_params_to_optimize = getattr(model_func, "num_params", 10)  # Default to 10 if not specified
+    num_params_to_optimize = getattr(
+        model_func, "num_params", 10
+    )  # Default to 10 if not specified
 
     print(
         f"Starting optimization for {program_path} with {num_attempts} attempts (num_params: {num_params_to_optimize})..."
     )
     for i in range(num_attempts):
-        print(f"Attempt {i+1}/{num_attempts}")
+        print(f"Attempt {i + 1}/{num_attempts}")
         initial_params = np.random.rand(num_params_to_optimize)
         try:
             optimization_result = minimize(
@@ -229,28 +245,30 @@ def evaluation(
                 # options={'maxiter': 1000, 'disp': False} # Example options
             )
             if optimization_result.success:
-                print(f"Attempt {i+1} successful. Func value: {optimization_result.fun}")
+                print(
+                    f"Attempt {i + 1} successful. Func value: {optimization_result.fun}"
+                )
                 if optimization_result.fun < best_func_value:
                     best_func_value = optimization_result.fun
                     optimized_params = optimization_result.x
-                    print(f"New best result found in attempt {i+1}. Func value: {best_func_value}")
+                    print(
+                        f"New best result found in attempt {i + 1}. Func value: {best_func_value}"
+                    )
             else:
                 print(
-                    f"Warning: Optimization attempt {i+1} did not converge. Message: {optimization_result.message}. Func value: {optimization_result.fun}"
+                    f"Warning: Optimization attempt {i + 1} did not converge. Message: {optimization_result.message}. Func value: {optimization_result.fun}"
                 )
                 if (
                     optimization_result.fun < best_func_value
                 ):  # Still consider if it's the best so far
                     print(
-                        f"Non-converged result from attempt {i+1} is an improvement. Func value: {optimization_result.fun}"
+                        f"Non-converged result from attempt {i + 1} is an improvement. Func value: {optimization_result.fun}"
                     )
                     best_func_value = optimization_result.fun
                     optimized_params = optimization_result.x
 
         except Exception as e:
-            optimization_critical_error_msg = (
-                f"Critical error during optimization attempt {i+1} for {program_path}: {str(e)}"
-            )
+            optimization_critical_error_msg = f"Critical error during optimization attempt {i + 1} for {program_path}: {str(e)}"
             print(f"Error: {optimization_critical_error_msg}")
             break
 
@@ -266,7 +284,9 @@ def evaluation(
         try:
             pred_y = model_func(X_data, optimized_params)
             if not isinstance(pred_y, np.ndarray):
-                raise ValueError(f"{set_name} predictions are not numpy arrays. Got {type(pred_y)}")
+                raise ValueError(
+                    f"{set_name} predictions are not numpy arrays. Got {type(pred_y)}"
+                )
 
             metrics = compute_output_base_metrics(pred_y, y_data)
             if "error" in metrics and metrics["num_valid_points"] == 0:
@@ -290,7 +310,9 @@ def evaluation(
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python your_script_name.py <path_to_problems_directory_or_single_problem>")
+        print(
+            "Usage: python your_script_name.py <path_to_problems_directory_or_single_problem>"
+        )
         sys.exit(1)
 
     root_path_arg = sys.argv[1]
@@ -323,7 +345,9 @@ if __name__ == "__main__":
                         problem_dirs.append(d)
                         print(f"  Found problem subdirectory: {d.name}")
                     else:
-                        print(f"  Skipping subdirectory (missing data or program): {d.name}")
+                        print(
+                            f"  Skipping subdirectory (missing data or program): {d.name}"
+                        )
         except FileNotFoundError:
             print(f"Error: Root directory not found: {root_path_arg}")
             sys.exit(1)
@@ -339,13 +363,17 @@ if __name__ == "__main__":
         problem_name = subdir_path.name
         # if "21" not in problem_name: continue
         print(f"\nProcessing problem: {problem_name}")
-        program_file_path = subdir_path / "openevolve_output" / "best" / "best_program.py"
+        program_file_path = (
+            subdir_path / "openevolve_output" / "best" / "best_program.py"
+        )
         data_dir_path = subdir_path
 
         if (
             not program_file_path.exists()
         ):  # Should have been caught by subdir check, but as a safeguard
-            print(f"Skipping {problem_name}: best_program.py not found at {program_file_path}")
+            print(
+                f"Skipping {problem_name}: best_program.py not found at {program_file_path}"
+            )
             all_results[problem_name] = {
                 "train_metrics": {"error": "best_program.py not found"},
                 "test_metrics": {"error": "best_program.py not found"},
@@ -407,7 +435,9 @@ if __name__ == "__main__":
                 # For simplicity here, we are filtering inf before both.
                 # A more nuanced approach might replace inf with a very large/small number or handle per metric.
 
-                scores_for_mean = [s for s in all_scores if s != -float("inf")]  # R2 can be -inf
+                scores_for_mean = [
+                    s for s in all_scores if s != -float("inf")
+                ]  # R2 can be -inf
 
                 overall_performance[d_type][f"mean_{m_key}"] = (
                     np.nanmean(scores_for_mean) if scores_for_mean else float("nan")
@@ -415,7 +445,9 @@ if __name__ == "__main__":
                 overall_performance[d_type][f"median_{m_key}"] = (
                     np.nanmedian(all_scores) if all_scores else float("nan")
                 )
-                overall_performance[d_type][f"num_problems_for_{m_key}"] = len(all_scores)
+                overall_performance[d_type][f"num_problems_for_{m_key}"] = len(
+                    all_scores
+                )
             else:
                 overall_performance[d_type][f"mean_{m_key}"] = float("nan")
                 overall_performance[d_type][f"median_{m_key}"] = float("nan")
@@ -451,6 +483,8 @@ if __name__ == "__main__":
     try:
         with open(output_results_file, "w") as f:
             json.dump(all_results, f, indent=4, cls=NumpyFloatJSONEncoder)
-        print(f"\nAll results, including overall performance, saved to {output_results_file}")
+        print(
+            f"\nAll results, including overall performance, saved to {output_results_file}"
+        )
     except Exception as e:
         print(f"\nError saving results to JSON: {e}")

@@ -4,11 +4,9 @@ Improved parallel processing using threads with shared memory
 
 import asyncio
 import logging
-import signal
 import threading
-import time
 from concurrent.futures import ThreadPoolExecutor, Future
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 from openevolve.config import Config
 from openevolve.database import ProgramDatabase
@@ -39,7 +37,9 @@ class ThreadedEvaluationPool:
         # Pre-initialize components for each thread
         self.thread_local = threading.local()
 
-        logger.info(f"Initializing threaded evaluation pool with {self.num_workers} workers")
+        logger.info(
+            f"Initializing threaded evaluation pool with {self.num_workers} workers"
+        )
 
     def start(self) -> None:
         """Start the thread pool"""
@@ -103,12 +103,18 @@ class ThreadedEvaluationPool:
         try:
             # Initialize LLM components
             self.thread_local.llm_ensemble = LLMEnsemble(self.config.llm.models)
-            self.thread_local.llm_evaluator_ensemble = LLMEnsemble(self.config.llm.evaluator_models)
+            self.thread_local.llm_evaluator_ensemble = LLMEnsemble(
+                self.config.llm.evaluator_models
+            )
 
             # Initialize prompt samplers
             self.thread_local.prompt_sampler = PromptSampler(self.config.prompt)
-            self.thread_local.evaluator_prompt_sampler = PromptSampler(self.config.prompt)
-            self.thread_local.evaluator_prompt_sampler.set_templates("evaluator_system_message")
+            self.thread_local.evaluator_prompt_sampler = PromptSampler(
+                self.config.prompt
+            )
+            self.thread_local.evaluator_prompt_sampler.set_templates(
+                "evaluator_system_message"
+            )
 
             # Initialize evaluator
             self.thread_local.evaluator = Evaluator(
@@ -143,7 +149,9 @@ class ImprovedParallelController:
 
     def start(self) -> None:
         """Start the improved parallel system"""
-        self.thread_pool = ThreadedEvaluationPool(self.config, self.evaluation_file, self.database)
+        self.thread_pool = ThreadedEvaluationPool(
+            self.config, self.evaluation_file, self.database
+        )
         self.thread_pool.start()
 
         logger.info("Started improved parallel controller")
@@ -192,7 +200,9 @@ class ImprovedParallelController:
         pending_futures = {}
         batch_size = min(self.config.evaluator.parallel_evaluations * 2, max_iterations)
 
-        for i in range(start_iteration, min(start_iteration + batch_size, total_iterations)):
+        for i in range(
+            start_iteration, min(start_iteration + batch_size, total_iterations)
+        ):
             future = self.thread_pool.submit_evaluation(i)
             pending_futures[i] = future
 
@@ -200,7 +210,9 @@ class ImprovedParallelController:
         completed_iterations = 0
 
         # Island management
-        programs_per_island = max(1, max_iterations // (self.config.database.num_islands * 10))
+        programs_per_island = max(
+            1, max_iterations // (self.config.database.num_islands * 10)
+        )
         current_island_counter = 0
 
         # Process results as they complete
@@ -230,11 +242,15 @@ class ImprovedParallelController:
                 if result and hasattr(result, "child_program") and result.child_program:
                     # Thread-safe database update
                     with self.database_lock:
-                        self.database.add(result.child_program, iteration=completed_iteration)
+                        self.database.add(
+                            result.child_program, iteration=completed_iteration
+                        )
 
                         # Store artifacts if they exist
                         if result.artifacts:
-                            self.database.store_artifacts(result.child_program.id, result.artifacts)
+                            self.database.store_artifacts(
+                                result.child_program.id, result.artifacts
+                            )
 
                         # Log prompts
                         if hasattr(result, "prompt") and result.prompt:
@@ -247,7 +263,9 @@ class ImprovedParallelController:
                                 program_id=result.child_program.id,
                                 prompt=result.prompt,
                                 responses=(
-                                    [result.llm_response] if hasattr(result, "llm_response") else []
+                                    [result.llm_response]
+                                    if hasattr(result, "llm_response")
+                                    else []
                                 ),
                             )
 
@@ -258,7 +276,9 @@ class ImprovedParallelController:
                         ):
                             self.database.next_island()
                             current_island_counter = 0
-                            logger.debug(f"Switched to island {self.database.current_island}")
+                            logger.debug(
+                                f"Switched to island {self.database.current_island}"
+                            )
 
                         current_island_counter += 1
 
@@ -267,7 +287,9 @@ class ImprovedParallelController:
 
                         # Check migration
                         if self.database.should_migrate():
-                            logger.info(f"Performing migration at iteration {completed_iteration}")
+                            logger.info(
+                                f"Performing migration at iteration {completed_iteration}"
+                            )
                             self.database.migrate_programs()
                             self.database.log_island_status()
 
@@ -282,7 +304,9 @@ class ImprovedParallelController:
                     if result.child_program.metrics:
                         metrics_str = ", ".join(
                             [
-                                f"{k}={v:.4f}" if isinstance(v, (int, float)) else f"{k}={v}"
+                                f"{k}={v:.4f}"
+                                if isinstance(v, (int, float))
+                                else f"{k}={v}"
                                 for k, v in result.child_program.metrics.items()
                             ]
                         )
@@ -319,10 +343,14 @@ class ImprovedParallelController:
                                 )
                                 break
                 else:
-                    logger.warning(f"No valid result from iteration {completed_iteration}")
+                    logger.warning(
+                        f"No valid result from iteration {completed_iteration}"
+                    )
 
             except Exception as e:
-                logger.error(f"Error processing result from iteration {completed_iteration}: {e}")
+                logger.error(
+                    f"Error processing result from iteration {completed_iteration}: {e}"
+                )
 
             completed_iterations += 1
 

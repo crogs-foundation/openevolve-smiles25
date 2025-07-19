@@ -3,11 +3,9 @@ Evaluator for circle packing example (n=26) with improved timeout handling
 Enhanced with artifacts to demonstrate execution feedback
 """
 
-import importlib.util
 import numpy as np
 import time
 import os
-import signal
 import subprocess
 import tempfile
 import traceback
@@ -53,9 +51,7 @@ def validate_packing(centers, radii):
         x, y = centers[i]
         r = radii[i]
         if x - r < -1e-6 or x + r > 1 + 1e-6 or y - r < -1e-6 or y + r > 1 + 1e-6:
-            violation = (
-                f"Circle {i} at ({x:.6f}, {y:.6f}) with radius {r:.6f} is outside unit square"
-            )
+            violation = f"Circle {i} at ({x:.6f}, {y:.6f}) with radius {r:.6f} is outside unit square"
             validation_details["boundary_violations"].append(violation)
             print(violation)
 
@@ -64,9 +60,7 @@ def validate_packing(centers, radii):
         for j in range(i + 1, n):
             dist = np.sqrt(np.sum((centers[i] - centers[j]) ** 2))
             if dist < radii[i] + radii[j] - 1e-6:  # Allow for tiny numerical errors
-                overlap = (
-                    f"Circles {i} and {j} overlap: dist={dist:.6f}, r1+r2={radii[i]+radii[j]:.6f}"
-                )
+                overlap = f"Circles {i} and {j} overlap: dist={dist:.6f}, r1+r2={radii[i] + radii[j]:.6f}"
                 validation_details["overlaps"].append(overlap)
                 print(overlap)
 
@@ -146,7 +140,9 @@ except Exception as e:
     try:
         # Run the script with timeout
         process = subprocess.Popen(
-            [sys.executable, temp_file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            [sys.executable, temp_file_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         )
 
         try:
@@ -209,7 +205,8 @@ def evaluate(program_path):
 
         # Use subprocess to run with timeout
         centers, radii, reported_sum = run_with_timeout(
-            program_path, timeout_seconds=600  # Single timeout
+            program_path,
+            timeout_seconds=600,  # Single timeout
         )
 
         end_time = time.time()
@@ -253,9 +250,7 @@ def evaluate(program_path):
         # Make sure reported_sum matches the calculated sum
         sum_mismatch = abs(sum_radii - reported_sum) > 1e-6
         if sum_mismatch:
-            mismatch_warning = (
-                f"Warning: Reported sum {reported_sum} doesn't match calculated sum {sum_radii}"
-            )
+            mismatch_warning = f"Warning: Reported sum {reported_sum} doesn't match calculated sum {sum_radii}"
             print(mismatch_warning)
 
         # Target ratio (how close we are to the target)
@@ -285,19 +280,25 @@ def evaluate(program_path):
                     validation_details["boundary_violations"]
                 )
             if validation_details.get("overlaps"):
-                artifacts["overlap_violations"] = "\n".join(validation_details["overlaps"])
+                artifacts["overlap_violations"] = "\n".join(
+                    validation_details["overlaps"]
+                )
             artifacts["failure_stage"] = "geometric_validation"
 
         # Add sum mismatch warning if present
         if sum_mismatch:
-            artifacts["sum_mismatch"] = f"Reported: {reported_sum:.6f}, Calculated: {sum_radii:.6f}"
+            artifacts["sum_mismatch"] = (
+                f"Reported: {reported_sum:.6f}, Calculated: {sum_radii:.6f}"
+            )
 
         # Add successful packing stats for good solutions
         if valid and target_ratio > 0.95:  # Near-optimal solutions
-            artifacts["stdout"] = f"Excellent packing! Achieved {target_ratio:.1%} of target value"
-            artifacts[
-                "radius_stats"
-            ] = f"Min: {validation_details['min_radius']:.6f}, Max: {validation_details['max_radius']:.6f}, Avg: {validation_details['avg_radius']:.6f}"
+            artifacts["stdout"] = (
+                f"Excellent packing! Achieved {target_ratio:.1%} of target value"
+            )
+            artifacts["radius_stats"] = (
+                f"Min: {validation_details['min_radius']:.6f}, Max: {validation_details['max_radius']:.6f}, Avg: {validation_details['avg_radius']:.6f}"
+            )
 
         return EvaluationResult(
             metrics={
@@ -359,7 +360,9 @@ def evaluate_stage1(program_path):
         # Use the simplified subprocess approach
         try:
             start_time = time.time()
-            centers, radii, sum_radii = run_with_timeout(program_path, timeout_seconds=600)
+            centers, radii, sum_radii = run_with_timeout(
+                program_path, timeout_seconds=600
+            )
             eval_time = time.time() - start_time
 
             # Ensure centers and radii are numpy arrays
@@ -371,7 +374,9 @@ def evaluate_stage1(program_path):
             # Validate solution (shapes and constraints)
             shape_valid = centers.shape == (26, 2) and radii.shape == (26,)
             if not shape_valid:
-                shape_error = f"Invalid shapes: centers={centers.shape}, radii={radii.shape}"
+                shape_error = (
+                    f"Invalid shapes: centers={centers.shape}, radii={radii.shape}"
+                )
                 print(shape_error)
                 return EvaluationResult(
                     metrics={"validity": 0.0, "combined_score": 0.0},
@@ -399,19 +404,19 @@ def evaluate_stage1(program_path):
             artifacts = {
                 "execution_time": f"{eval_time:.2f}s",
                 "stage": "quick_validation",
-                "packing_summary": f"Sum: {actual_sum:.6f}, Ratio: {actual_sum/target:.4f}",
+                "packing_summary": f"Sum: {actual_sum:.6f}, Ratio: {actual_sum / target:.4f}",
             }
 
             # Add validation issues if any
             if not valid:
-                artifacts[
-                    "stderr"
-                ] = f"Validation failed: {len(validation_details.get('boundary_violations', []))} boundary violations, {len(validation_details.get('overlaps', []))} overlaps"
+                artifacts["stderr"] = (
+                    f"Validation failed: {len(validation_details.get('boundary_violations', []))} boundary violations, {len(validation_details.get('overlaps', []))} overlaps"
+                )
                 artifacts["failure_stage"] = "stage1_geometric_validation"
                 if validation_details.get("boundary_violations"):
-                    artifacts["boundary_issues"] = validation_details["boundary_violations"][
-                        0
-                    ]  # Just first issue
+                    artifacts["boundary_issues"] = validation_details[
+                        "boundary_violations"
+                    ][0]  # Just first issue
                 if validation_details.get("overlaps"):
                     artifacts["overlap_issues"] = validation_details["overlaps"][
                         0

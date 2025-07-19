@@ -19,7 +19,9 @@ class TestIslandMigration(unittest.TestCase):
         config.database.migration_interval = 5  # Migrate every 5 generations
         self.db = ProgramDatabase(config.database)
 
-    def _create_test_program(self, program_id: str, score: float, island: int) -> Program:
+    def _create_test_program(
+        self, program_id: str, score: float, island: int
+    ) -> Program:
         """Helper to create a test program"""
         program = Program(
             id=program_id,
@@ -71,7 +73,11 @@ class TestIslandMigration(unittest.TestCase):
         self.assertFalse(self.db.should_migrate())
 
         # Advance island generations
-        self.db.island_generations = [5, 6, 7]  # Max is 7, last migration was 0, so 7-0=7 >= 5
+        self.db.island_generations = [
+            5,
+            6,
+            7,
+        ]  # Max is 7, last migration was 0, so 7-0=7 >= 5
         self.assertTrue(self.db.should_migrate())
 
         # Test with mixed generations below threshold
@@ -168,7 +174,9 @@ class TestIslandMigration(unittest.TestCase):
 
         # Check that the high-score program was selected for migration
         migrant_ids = [pid for pid in self.db.programs.keys() if "_migrant_" in pid]
-        high_score_migrants = [pid for pid in migrant_ids if "high_score_migrant_" in pid]
+        high_score_migrants = [
+            pid for pid in migrant_ids if "high_score_migrant_" in pid
+        ]
 
         self.assertGreater(len(high_score_migrants), 0)
 
@@ -215,7 +223,9 @@ class TestIslandMigration(unittest.TestCase):
         self.db.migrate_programs()
 
         # Find migrant copies
-        migrant_ids = [pid for pid in self.db.programs.keys() if "original_migrant_" in pid]
+        migrant_ids = [
+            pid for pid in self.db.programs.keys() if "original_migrant_" in pid
+        ]
         self.assertGreater(len(migrant_ids), 0)
 
         # Check first-generation migrant properties

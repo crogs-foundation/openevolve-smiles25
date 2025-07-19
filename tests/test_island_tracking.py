@@ -17,7 +17,9 @@ class TestIslandTracking(unittest.TestCase):
         config.database.num_islands = 3
         self.db = ProgramDatabase(config.database)
 
-    def _create_test_program(self, program_id: str, score: float, island: int) -> Program:
+    def _create_test_program(
+        self, program_id: str, score: float, island: int
+    ) -> Program:
         """Helper to create a test program"""
         program = Program(
             id=program_id,
@@ -209,7 +211,9 @@ class TestIslandTracking(unittest.TestCase):
         for inspiration in inspirations:
             island = inspiration.metadata.get("island")
             self.assertEqual(
-                island, 0, f"Program {inspiration.id} should be from island 0, got {island}"
+                island,
+                0,
+                f"Program {inspiration.id} should be from island 0, got {island}",
             )
 
     def test_island_status_logging(self):

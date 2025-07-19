@@ -5,7 +5,7 @@ Tests for cascade evaluation validation functionality in openevolve.evaluator
 import unittest
 import tempfile
 import os
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from openevolve.config import Config
 from openevolve.evaluator import Evaluator
 from openevolve.evaluation_result import EvaluationResult
@@ -51,7 +51,9 @@ def evaluate_stage3(program_path):
 def evaluate(program_path):
     return {"final_score": 1.0}
 """
-        evaluator_path = self._create_evaluator_file("valid_cascade.py", evaluator_content)
+        evaluator_path = self._create_evaluator_file(
+            "valid_cascade.py", evaluator_content
+        )
 
         # Configure for cascade evaluation
         self.config.evaluator.cascade_evaluation = True
@@ -97,7 +99,9 @@ def evaluate_stage1(program_path):
 def evaluate(program_path):
     return {"score": 0.5}
 """
-        evaluator_path = self._create_evaluator_file("partial_cascade.py", evaluator_content)
+        evaluator_path = self._create_evaluator_file(
+            "partial_cascade.py", evaluator_content
+        )
 
         # Configure for cascade evaluation
         self.config.evaluator.cascade_evaluation = True
@@ -111,7 +115,8 @@ def evaluate(program_path):
             mock_logger.warning.assert_called_once()
             warning_call = mock_logger.warning.call_args[0][0]
             self.assertIn(
-                "defines 'evaluate_stage1' but no additional cascade stages", warning_call
+                "defines 'evaluate_stage1' but no additional cascade stages",
+                warning_call,
             )
 
     def test_no_cascade_validation_when_disabled(self):
@@ -146,7 +151,9 @@ def evaluate(program_path):
         artifacts={"debug_info": "test data"}
     )
 """
-        evaluator_path = self._create_evaluator_file("result_evaluator.py", evaluator_content)
+        evaluator_path = self._create_evaluator_file(
+            "result_evaluator.py", evaluator_content
+        )
 
         self.config.evaluator.cascade_evaluation = False
         self.config.evaluator.evaluation_file = evaluator_path
@@ -155,12 +162,15 @@ def evaluate(program_path):
         evaluator = Evaluator(self.config.evaluator, evaluator_path)
 
         # Create a dummy program file
-        program_path = self._create_evaluator_file("test_program.py", "def test(): pass")
+        program_path = self._create_evaluator_file(
+            "test_program.py", "def test(): pass"
+        )
 
         # Mock the evaluation function
         def mock_evaluate(path):
             return EvaluationResult(
-                metrics={"score": 0.8, "accuracy": 0.9}, artifacts={"debug_info": "test data"}
+                metrics={"score": 0.8, "accuracy": 0.9},
+                artifacts={"debug_info": "test data"},
             )
 
         evaluator.evaluate_function = mock_evaluate
@@ -180,7 +190,9 @@ def evaluate(program_path):
 def evaluate(program_path):
     return {"score": 0.7, "performance": 0.85}
 """
-        evaluator_path = self._create_evaluator_file("dict_evaluator.py", evaluator_content)
+        evaluator_path = self._create_evaluator_file(
+            "dict_evaluator.py", evaluator_content
+        )
 
         self.config.evaluator.cascade_evaluation = False
         self.config.evaluator.evaluation_file = evaluator_path
@@ -189,7 +201,9 @@ def evaluate(program_path):
         evaluator = Evaluator(self.config.evaluator, evaluator_path)
 
         # Create a dummy program file
-        program_path = self._create_evaluator_file("test_program.py", "def test(): pass")
+        program_path = self._create_evaluator_file(
+            "test_program.py", "def test(): pass"
+        )
 
         # Mock the evaluation function directly
         def mock_evaluate(path):
@@ -232,7 +246,9 @@ def evaluate(program_path):
     evaluator = Evaluator()
     return evaluator.evaluate(program_path)
 """
-        evaluator_path = self._create_evaluator_file("class_cascade.py", evaluator_content)
+        evaluator_path = self._create_evaluator_file(
+            "class_cascade.py", evaluator_content
+        )
 
         # Configure for cascade evaluation
         self.config.evaluator.cascade_evaluation = True
@@ -251,7 +267,9 @@ def evaluate(program_path):
 def evaluate_stage1(program_path)  # Missing colon
     return {"stage1_score": 0.5}
 """
-        evaluator_path = self._create_evaluator_file("syntax_error.py", evaluator_content)
+        evaluator_path = self._create_evaluator_file(
+            "syntax_error.py", evaluator_content
+        )
 
         # Configure for cascade evaluation
         self.config.evaluator.cascade_evaluation = True
@@ -282,7 +300,9 @@ def evaluate(program_path):
 """
         evaluator_path = self._create_evaluator_file("dummy.py", evaluator_content)
 
-        self.config.evaluator.cascade_evaluation = False  # Disable cascade to avoid warnings
+        self.config.evaluator.cascade_evaluation = (
+            False  # Disable cascade to avoid warnings
+        )
         self.config.evaluator.evaluation_file = evaluator_path
         evaluator = Evaluator(self.config.evaluator, evaluator_path)
 
@@ -304,7 +324,9 @@ def evaluate(program_path):
 """
         evaluator_path = self._create_evaluator_file("dummy.py", evaluator_content)
 
-        self.config.evaluator.cascade_evaluation = False  # Disable cascade to avoid warnings
+        self.config.evaluator.cascade_evaluation = (
+            False  # Disable cascade to avoid warnings
+        )
         self.config.evaluator.evaluation_file = evaluator_path
         evaluator = Evaluator(self.config.evaluator, evaluator_path)
 

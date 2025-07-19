@@ -18,9 +18,8 @@ import subprocess
 import tempfile
 import os
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 import mlx.core as mx
-import mlx.nn as nn
 import numpy as np
 
 
@@ -549,11 +548,11 @@ Given this comprehensive overview of the current state and future directions of 
 
     def run_single_benchmark(self, config: BenchmarkConfig) -> BenchmarkResult:
         """Run a single benchmark configuration with proper warmup"""
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"Running: {config.name}")
         print(f"Description: {config.description}")
         print(f"Max tokens: {config.max_tokens}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         # Performance measurement parameters
         WARMUP_RUNS = 2  # Warmup runs to eliminate cold start effects
@@ -579,27 +578,33 @@ Given this comprehensive overview of the current state and future directions of 
             ]
 
             # Clear MLX cache before starting
-            print(f"🧹 Clearing MLX cache...")
+            print("🧹 Clearing MLX cache...")
             mx.clear_cache()
 
             # Warmup runs - don't measure these
-            print(f"🔥 Running {WARMUP_RUNS} warmup runs to eliminate cold start effects...")
+            print(
+                f"🔥 Running {WARMUP_RUNS} warmup runs to eliminate cold start effects..."
+            )
             for i in range(WARMUP_RUNS):
                 try:
-                    print(f"   Warmup run {i+1}/{WARMUP_RUNS}...")
-                    warmup_result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+                    print(f"   Warmup run {i + 1}/{WARMUP_RUNS}...")
+                    warmup_result = subprocess.run(
+                        cmd, capture_output=True, text=True, timeout=300
+                    )
                     if warmup_result.returncode != 0:
-                        print(f"   ⚠️  Warmup run {i+1} failed: {warmup_result.stderr[:100]}...")
+                        print(
+                            f"   ⚠️  Warmup run {i + 1} failed: {warmup_result.stderr[:100]}..."
+                        )
                     else:
-                        print(f"   ✅ Warmup run {i+1} completed")
+                        print(f"   ✅ Warmup run {i + 1} completed")
 
                     # Clear cache between warmup runs
                     mx.clear_cache()
 
                 except subprocess.TimeoutExpired:
-                    print(f"   ⏰ Warmup run {i+1} timed out")
+                    print(f"   ⏰ Warmup run {i + 1} timed out")
                 except Exception as e:
-                    print(f"   ❌ Warmup run {i+1} error: {e}")
+                    print(f"   ❌ Warmup run {i + 1} error: {e}")
 
             print(f"📊 Running {MEASUREMENT_RUNS} measurement runs...")
 
@@ -607,7 +612,7 @@ Given this comprehensive overview of the current state and future directions of 
             successful_results = []
             for run_idx in range(MEASUREMENT_RUNS):
                 try:
-                    print(f"   Measurement run {run_idx+1}/{MEASUREMENT_RUNS}...")
+                    print(f"   Measurement run {run_idx + 1}/{MEASUREMENT_RUNS}...")
 
                     # Clear cache before each measurement run for consistency
                     mx.clear_cache()
@@ -615,11 +620,15 @@ Given this comprehensive overview of the current state and future directions of 
 
                     # Run benchmark
                     start_time = time.perf_counter()
-                    result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+                    result = subprocess.run(
+                        cmd, capture_output=True, text=True, timeout=300
+                    )
                     end_time = time.perf_counter()
 
                     if result.returncode != 0:
-                        print(f"   ❌ Measurement run {run_idx+1} failed: {result.stderr[:100]}...")
+                        print(
+                            f"   ❌ Measurement run {run_idx + 1} failed: {result.stderr[:100]}..."
+                        )
                         continue
 
                     # Parse output
@@ -630,22 +639,22 @@ Given this comprehensive overview of the current state and future directions of 
                     if parsed_result:
                         successful_results.append(parsed_result)
                         print(
-                            f"   ✅ Run {run_idx+1}: {parsed_result.decode_tokens_per_sec:.1f} tokens/sec"
+                            f"   ✅ Run {run_idx + 1}: {parsed_result.decode_tokens_per_sec:.1f} tokens/sec"
                         )
                     else:
-                        print(f"   ❌ Run {run_idx+1}: Failed to parse output")
+                        print(f"   ❌ Run {run_idx + 1}: Failed to parse output")
 
                 except subprocess.TimeoutExpired:
-                    print(f"   ⏰ Measurement run {run_idx+1} timed out")
+                    print(f"   ⏰ Measurement run {run_idx + 1} timed out")
                 except Exception as e:
-                    print(f"   ❌ Measurement run {run_idx+1} error: {e}")
+                    print(f"   ❌ Measurement run {run_idx + 1} error: {e}")
 
             # Require at least 2 successful runs for reliable results
             if len(successful_results) < 2:
                 print(
                     f"❌ Only {len(successful_results)}/{MEASUREMENT_RUNS} measurement runs succeeded"
                 )
-                print(f"❌ Need at least 2 successful runs for reliable results")
+                print("❌ Need at least 2 successful runs for reliable results")
                 raise RuntimeError(
                     f"Insufficient successful runs: {len(successful_results)}/{MEASUREMENT_RUNS}"
                 )
@@ -659,8 +668,12 @@ Given this comprehensive overview of the current state and future directions of 
             # Use median for more robust results (less sensitive to outliers)
             final_result = BenchmarkResult(
                 name=config.name,
-                prompt_tokens=int(np.median([r.prompt_tokens for r in successful_results])),
-                generated_tokens=int(np.median([r.generated_tokens for r in successful_results])),
+                prompt_tokens=int(
+                    np.median([r.prompt_tokens for r in successful_results])
+                ),
+                generated_tokens=int(
+                    np.median([r.generated_tokens for r in successful_results])
+                ),
                 prefill_tokens_per_sec=float(np.median(prefill_speeds)),
                 decode_tokens_per_sec=float(np.median(decode_speeds)),
                 total_tokens_per_sec=float(
@@ -668,25 +681,33 @@ Given this comprehensive overview of the current state and future directions of 
                 ),
                 peak_memory_gb=float(np.median(memories)),
                 total_time_sec=float(np.median(times)),
-                prompt=config.prompt[:200] + "..." if len(config.prompt) > 200 else config.prompt,
-                generated_text=successful_results[0].generated_text,  # Use first result's text
+                prompt=config.prompt[:200] + "..."
+                if len(config.prompt) > 200
+                else config.prompt,
+                generated_text=successful_results[
+                    0
+                ].generated_text,  # Use first result's text
             )
 
             # Print final results with statistics
             print(f"\n📈 Final Results (median of {len(successful_results)} runs):")
             print(f"  Prompt tokens: {final_result.prompt_tokens}")
             print(f"  Generated tokens: {final_result.generated_tokens}")
-            print(f"  Prefill speed: {final_result.prefill_tokens_per_sec:.2f} tokens/sec")
+            print(
+                f"  Prefill speed: {final_result.prefill_tokens_per_sec:.2f} tokens/sec"
+            )
             print(
                 f"  Decode speed: {final_result.decode_tokens_per_sec:.2f} tokens/sec (σ={np.std(decode_speeds):.2f})"
             )
-            print(f"  Overall speed: {final_result.total_tokens_per_sec:.2f} tokens/sec")
+            print(
+                f"  Overall speed: {final_result.total_tokens_per_sec:.2f} tokens/sec"
+            )
             print(f"  Peak memory: {final_result.peak_memory_gb:.3f} GB")
             print(f"  Total time: {final_result.total_time_sec:.2f} seconds")
 
             if len(decode_speeds) > 1:
                 print(
-                    f"  Performance consistency: {np.std(decode_speeds)/np.mean(decode_speeds)*100:.1f}% CV"
+                    f"  Performance consistency: {np.std(decode_speeds) / np.mean(decode_speeds) * 100:.1f}% CV"
                 )
 
             return final_result
@@ -753,7 +774,9 @@ Given this comprehensive overview of the current state and future directions of 
             total_tokens_per_sec=total_tokens_per_sec,
             peak_memory_gb=peak_memory_gb,
             total_time_sec=total_time,
-            prompt=config.prompt[:200] + "..." if len(config.prompt) > 200 else config.prompt,
+            prompt=config.prompt[:200] + "..."
+            if len(config.prompt) > 200
+            else config.prompt,
             generated_text=(
                 generated_text.strip()[:200] + "..."
                 if len(generated_text.strip()) > 200
@@ -763,12 +786,12 @@ Given this comprehensive overview of the current state and future directions of 
 
     def run_full_benchmark_suite(self) -> Dict:
         """Run the complete benchmark suite"""
-        print(f"\n{'='*80}")
-        print(f"Qwen3-0.6B Comprehensive Benchmark Suite")
+        print(f"\n{'=' * 80}")
+        print("Qwen3-0.6B Comprehensive Benchmark Suite")
         print(f"Model: {self.model_path}")
-        print(f"Hardware: Apple M4 24GB")
-        print(f"Target: Custom Metal kernel optimization validation")
-        print(f"{'='*80}")
+        print("Hardware: Apple M4 24GB")
+        print("Target: Custom Metal kernel optimization validation")
+        print(f"{'=' * 80}")
 
         configs = self.create_benchmark_configs()
         results = []
@@ -787,7 +810,10 @@ Given this comprehensive overview of the current state and future directions of 
         summary = self.generate_summary(results)
         self.save_results(results, summary)
 
-        return {"results": [self._result_to_dict(r) for r in results], "summary": summary}
+        return {
+            "results": [self._result_to_dict(r) for r in results],
+            "summary": summary,
+        }
 
     def generate_summary(self, results: List[BenchmarkResult]) -> Dict:
         """Generate benchmark summary statistics"""
@@ -795,8 +821,12 @@ Given this comprehensive overview of the current state and future directions of 
             return {}
 
         # Overall statistics
-        decode_speeds = [r.decode_tokens_per_sec for r in results if r.decode_tokens_per_sec > 0]
-        prefill_speeds = [r.prefill_tokens_per_sec for r in results if r.prefill_tokens_per_sec > 0]
+        decode_speeds = [
+            r.decode_tokens_per_sec for r in results if r.decode_tokens_per_sec > 0
+        ]
+        prefill_speeds = [
+            r.prefill_tokens_per_sec for r in results if r.prefill_tokens_per_sec > 0
+        ]
         memories = [r.peak_memory_gb for r in results if r.peak_memory_gb > 0]
 
         summary = {
@@ -821,18 +851,28 @@ Given this comprehensive overview of the current state and future directions of 
                 for r in results
                 if any(
                     x in r.name
-                    for x in ["code", "reasoning", "creative", "technical", "conversational"]
+                    for x in [
+                        "code",
+                        "reasoning",
+                        "creative",
+                        "technical",
+                        "conversational",
+                    ]
                 )
             ],
             "memory_pressure": [
-                r for r in results if any(x in r.name for x in ["progressive", "repetitive"])
+                r
+                for r in results
+                if any(x in r.name for x in ["progressive", "repetitive"])
             ],
         }
 
         for category, cat_results in categories.items():
             if cat_results:
                 cat_decode_speeds = [
-                    r.decode_tokens_per_sec for r in cat_results if r.decode_tokens_per_sec > 0
+                    r.decode_tokens_per_sec
+                    for r in cat_results
+                    if r.decode_tokens_per_sec > 0
                 ]
                 summary[f"{category}_avg_decode_speed"] = (
                     np.mean(cat_decode_speeds) if cat_decode_speeds else 0
@@ -897,11 +937,11 @@ Given this comprehensive overview of the current state and future directions of 
                     ]
                 )
 
-        print(f"\n{'='*60}")
-        print(f"Results saved to:")
+        print(f"\n{'=' * 60}")
+        print("Results saved to:")
         print(f"  - qwen3_benchmark_results_{timestamp}.json")
         print(f"  - qwen3_benchmark_results_{timestamp}.csv")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
     def _result_to_dict(self, result: BenchmarkResult) -> Dict:
         """Convert BenchmarkResult to dictionary"""
@@ -924,13 +964,13 @@ Given this comprehensive overview of the current state and future directions of 
             print("No benchmark results available")
             return
 
-        print(f"\n{'='*120}")
+        print(f"\n{'=' * 120}")
         print(f"{'Benchmark Summary':^120}")
-        print(f"{'='*120}")
+        print(f"{'=' * 120}")
         print(
             f"{'Name':<25} {'Tokens':<8} {'Prefill':<10} {'Decode':<10} {'Overall':<10} {'Memory':<8} {'Time':<8}"
         )
-        print(f"{'='*120}")
+        print(f"{'=' * 120}")
 
         for result in self.results:
             print(
@@ -943,7 +983,7 @@ Given this comprehensive overview of the current state and future directions of 
                 f"{result.total_time_sec:<8.1f}"
             )
 
-        print(f"{'='*120}")
+        print(f"{'=' * 120}")
 
         # Summary statistics
         decode_speeds = [
@@ -965,11 +1005,13 @@ def main():
     results = benchmark_suite.run_full_benchmark_suite()
     benchmark_suite.print_summary_table()
 
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("Benchmark Suite Complete!")
-    print("These results will serve as baseline for Metal kernel optimization validation.")
+    print(
+        "These results will serve as baseline for Metal kernel optimization validation."
+    )
     print("Target: Improve decode speed by 10%+ through evolved custom Metal kernels")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     return results
 

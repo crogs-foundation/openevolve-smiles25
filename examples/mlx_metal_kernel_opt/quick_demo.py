@@ -33,7 +33,7 @@ def main():
         print("   Please run AlphaEvolve first.")
         return
 
-    print(f"✅ Found optimized program")
+    print("✅ Found optimized program")
 
     # Test cases
     tests = [
@@ -71,7 +71,9 @@ def main():
             print("\n" + "=" * 40 + "\n")
 
     print("\n🎯 Demo completed!")
-    print("💡 Run individual tests: python test_optimized_attention.py --prompt 'Your prompt'")
+    print(
+        "💡 Run individual tests: python test_optimized_attention.py --prompt 'Your prompt'"
+    )
 
 
 if __name__ == "__main__":

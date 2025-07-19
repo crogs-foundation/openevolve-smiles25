@@ -6,7 +6,7 @@ import asyncio
 import os
 import tempfile
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 from openevolve.config import DatabaseConfig, EvaluatorConfig, PromptConfig
 from openevolve.database import Program, ProgramDatabase
@@ -48,7 +48,8 @@ class TestEvaluationResult(unittest.TestCase):
     def test_artifact_size_calculation(self):
         """Test artifact size calculation"""
         eval_result = EvaluationResult(
-            metrics={"score": 1.0}, artifacts={"text": "hello world", "binary": b"binary data"}
+            metrics={"score": 1.0},
+            artifacts={"text": "hello world", "binary": b"binary data"},
         )
 
         # Text should be encoded to bytes for size calculation
@@ -73,7 +74,9 @@ class TestDatabaseArtifacts(unittest.TestCase):
         self.database = ProgramDatabase(config)
 
         # Create a test program
-        self.program = Program(id="test_program_1", code="print('hello')", metrics={"score": 0.5})
+        self.program = Program(
+            id="test_program_1", code="print('hello')", metrics={"score": 0.5}
+        )
         self.database.add(self.program)
 
     def test_store_small_artifacts(self):
@@ -144,7 +147,9 @@ class TestEvaluatorArtifacts(unittest.TestCase):
             asyncio.set_event_loop(self.loop)
 
         # Create a mock evaluation file
-        self.temp_eval_file = tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False)
+        self.temp_eval_file = tempfile.NamedTemporaryFile(
+            mode="w", suffix=".py", delete=False
+        )
         self.temp_eval_file.write(
             """
 def evaluate(program_path):
@@ -166,7 +171,9 @@ def evaluate(program_path):
                 task.cancel()
             # Run the loop briefly to let cancellations process
             if pending:
-                self.loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+                self.loop.run_until_complete(
+                    asyncio.gather(*pending, return_exceptions=True)
+                )
 
     def test_evaluate_program_backward_compatibility(self):
         """Test that old evaluators still work unchanged"""
@@ -189,7 +196,9 @@ def evaluate(program_path):
 
     def test_process_evaluation_result_evaluation_result(self):
         """Test processing EvaluationResult objects"""
-        original = EvaluationResult(metrics={"score": 0.8}, artifacts={"stderr": "warning message"})
+        original = EvaluationResult(
+            metrics={"score": 0.8}, artifacts={"stderr": "warning message"}
+        )
 
         result = self.evaluator._process_evaluation_result(original)
         self.assertEqual(result, original)
@@ -239,7 +248,11 @@ class TestPromptArtifacts(unittest.TestCase):
 
     def test_render_artifacts_generic(self):
         """Test that all artifacts are included using .items()"""
-        artifacts = {"log1": "first log", "log2": "second log", "config": "configuration data"}
+        artifacts = {
+            "log1": "first log",
+            "log2": "second log",
+            "config": "configuration data",
+        }
 
         rendered = self.sampler._render_artifacts(artifacts)
 
@@ -250,7 +263,9 @@ class TestPromptArtifacts(unittest.TestCase):
     def test_render_artifacts_truncation(self):
         """Test artifact truncation for large content"""
         # Create content larger than 20KB to trigger truncation
-        large_content = "This is a very long log message. " * 700  # Creates ~23KB of text
+        large_content = (
+            "This is a very long log message. " * 700
+        )  # Creates ~23KB of text
         artifacts = {"large_log": large_content}
 
         rendered = self.sampler._render_artifacts(artifacts)

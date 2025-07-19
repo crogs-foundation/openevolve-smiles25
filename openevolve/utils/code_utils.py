@@ -3,7 +3,7 @@ Utilities for code parsing, diffing, and manipulation
 """
 
 import re
-from typing import Dict, List, Optional, Tuple, Union
+from typing import List, Optional, Tuple
 
 
 def parse_evolve_blocks(code: str) -> List[Tuple[int, int, str]]:
@@ -131,15 +131,23 @@ def format_diff_summary(diff_blocks: List[Tuple[str, str]]) -> str:
 
         # Create a short summary
         if len(search_lines) == 1 and len(replace_lines) == 1:
-            summary.append(f"Change {i+1}: '{search_lines[0]}' to '{replace_lines[0]}'")
+            summary.append(
+                f"Change {i + 1}: '{search_lines[0]}' to '{replace_lines[0]}'"
+            )
         else:
             search_summary = (
-                f"{len(search_lines)} lines" if len(search_lines) > 1 else search_lines[0]
+                f"{len(search_lines)} lines"
+                if len(search_lines) > 1
+                else search_lines[0]
             )
             replace_summary = (
-                f"{len(replace_lines)} lines" if len(replace_lines) > 1 else replace_lines[0]
+                f"{len(replace_lines)} lines"
+                if len(replace_lines) > 1
+                else replace_lines[0]
             )
-            summary.append(f"Change {i+1}: Replace {search_summary} with {replace_summary}")
+            summary.append(
+                f"Change {i + 1}: Replace {search_summary} with {replace_summary}"
+            )
 
     return "\n".join(summary)
 

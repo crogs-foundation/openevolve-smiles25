@@ -4,7 +4,7 @@ import glob
 import logging
 import shutil
 import re as _re
-from flask import Flask, render_template, render_template_string, jsonify
+from flask import Flask, render_template, jsonify
 
 
 logger = logging.getLogger(__name__)
@@ -16,11 +16,15 @@ def find_latest_checkpoint(base_folder):
     if os.path.basename(base_folder).startswith("checkpoint_"):
         return base_folder
 
-    checkpoint_folders = glob.glob("**/checkpoint_*", root_dir=base_folder, recursive=True)
+    checkpoint_folders = glob.glob(
+        "**/checkpoint_*", root_dir=base_folder, recursive=True
+    )
     if not checkpoint_folders:
         logger.info(f"No checkpoint folders found in {base_folder}")
         return None
-    checkpoint_folders = [os.path.join(base_folder, folder) for folder in checkpoint_folders]
+    checkpoint_folders = [
+        os.path.join(base_folder, folder) for folder in checkpoint_folders
+    ]
     checkpoint_folders.sort(key=lambda x: os.path.getmtime(x), reverse=True)
     logger.debug(f"Found checkpoint folder: {checkpoint_folders[0]}")
     return checkpoint_folders[0]
@@ -31,7 +35,12 @@ def load_evolution_data(checkpoint_folder):
     programs_dir = os.path.join(checkpoint_folder, "programs")
     if not os.path.exists(meta_path) or not os.path.exists(programs_dir):
         logger.info(f"Missing metadata.json or programs dir in {checkpoint_folder}")
-        return {"archive": [], "nodes": [], "edges": [], "checkpoint_dir": checkpoint_folder}
+        return {
+            "archive": [],
+            "nodes": [],
+            "edges": [],
+            "checkpoint_dir": checkpoint_folder,
+        }
     with open(meta_path) as f:
         meta = json.load(f)
 
@@ -73,7 +82,9 @@ def load_evolution_data(checkpoint_folder):
         if parent_id and parent_id in id_to_program:
             edges.append({"source": parent_id, "target": prog["id"]})
 
-    logger.info(f"Loaded {len(nodes)} nodes and {len(edges)} edges from {checkpoint_folder}")
+    logger.info(
+        f"Loaded {len(nodes)} nodes and {len(edges)} edges from {checkpoint_folder}"
+    )
     return {
         "archive": meta.get("archive", []),
         "nodes": nodes,
@@ -146,7 +157,9 @@ def run_static_export(args):
         html = f.read()
 
     # Insert static json data into the HTML
-    html = _re.sub(r"\{\{\s*url_for\('static', filename='([^']+)'\)\s*\}\}", r"static/\1", html)
+    html = _re.sub(
+        r"\{\{\s*url_for\('static', filename='([^']+)'\)\s*\}\}", r"static/\1", html
+    )
     script_tag_idx = html.find('<script type="module"')
 
     if script_tag_idx != -1:
@@ -196,7 +209,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     log_level = getattr(logging, args.log_level.upper(), logging.INFO)
-    logging.basicConfig(level=log_level, format="[%(asctime)s] %(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=log_level, format="[%(asctime)s] %(levelname)s %(name)s: %(message)s"
+    )
 
     logger.info(f"Current working directory: {os.getcwd()}")
 

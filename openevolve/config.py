@@ -83,7 +83,9 @@ class LLMConfig(LLMModelConfig):
         if self.primary_model_weight:
             self.models[0].weight = self.primary_model_weight
 
-        if (self.secondary_model or self.secondary_model_weight) and len(self.models) < 2:
+        if (self.secondary_model or self.secondary_model_weight) and len(
+            self.models
+        ) < 2:
             # Ensure we have a second model
             self.models.append(LLMModelConfig())
         if self.secondary_model:
@@ -109,7 +111,9 @@ class LLMConfig(LLMModelConfig):
         }
         self.update_model_params(shared_config)
 
-    def update_model_params(self, args: Dict[str, Any], overwrite: bool = False) -> None:
+    def update_model_params(
+        self, args: Dict[str, Any], overwrite: bool = False
+    ) -> None:
         """Update model parameters for all models"""
         for model in self.models + self.evaluator_models:
             for key, value in args.items():
@@ -167,9 +171,15 @@ class DatabaseConfig:
 
     # Feature map dimensions for MAP-Elites
     # Default to complexity and diversity for better exploration
-    feature_dimensions: List[str] = field(default_factory=lambda: ["complexity", "diversity"])
-    feature_bins: Union[int, Dict[str, int]] = 10  # Can be int (all dims) or dict (per-dim)
-    diversity_reference_size: int = 20  # Size of reference set for diversity calculation
+    feature_dimensions: List[str] = field(
+        default_factory=lambda: ["complexity", "diversity"]
+    )
+    feature_bins: Union[int, Dict[str, int]] = (
+        10  # Can be int (all dims) or dict (per-dim)
+    )
+    diversity_reference_size: int = (
+        20  # Size of reference set for diversity calculation
+    )
 
     # Migration parameters for island-based evolution
     migration_interval: int = 50  # Migrate every N generations
@@ -251,7 +261,9 @@ class Config:
 
         # Update top-level fields
         for key, value in config_dict.items():
-            if key not in ["llm", "prompt", "database", "evaluator"] and hasattr(config, key):
+            if key not in ["llm", "prompt", "database", "evaluator"] and hasattr(
+                config, key
+            ):
                 setattr(config, key, value)
 
         # Update nested configs

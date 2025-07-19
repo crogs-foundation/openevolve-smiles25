@@ -3,7 +3,6 @@ Tests for MAP-Elites feature enhancements in openevolve.database
 """
 
 import unittest
-from unittest.mock import MagicMock, patch
 from openevolve.config import Config
 from openevolve.database import Program, ProgramDatabase
 
@@ -33,7 +32,10 @@ class TestMapElitesFeatures(unittest.TestCase):
 
         # Create a test program
         test_program = Program(
-            id="test", code="def test():\n    return 42", language="python", metrics={"score": 0.7}
+            id="test",
+            code="def test():\n    return 42",
+            language="python",
+            metrics={"score": 0.7},
         )
 
         # First call should compute diversity
@@ -81,7 +83,10 @@ class TestMapElitesFeatures(unittest.TestCase):
         complexities = [100, 300, 500, 700, 900]
         for i, complexity in enumerate(complexities):
             program = Program(
-                id=f"scale_{i}", code="x" * complexity, language="python", metrics={"score": 0.5}
+                id=f"scale_{i}",
+                code="x" * complexity,
+                language="python",
+                metrics={"score": 0.5},
             )
             self.db.add(program)
 
@@ -149,7 +154,9 @@ class TestMapElitesFeatures(unittest.TestCase):
         """Test default feature dimensions are complexity and diversity"""
         config = Config()
         # Don't set feature_dimensions, use defaults
-        self.assertEqual(config.database.feature_dimensions, ["complexity", "diversity"])
+        self.assertEqual(
+            config.database.feature_dimensions, ["complexity", "diversity"]
+        )
 
     def test_diversity_cache_lru_eviction(self):
         """Test LRU eviction in diversity cache"""

@@ -4,12 +4,10 @@ OpenAI API interface for LLMs
 
 import asyncio
 import logging
-import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 import openai
 
-from openevolve.config import LLMConfig
 from openevolve.llm.base import LLMInterface
 
 logger = logging.getLogger(__name__)
@@ -65,7 +63,9 @@ class OpenAILLM(LLMInterface):
         formatted_messages.extend(messages)
 
         # Set up generation parameters
-        if self.api_base == "https://api.openai.com/v1" and str(self.model).lower().startswith("o"):
+        if self.api_base == "https://api.openai.com/v1" and str(
+            self.model
+        ).lower().startswith("o"):
             # For o-series models
             params = {
                 "model": self.model,
@@ -85,7 +85,10 @@ class OpenAILLM(LLMInterface):
         # Skip seed parameter for Google AI Studio endpoint as it doesn't support it
         seed = kwargs.get("seed", self.random_seed)
         if seed is not None:
-            if self.api_base == "https://generativelanguage.googleapis.com/v1beta/openai/":
+            if (
+                self.api_base
+                == "https://generativelanguage.googleapis.com/v1beta/openai/"
+            ):
                 logger.warning(
                     "Skipping seed parameter as Google AI Studio endpoint doesn't support it. "
                     "Reproducibility may be limited."
@@ -100,11 +103,15 @@ class OpenAILLM(LLMInterface):
 
         for attempt in range(retries + 1):
             try:
-                response = await asyncio.wait_for(self._call_api(params), timeout=timeout)
+                response = await asyncio.wait_for(
+                    self._call_api(params), timeout=timeout
+                )
                 return response
             except asyncio.TimeoutError:
                 if attempt < retries:
-                    logger.warning(f"Timeout on attempt {attempt + 1}/{retries + 1}. Retrying...")
+                    logger.warning(
+                        f"Timeout on attempt {attempt + 1}/{retries + 1}. Retrying..."
+                    )
                     await asyncio.sleep(retry_delay)
                 else:
                     logger.error(f"All {retries + 1} attempts failed with timeout")
@@ -116,7 +123,9 @@ class OpenAILLM(LLMInterface):
                     )
                     await asyncio.sleep(retry_delay)
                 else:
-                    logger.error(f"All {retries + 1} attempts failed with error: {str(e)}")
+                    logger.error(
+                        f"All {retries + 1} attempts failed with error: {str(e)}"
+                    )
                     raise
 
     async def _call_api(self, params: Dict[str, Any]) -> str:

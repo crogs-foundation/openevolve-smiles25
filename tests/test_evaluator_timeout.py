@@ -7,7 +7,7 @@ import os
 import tempfile
 import time
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from openevolve.config import EvaluatorConfig
 from openevolve.evaluator import Evaluator
@@ -19,7 +19,9 @@ class TestEvaluatorTimeout(unittest.TestCase):
     def setUp(self):
         """Set up test evaluation file"""
         # Create a test evaluation file
-        self.test_eval_file = tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False)
+        self.test_eval_file = tempfile.NamedTemporaryFile(
+            mode="w", suffix=".py", delete=False
+        )
 
         # Write test evaluation functions with shorter sleep times for faster tests
         self.test_eval_file.write(
@@ -177,7 +179,9 @@ def evaluate_stage3(program_path):
             program_code = "# STAGE1_TIMEOUT\ndef test(): return 'stage1_timeout'"
             start_time = time.time()
 
-            result = await evaluator.evaluate_program(program_code, "test_cascade_stage1")
+            result = await evaluator.evaluate_program(
+                program_code, "test_cascade_stage1"
+            )
 
             elapsed_time = time.time() - start_time
 
@@ -201,7 +205,9 @@ def evaluate_stage3(program_path):
             program_code = "# STAGE2_TIMEOUT\ndef test(): return 'stage2_timeout'"
             start_time = time.time()
 
-            result = await evaluator.evaluate_program(program_code, "test_cascade_stage2")
+            result = await evaluator.evaluate_program(
+                program_code, "test_cascade_stage2"
+            )
 
             elapsed_time = time.time() - start_time
 
@@ -227,7 +233,9 @@ def evaluate_stage3(program_path):
             program_code = "# STAGE3_TIMEOUT\ndef test(): return 'stage3_timeout'"
             start_time = time.time()
 
-            result = await evaluator.evaluate_program(program_code, "test_cascade_stage3")
+            result = await evaluator.evaluate_program(
+                program_code, "test_cascade_stage3"
+            )
 
             elapsed_time = time.time() - start_time
 
@@ -329,7 +337,9 @@ def evaluate_stage3(program_path):
             program_code = "# SLEEP_LONG\ndef test(): return 'long'"
             start_time = time.time()
 
-            result = await evaluator.evaluate_program(program_code, "test_timeout_no_retry")
+            result = await evaluator.evaluate_program(
+                program_code, "test_timeout_no_retry"
+            )
 
             elapsed_time = time.time() - start_time
 
@@ -354,7 +364,9 @@ def evaluate_stage3(program_path):
                 program_code = "# SLEEP_LONG\ndef test(): return 'long'"
 
                 # Execute evaluation
-                result = await evaluator.evaluate_program(program_code, "test_artifacts")
+                result = await evaluator.evaluate_program(
+                    program_code, "test_artifacts"
+                )
 
                 # Verify timeout occurred
                 self.assertIn("timeout", result, "Result should contain timeout flag")
@@ -365,24 +377,38 @@ def evaluate_stage3(program_path):
                 self.assertIsNotNone(artifacts, "Artifacts should not be None")
 
                 # Verify required artifact fields
-                self.assertIn("failure_stage", artifacts, "Artifacts should contain failure_stage")
+                self.assertIn(
+                    "failure_stage", artifacts, "Artifacts should contain failure_stage"
+                )
                 self.assertEqual(
-                    artifacts["failure_stage"], "evaluation", "failure_stage should be 'evaluation'"
+                    artifacts["failure_stage"],
+                    "evaluation",
+                    "failure_stage should be 'evaluation'",
                 )
 
-                self.assertIn("timeout", artifacts, "Artifacts should contain timeout flag")
-                self.assertTrue(artifacts["timeout"], "Artifact timeout flag should be True")
+                self.assertIn(
+                    "timeout", artifacts, "Artifacts should contain timeout flag"
+                )
+                self.assertTrue(
+                    artifacts["timeout"], "Artifact timeout flag should be True"
+                )
 
-                self.assertIn("error_type", artifacts, "Artifacts should contain error_type")
+                self.assertIn(
+                    "error_type", artifacts, "Artifacts should contain error_type"
+                )
                 self.assertEqual(
                     artifacts["error_type"], "timeout", "error_type should be 'timeout'"
                 )
 
                 self.assertIn(
-                    "timeout_duration", artifacts, "Artifacts should contain timeout_duration"
+                    "timeout_duration",
+                    artifacts,
+                    "Artifacts should contain timeout_duration",
                 )
                 self.assertEqual(
-                    artifacts["timeout_duration"], 3, "timeout_duration should match config"
+                    artifacts["timeout_duration"],
+                    3,
+                    "timeout_duration should match config",
                 )
 
                 print(f"✅ Artifacts captured correctly: {list(artifacts.keys())}")
@@ -398,7 +424,9 @@ class TestTimeoutIntegration(unittest.TestCase):
 
         async def run_test():
             # Create a test evaluation file that simulates a long-running evaluation
-            test_eval_file = tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False)
+            test_eval_file = tempfile.NamedTemporaryFile(
+                mode="w", suffix=".py", delete=False
+            )
 
             test_eval_file.write(
                 """
@@ -435,7 +463,9 @@ def search_algorithm():
 """
 
                 start_time = time.time()
-                result = await evaluator.evaluate_program(program_code, "financial_test")
+                result = await evaluator.evaluate_program(
+                    program_code, "financial_test"
+                )
                 elapsed_time = time.time() - start_time
 
                 # Should timeout in ~3 seconds, not 6+ seconds

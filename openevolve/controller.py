@@ -2,14 +2,12 @@
 Main controller for OpenEvolve
 """
 
-import asyncio
 import logging
 import os
 import signal
 import time
 import uuid
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional
 
 from openevolve.config import Config, load_config
 from openevolve.database import Program, ProgramDatabase
@@ -107,18 +105,28 @@ class OpenEvolve:
 
             # Create hash-based seeds for different components
             base_seed = str(self.config.random_seed).encode("utf-8")
-            llm_seed = int(hashlib.md5(base_seed + b"llm").hexdigest()[:8], 16) % (2**31)
+            llm_seed = int(hashlib.md5(base_seed + b"llm").hexdigest()[:8], 16) % (
+                2**31
+            )
 
             # Propagate seed to LLM configurations
             self.config.llm.random_seed = llm_seed
             for model_cfg in self.config.llm.models:
-                if not hasattr(model_cfg, "random_seed") or model_cfg.random_seed is None:
+                if (
+                    not hasattr(model_cfg, "random_seed")
+                    or model_cfg.random_seed is None
+                ):
                     model_cfg.random_seed = llm_seed
             for model_cfg in self.config.llm.evaluator_models:
-                if not hasattr(model_cfg, "random_seed") or model_cfg.random_seed is None:
+                if (
+                    not hasattr(model_cfg, "random_seed")
+                    or model_cfg.random_seed is None
+                ):
                     model_cfg.random_seed = llm_seed
 
-            logger.info(f"Set random seed to {self.config.random_seed} for reproducibility")
+            logger.info(
+                f"Set random seed to {self.config.random_seed} for reproducibility"
+            )
             logger.debug(f"Generated LLM seed: {llm_seed}")
 
         # Load initial program
@@ -175,7 +183,9 @@ class OpenEvolve:
         root_logger.setLevel(getattr(logging, self.config.log_level))
 
         # Add file handler
-        log_file = os.path.join(log_dir, f"openevolve_{time.strftime('%Y%m%d_%H%M%S')}.log")
+        log_file = os.path.join(
+            log_dir, f"openevolve_{time.strftime('%Y%m%d_%H%M%S')}.log"
+        )
         file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(
             logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -184,7 +194,9 @@ class OpenEvolve:
 
         # Add console handler
         console_handler = logging.StreamHandler()
-        console_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+        console_handler.setFormatter(
+            logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+        )
         root_logger.addHandler(console_handler)
 
         logger.info(f"Logging to {log_file}")
@@ -227,7 +239,8 @@ class OpenEvolve:
             start_iteration == 0
             and len(self.database.programs) == 0
             and not any(
-                p.code == self.initial_program_code for p in self.database.programs.values()
+                p.code == self.initial_program_code
+                for p in self.database.programs.values()
             )
         )
 
@@ -263,7 +276,9 @@ class OpenEvolve:
 
             # Set up signal handlers for graceful shutdown
             def signal_handler(signum, frame):
-                logger.info(f"Received signal {signum}, initiating graceful shutdown...")
+                logger.info(
+                    f"Received signal {signum}, initiating graceful shutdown..."
+                )
                 self.parallel_controller.request_shutdown()
 
                 # Set up a secondary handler for immediate exit if user presses Ctrl+C again
@@ -354,7 +369,7 @@ class OpenEvolve:
         improvement_str = format_improvement_safe(parent.metrics, child.metrics)
 
         logger.info(
-            f"Iteration {iteration+1}: Child {child.id} from parent {parent.id} "
+            f"Iteration {iteration + 1}: Child {child.id} from parent {parent.id} "
             f"in {elapsed_time:.2f}s. Metrics: "
             f"{format_metrics_safe(child.metrics)} "
             f"(Δ: {improvement_str})"
@@ -386,12 +401,16 @@ class OpenEvolve:
 
         if best_program:
             # Save the best program at this checkpoint
-            best_program_path = os.path.join(checkpoint_path, f"best_program{self.file_extension}")
+            best_program_path = os.path.join(
+                checkpoint_path, f"best_program{self.file_extension}"
+            )
             with open(best_program_path, "w") as f:
                 f.write(best_program.code)
 
             # Save metrics
-            best_program_info_path = os.path.join(checkpoint_path, "best_program_info.json")
+            best_program_info_path = os.path.join(
+                checkpoint_path, "best_program_info.json"
+            )
             with open(best_program_info_path, "w") as f:
                 import json
 
@@ -424,18 +443,25 @@ class OpenEvolve:
 
         logger.info(f"Loading checkpoint from {checkpoint_path}")
         self.database.load(checkpoint_path)
-        logger.info(f"Checkpoint loaded successfully (iteration {self.database.last_iteration})")
+        logger.info(
+            f"Checkpoint loaded successfully (iteration {self.database.last_iteration})"
+        )
 
     async def _run_evolution_with_checkpoints(
         self, start_iteration: int, max_iterations: int, target_score: Optional[float]
     ) -> None:
         """Run evolution with checkpoint saving support"""
-        logger.info(f"Using island-based evolution with {self.config.database.num_islands} islands")
+        logger.info(
+            f"Using island-based evolution with {self.config.database.num_islands} islands"
+        )
         self.database.log_island_status()
 
         # Run the evolution process with checkpoint callback
         await self.parallel_controller.run_evolution(
-            start_iteration, max_iterations, target_score, checkpoint_callback=self._save_checkpoint
+            start_iteration,
+            max_iterations,
+            target_score,
+            checkpoint_callback=self._save_checkpoint,
         )
 
         # Check if shutdown was requested
@@ -445,7 +471,10 @@ class OpenEvolve:
 
         # Save final checkpoint if needed
         final_iteration = start_iteration + max_iterations - 1
-        if final_iteration > 0 and final_iteration % self.config.checkpoint_interval == 0:
+        if (
+            final_iteration > 0
+            and final_iteration % self.config.checkpoint_interval == 0
+        ):
             self._save_checkpoint(final_iteration)
 
     def _save_best_program(self, program: Optional[Program] = None) -> None:
@@ -497,4 +526,6 @@ class OpenEvolve:
                 indent=2,
             )
 
-        logger.info(f"Saved best program to {code_path} with program info to {info_path}")
+        logger.info(
+            f"Saved best program to {code_path} with program info to {info_path}"
+        )

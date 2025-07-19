@@ -15,9 +15,8 @@ Evolution Target: The Metal kernel source code that computes GQA attention
 
 import mlx.core as mx
 import mlx.nn as nn
-import numpy as np
 import math
-from typing import Optional, Tuple, Any
+from typing import Optional, Any
 import time
 
 
@@ -61,7 +60,9 @@ def qwen3_custom_gqa_attention(queries, keys, values, scale=1.0, mask=None):
 
     # Expand mask to match batch and head dimensions if needed
     if mask_tensor.ndim == 2:
-        mask_tensor = mx.broadcast_to(mask_tensor[None, None, :, :], (B, num_heads, L, L))
+        mask_tensor = mx.broadcast_to(
+            mask_tensor[None, None, :, :], (B, num_heads, L, L)
+        )
     elif mask_tensor.ndim == 3:
         mask_tensor = mx.broadcast_to(mask_tensor[:, None, :, :], (B, num_heads, L, L))
 
@@ -282,10 +283,12 @@ class CustomGQAAttention(nn.Module):
             print("⚠️ Could not import mlx_lm rope_utils, using basic RoPE")
             self.rope = None
 
-        print(f"🔧 Initialized Custom Metal GQA Attention")
-        print(f"   📊 Architecture: {n_heads}:{n_kv_heads} heads ({n_heads//n_kv_heads}:1 ratio)")
+        print("🔧 Initialized Custom Metal GQA Attention")
+        print(
+            f"   📊 Architecture: {n_heads}:{n_kv_heads} heads ({n_heads // n_kv_heads}:1 ratio)"
+        )
         print(f"   🎯 Head dimension: {head_dim}")
-        print(f"   ⚡ Using custom Metal kernel for GQA optimization")
+        print("   ⚡ Using custom Metal kernel for GQA optimization")
 
     def __call__(
         self,
@@ -298,8 +301,12 @@ class CustomGQAAttention(nn.Module):
         # Standard preprocessing (already optimized, don't evolve)
         queries, keys, values = self.q_proj(x), self.k_proj(x), self.v_proj(x)
 
-        queries = self.q_norm(queries.reshape(B, L, self.n_heads, -1)).transpose(0, 2, 1, 3)
-        keys = self.k_norm(keys.reshape(B, L, self.n_kv_heads, -1)).transpose(0, 2, 1, 3)
+        queries = self.q_norm(queries.reshape(B, L, self.n_heads, -1)).transpose(
+            0, 2, 1, 3
+        )
+        keys = self.k_norm(keys.reshape(B, L, self.n_kv_heads, -1)).transpose(
+            0, 2, 1, 3
+        )
         values = values.reshape(B, L, self.n_kv_heads, -1).transpose(0, 2, 1, 3)
 
         # Standard RoPE application (already optimized, don't evolve)
@@ -314,7 +321,9 @@ class CustomGQAAttention(nn.Module):
                 keys = self.rope(keys)
 
         # CORE INNOVATION: Custom Metal kernel for GQA attention
-        output = qwen3_custom_gqa_attention(queries, keys, values, scale=self.scale, mask=mask)
+        output = qwen3_custom_gqa_attention(
+            queries, keys, values, scale=self.scale, mask=mask
+        )
 
         # Standard postprocessing (already optimized, don't evolve)
         output = output.transpose(0, 2, 1, 3).reshape(B, L, -1)
@@ -415,7 +424,7 @@ def benchmark_metal_gqa_optimization():
         avg_time = (end_time - start_time) / 10
         tokens_per_sec = seq_len / avg_time
 
-        print(f"  Metal GQA: {avg_time*1000:.2f} ms, {tokens_per_sec:.1f} tokens/sec")
+        print(f"  Metal GQA: {avg_time * 1000:.2f} ms, {tokens_per_sec:.1f} tokens/sec")
         print(f"  Memory: {mx.get_active_memory() / 1e9:.2f} GB")
 
 

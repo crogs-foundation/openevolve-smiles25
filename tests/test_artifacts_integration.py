@@ -6,9 +6,9 @@ import asyncio
 import os
 import tempfile
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
-from openevolve.config import Config, DatabaseConfig, EvaluatorConfig, PromptConfig
+from openevolve.config import Config, DatabaseConfig
 from openevolve.database import Program, ProgramDatabase
 from openevolve.evaluation_result import EvaluationResult
 from openevolve.evaluator import Evaluator
@@ -30,7 +30,9 @@ class TestArtifactsIntegration(unittest.TestCase):
         self.temp_dir = tempfile.mkdtemp()
 
         # Create evaluation file that can return EvaluationResult
-        self.eval_file = tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False)
+        self.eval_file = tempfile.NamedTemporaryFile(
+            mode="w", suffix=".py", delete=False
+        )
         self.eval_file.write(
             """
 import traceback
@@ -101,7 +103,9 @@ def evaluate_stage1(program_path):
                 task.cancel()
             # Run the loop briefly to let cancellations process
             if pending:
-                self.loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+                self.loop.run_until_complete(
+                    asyncio.gather(*pending, return_exceptions=True)
+                )
 
     def test_compile_failure_artifact_capture(self):
         """Test that compilation failures are captured as artifacts"""
@@ -147,7 +151,9 @@ def evaluate_stage1(program_path):
             artifacts = self.evaluator.get_pending_artifacts(program_id)
 
             # 3. Create program and store in database
-            program = Program(id=program_id, code=bad_code, language="python", metrics=metrics)
+            program = Program(
+                id=program_id, code=bad_code, language="python", metrics=metrics
+            )
             self.database.add(program)
 
             # 4. Store artifacts
@@ -187,7 +193,7 @@ def evaluate_stage1(program_path):
             program_id = "cascade_test_1"
 
             # Run cascade evaluation
-            result = await self.evaluator._cascade_evaluate(f"/tmp/test_program.py")
+            result = await self.evaluator._cascade_evaluate("/tmp/test_program.py")
 
             # Should be an EvaluationResult with artifacts
             if isinstance(result, EvaluationResult):
@@ -200,7 +206,8 @@ def evaluate_stage1(program_path):
         with patch("openevolve.evaluator.run_in_executor") as mock_executor:
             # Mock stage1 to return an error with artifacts
             mock_executor.return_value = EvaluationResult(
-                metrics={"stage1_passed": 0.0}, artifacts={"stderr": "Stage 1 compilation error"}
+                metrics={"stage1_passed": 0.0},
+                artifacts={"stderr": "Stage 1 compilation error"},
             )
 
             result = asyncio.run(run_test())
@@ -281,12 +288,16 @@ class TestArtifactsPersistence(unittest.TestCase):
                 task.cancel()
             # Run the loop briefly to let cancellations process
             if pending:
-                self.loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+                self.loop.run_until_complete(
+                    asyncio.gather(*pending, return_exceptions=True)
+                )
 
     def test_save_load_artifacts(self):
         """Test that artifacts survive database save/load cycle"""
         # Create program with artifacts
-        program = Program(id="persist_test_1", code="print('test')", metrics={"score": 0.8})
+        program = Program(
+            id="persist_test_1", code="print('test')", metrics={"score": 0.8}
+        )
 
         artifacts = {
             "stderr": "error message",

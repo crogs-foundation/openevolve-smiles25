@@ -9,8 +9,7 @@ import os
 import yaml
 import numpy as np
 import multiprocessing
-import importlib.util
-from typing import Dict, List, Tuple, Optional, Any
+from typing import Dict, Any
 
 from bench.datamodules import get_datamodule
 
@@ -81,7 +80,7 @@ def create_program(problem: Dict[str, Any]) -> str:
     Returns:
         Path to the created program file
     """
-    problem_dir = f'problems/{problem["dataset_identifier"]}/{problem["equation_idx"]}'
+    problem_dir = f"problems/{problem['dataset_identifier']}/{problem['equation_idx']}"
 
     # Parse symbols and properties
     symbols = problem["symbols"]
@@ -105,27 +104,35 @@ def create_program(problem: Dict[str, Any]) -> str:
         raise ValueError("No output variable ('O') found in symbol_properties.")
 
     # Build input variable mapping comments
-    x_mapping_comments = ["# Input variable mapping for x (columns of the input matrix):"]
+    x_mapping_comments = [
+        "# Input variable mapping for x (columns of the input matrix):"
+    ]
     if not input_vars:
-        x_mapping_comments.append("#   No input variables (x will be an (n_samples, 0) matrix).")
+        x_mapping_comments.append(
+            "#   No input variables (x will be an (n_samples, 0) matrix)."
+        )
     else:
         for i, var_name in enumerate(input_vars):
-            x_mapping_comments.append(f"#   x[:, {i}]: {var_name} ({input_vars_descs[i]})")
+            x_mapping_comments.append(
+                f"#   x[:, {i}]: {var_name} ({input_vars_descs[i]})"
+            )
     x_mapping_str = "\n".join(x_mapping_comments)
 
     # Build function body
     num_features = len(input_vars)
     if num_features > 0:
-        function_body = " + ".join([f"x[:, {i}] * params[{i}]" for i in range(num_features)])
-    else:
-        function_body = (
-            "np.full(x.shape[0], params[0])  # Predicts a constant value for all samples"
+        function_body = " + ".join(
+            [f"x[:, {i}] * params[{i}]" for i in range(num_features)]
         )
+    else:
+        function_body = "np.full(x.shape[0], params[0])  # Predicts a constant value for all samples"
 
     model_num_params = 10
 
     # Build input variables description
-    input_vars_desc_list = [f"{v} ({input_vars_descs[i]})" for i, v in enumerate(input_vars)]
+    input_vars_desc_list = [
+        f"{v} ({input_vars_descs[i]})" for i, v in enumerate(input_vars)
+    ]
     input_vars_desc_str = ", ".join(input_vars_desc_list) if input_vars else "None"
 
     program_content = f'''"""
@@ -157,7 +164,7 @@ def func(x, params):
                         n_features is {num_features}.
                         If n_features is 0, x should be shape (n_samples, 0).
                         The order of columns in x must correspond to:
-                        ({', '.join(input_vars) if input_vars else "None - x has 0 columns"}).
+                        ({", ".join(input_vars) if input_vars else "None - x has 0 columns"}).
         params (np.ndarray): A 1D numpy array of parameters.
                              Expected length: {model_num_params}.
 
@@ -195,7 +202,7 @@ def create_evaluator(problem: Dict[str, Any]) -> str:
     Returns:
         Path to the created evaluator file
     """
-    problem_dir = f'problems/{problem["dataset_identifier"]}/{problem["equation_idx"]}'
+    problem_dir = f"problems/{problem['dataset_identifier']}/{problem['equation_idx']}"
     os.makedirs(problem_dir, exist_ok=True)
 
     # Extract data arrays
@@ -214,22 +221,32 @@ def create_evaluator(problem: Dict[str, Any]) -> str:
     if not output_indices:
         raise ValueError("No output variable ('O') found in symbol_properties.")
     if len(output_indices) > 1:
-        raise ValueError("Multiple output variables ('O') found. Evaluator supports single output.")
+        raise ValueError(
+            "Multiple output variables ('O') found. Evaluator supports single output."
+        )
     output_index = output_indices[0]
 
     # Prepare data arrays
     if not input_indices:
         X_train = np.empty((len(train_samples), 0))
         X_test = np.empty((len(test_samples), 0))
-        X_ood_test = np.empty((len(ood_test_samples), 0)) if ood_test_samples is not None else None
+        X_ood_test = (
+            np.empty((len(ood_test_samples), 0))
+            if ood_test_samples is not None
+            else None
+        )
     else:
         X_train = train_samples[:, input_indices]
         X_test = test_samples[:, input_indices]
-        X_ood_test = ood_test_samples[:, input_indices] if ood_test_samples is not None else None
+        X_ood_test = (
+            ood_test_samples[:, input_indices] if ood_test_samples is not None else None
+        )
 
     y_train = train_samples[:, output_index]
     y_test = test_samples[:, output_index]
-    y_ood_test = ood_test_samples[:, output_index] if ood_test_samples is not None else None
+    y_ood_test = (
+        ood_test_samples[:, output_index] if ood_test_samples is not None else None
+    )
 
     num_input_features = len(input_indices)
     model_num_params_expected = 10
@@ -528,7 +545,7 @@ def create_config(problem: Dict[str, Any]) -> str:
     Returns:
         Path to the created configuration file
     """
-    problem_dir = f'problems/{problem["dataset_identifier"]}/{problem["equation_idx"]}'
+    problem_dir = f"problems/{problem['dataset_identifier']}/{problem['equation_idx']}"
     os.makedirs(problem_dir, exist_ok=True)
     config_file_path = os.path.join(problem_dir, "config.yaml")
 
@@ -548,7 +565,9 @@ def create_config(problem: Dict[str, Any]) -> str:
 
     input_vars_str = ", ".join(input_vars_list) if input_vars_list else "None"
     output_var_str = (
-        ", ".join(output_var_list) if output_var_list else "None (Error: No output defined!)"
+        ", ".join(output_var_list)
+        if output_var_list
+        else "None (Error: No output defined!)"
     )
 
     num_initial_params = 10
@@ -706,7 +725,9 @@ def main():
     """
     # Determine number of processes to use
     num_cores_available = os.cpu_count()
-    num_processes = min(max(1, (num_cores_available - 1) if num_cores_available else 4), 24)
+    num_processes = min(
+        max(1, (num_cores_available - 1) if num_cores_available else 4), 24
+    )
 
     print(f"Starting processing with {num_processes} processes...")
 
@@ -753,7 +774,9 @@ def main():
         )
         return
 
-    print(f"\nTotal tasks to process across all successfully initialized splits: {len(all_tasks)}")
+    print(
+        f"\nTotal tasks to process across all successfully initialized splits: {len(all_tasks)}"
+    )
 
     # Process tasks in parallel
     with multiprocessing.Pool(processes=num_processes) as pool:
@@ -774,7 +797,9 @@ def main():
         elif "Error processing" in result:
             error_count += 1
 
-    print(f"\nSummary: {success_count} successful, {skipped_count} skipped, {error_count} errors.")
+    print(
+        f"\nSummary: {success_count} successful, {skipped_count} skipped, {error_count} errors."
+    )
     print("\nAll tasks finished.")
 
 

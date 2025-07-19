@@ -26,12 +26,8 @@ This evaluator provides MAXIMUM protection against Metal kernel failures during 
 
 import os
 import sys
-import json
 import time
 import traceback
-import threading
-import subprocess
-import tempfile
 from typing import Dict, List, Tuple, Any, Optional
 import numpy as np
 
@@ -98,9 +94,9 @@ class BulletproofMetalEvaluator:
         print("🛡️  BULLETPROOF METAL KERNEL EVALUATOR INITIALIZED")
         print(f"📱 Model: {self.model_path}")
         print(f"🔁 Max retry attempts: {self.max_retry_attempts}")
-        print(f"⚡ GPU error protection: MAXIMUM")
-        print(f"🧠 Memory safety validation: ENABLED")
-        print(f"🎯 Command buffer error handling: ACTIVE")
+        print("⚡ GPU error protection: MAXIMUM")
+        print("🧠 Memory safety validation: ENABLED")
+        print("🎯 Command buffer error handling: ACTIVE")
 
     def evaluate(self, program_text: str) -> Dict[str, Any]:
         """
@@ -141,7 +137,9 @@ class BulletproofMetalEvaluator:
             print("\n🔍 STEP 2: Pre-execution Metal Kernel Safety Validation")
             safety_result = self._validate_metal_kernel_safety(custom_attention_class)
             if not safety_result["success"]:
-                print(f"⚠️  Metal kernel safety validation failed: {safety_result['error']}")
+                print(
+                    f"⚠️  Metal kernel safety validation failed: {safety_result['error']}"
+                )
                 print("🛡️  Proceeding with enhanced protection...")
 
             # Step 3: GPU-protected baseline measurement
@@ -154,7 +152,9 @@ class BulletproofMetalEvaluator:
 
             # Step 4: Memory-safe correctness testing
             print("\n🔍 STEP 4: Memory-Safe Custom Attention Correctness Testing")
-            correctness_result = self._memory_safe_correctness_test(custom_attention_class)
+            correctness_result = self._memory_safe_correctness_test(
+                custom_attention_class
+            )
             if not correctness_result["success"]:
                 return self._create_comprehensive_failure_result(
                     f"Memory-safe correctness test failed: {correctness_result['error']}"
@@ -168,7 +168,9 @@ class BulletproofMetalEvaluator:
 
             # Step 5: Command-buffer-protected benchmarking
             print("\n🚀 STEP 5: Command-Buffer-Protected Performance Benchmarking")
-            benchmark_result = self._command_buffer_protected_benchmark(custom_attention_class)
+            benchmark_result = self._command_buffer_protected_benchmark(
+                custom_attention_class
+            )
             if not benchmark_result["success"]:
                 return self._create_comprehensive_failure_result(
                     f"Command-buffer-protected benchmarking failed: {benchmark_result['error']}"
@@ -195,7 +197,9 @@ class BulletproofMetalEvaluator:
                 "correctness_score": correctness_score,
                 "benchmark_results": [self._result_to_dict(r) for r in custom_results],
                 "baseline_comparison": performance_analysis["comparison_summary"],
-                "individual_comparisons": performance_analysis["individual_comparisons"],
+                "individual_comparisons": performance_analysis[
+                    "individual_comparisons"
+                ],
                 "summary": self._generate_comprehensive_summary(
                     performance_analysis, correctness_score
                 ),
@@ -224,7 +228,9 @@ class BulletproofMetalEvaluator:
         self.successful_fallbacks = 0
         self.retry_attempts_used = 0
 
-    def _bulletproof_extract_custom_attention(self, program_text: str) -> Dict[str, Any]:
+    def _bulletproof_extract_custom_attention(
+        self, program_text: str
+    ) -> Dict[str, Any]:
         """Bulletproof extraction with comprehensive Metal kernel validation"""
         try:
             print("  🔍 Bulletproof program analysis with Metal validation...")
@@ -243,7 +249,10 @@ class BulletproofMetalEvaluator:
                     except Exception as e:
                         return {"success": False, "error": f"File read error: {e}"}
                 else:
-                    return {"success": False, "error": f"Program file not found: {program_text}"}
+                    return {
+                        "success": False,
+                        "error": f"Program file not found: {program_text}",
+                    }
             else:
                 actual_program_text = program_text
 
@@ -255,7 +264,9 @@ class BulletproofMetalEvaluator:
                 return {"success": False, "error": f"Syntax error: {e}"}
 
             # Pre-validate Metal kernel syntax (static analysis)
-            metal_validation = self._static_validate_metal_kernel_syntax(actual_program_text)
+            metal_validation = self._static_validate_metal_kernel_syntax(
+                actual_program_text
+            )
             if not metal_validation["safe"]:
                 print(
                     f"  ⚠️  Metal kernel static validation warning: {metal_validation['warnings']}"
@@ -273,11 +284,17 @@ class BulletproofMetalEvaluator:
 
                 if not success:
                     self.total_metal_errors += 1
-                    return {"success": False, "error": f"Protected execution failed: {result}"}
+                    return {
+                        "success": False,
+                        "error": f"Protected execution failed: {result}",
+                    }
 
             except Exception as e:
                 self.total_metal_errors += 1
-                return {"success": False, "error": f"Execution error with GPU protection: {e}"}
+                return {
+                    "success": False,
+                    "error": f"Execution error with GPU protection: {e}",
+                }
 
             # Enhanced class extraction and validation
             custom_class = exec_globals.get("CustomGQAAttention")
@@ -292,14 +309,21 @@ class BulletproofMetalEvaluator:
             if not validation_result["valid"]:
                 return {"success": False, "error": validation_result["error"]}
 
-            print(f"  ✅ Successfully extracted and validated CustomGQAAttention class")
+            print("  ✅ Successfully extracted and validated CustomGQAAttention class")
             print(f"  🛡️  Metal safety pre-checks: {metal_validation['safe']}")
 
-            return {"success": True, "class": custom_class, "metal_validation": metal_validation}
+            return {
+                "success": True,
+                "class": custom_class,
+                "metal_validation": metal_validation,
+            }
 
         except Exception as e:
             self.total_metal_errors += 1
-            return {"success": False, "error": f"Bulletproof extraction failed: {str(e)}"}
+            return {
+                "success": False,
+                "error": f"Bulletproof extraction failed: {str(e)}",
+            }
 
     def _static_validate_metal_kernel_syntax(self, program_text: str) -> Dict[str, Any]:
         """Static analysis of Metal kernel syntax for common safety issues"""
@@ -343,13 +367,19 @@ class BulletproofMetalEvaluator:
         try:
             # Basic type checking
             if not isinstance(custom_class, type):
-                return {"valid": False, "error": "CustomGQAAttention is not a valid class"}
+                return {
+                    "valid": False,
+                    "error": "CustomGQAAttention is not a valid class",
+                }
 
             # Check for required methods
             required_methods = ["__init__", "__call__"]
             for method in required_methods:
                 if not hasattr(custom_class, method):
-                    return {"valid": False, "error": f"Missing required method: {method}"}
+                    return {
+                        "valid": False,
+                        "error": f"Missing required method: {method}",
+                    }
 
             # Check if it inherits from nn.Module (recommended)
             if not issubclass(custom_class, nn.Module):
@@ -361,7 +391,9 @@ class BulletproofMetalEvaluator:
         except Exception as e:
             return {"valid": False, "error": f"Class validation error: {e}"}
 
-    def _validate_metal_kernel_safety(self, custom_attention_class: Any) -> Dict[str, Any]:
+    def _validate_metal_kernel_safety(
+        self, custom_attention_class: Any
+    ) -> Dict[str, Any]:
         """Pre-execution validation of Metal kernel safety"""
         try:
             print("  🔍 Validating Metal kernel safety parameters...")
@@ -383,13 +415,19 @@ class BulletproofMetalEvaluator:
             try:
                 instance = custom_attention_class(args)
                 if instance is None:
-                    return {"success": False, "error": "Failed to instantiate custom attention"}
+                    return {
+                        "success": False,
+                        "error": "Failed to instantiate custom attention",
+                    }
 
                 print("  ✅ Custom attention instantiation successful")
 
                 # Basic parameter validation
                 if hasattr(instance, "n_heads") and instance.n_heads != 40:
-                    return {"success": False, "error": f"Invalid head count: {instance.n_heads}"}
+                    return {
+                        "success": False,
+                        "error": f"Invalid head count: {instance.n_heads}",
+                    }
 
                 if hasattr(instance, "n_kv_heads") and instance.n_kv_heads != 8:
                     return {
@@ -401,7 +439,10 @@ class BulletproofMetalEvaluator:
 
             except Exception as e:
                 error_msg = str(e)
-                if any(keyword in error_msg.lower() for keyword in ["metal", "kernel", "gpu"]):
+                if any(
+                    keyword in error_msg.lower()
+                    for keyword in ["metal", "kernel", "gpu"]
+                ):
                     self.metal_compilation_errors += 1
                 return {"success": False, "error": f"Instantiation failed: {error_msg}"}
 
@@ -426,12 +467,17 @@ class BulletproofMetalEvaluator:
             if "kIOGPUCommandBufferCallbackErrorInvalidResource" in error_msg:
                 self.metal_command_buffer_errors += 1
                 self.total_metal_errors += 1
-                return False, f"GPU Command Buffer Error (memory violation): {error_msg}"
+                return (
+                    False,
+                    f"GPU Command Buffer Error (memory violation): {error_msg}",
+                )
             elif "METAL" in error_msg.upper():
                 self.metal_memory_violations += 1
                 self.total_metal_errors += 1
                 return False, f"Metal Memory Violation: {error_msg}"
-            elif any(keyword in error_msg.lower() for keyword in ["gpu", "metal", "kernel"]):
+            elif any(
+                keyword in error_msg.lower() for keyword in ["gpu", "metal", "kernel"]
+            ):
                 self.gpu_resource_errors += 1
                 self.total_metal_errors += 1
                 return False, f"GPU Resource Error: {error_msg}"
@@ -443,7 +489,8 @@ class BulletproofMetalEvaluator:
 
             # Additional classification for other Metal-related exceptions
             if any(
-                keyword in error_msg.lower() for keyword in ["metal", "kernel", "gpu", "mps", "mtl"]
+                keyword in error_msg.lower()
+                for keyword in ["metal", "kernel", "gpu", "mps", "mtl"]
             ):
                 self.total_metal_errors += 1
                 return False, f"General Metal Error: {error_msg}"
@@ -469,7 +516,9 @@ class BulletproofMetalEvaluator:
             successful_count = 0
 
             for i, config in enumerate(baseline_configs, 1):
-                print(f"  [{i}/{len(baseline_configs)}] GPU-protected baseline: {config.name}")
+                print(
+                    f"  [{i}/{len(baseline_configs)}] GPU-protected baseline: {config.name}"
+                )
 
                 retry_count = 0
                 while retry_count <= self.max_retry_attempts:
@@ -496,7 +545,9 @@ class BulletproofMetalEvaluator:
                                 time.sleep(self.retry_base_delay * (2**retry_count))
                                 continue
                             else:
-                                print(f"    ❌ All retries exhausted for {config.name}: {result}")
+                                print(
+                                    f"    ❌ All retries exhausted for {config.name}: {result}"
+                                )
                                 break
 
                     except Exception as e:
@@ -519,7 +570,9 @@ class BulletproofMetalEvaluator:
 
             # Store baseline metrics
             self._store_enhanced_baseline_metrics(baseline_results)
-            print(f"  ✅ GPU-protected baseline complete ({successful_count} successful)")
+            print(
+                f"  ✅ GPU-protected baseline complete ({successful_count} successful)"
+            )
 
             return baseline_results
 
@@ -527,7 +580,9 @@ class BulletproofMetalEvaluator:
             print(f"  ❌ GPU-protected baseline measurement failed: {e}")
             return None
 
-    def _memory_safe_correctness_test(self, custom_attention_class: Any) -> Dict[str, Any]:
+    def _memory_safe_correctness_test(
+        self, custom_attention_class: Any
+    ) -> Dict[str, Any]:
         """Memory-safe correctness testing with GPU protection"""
         print("  🔍 Running memory-safe correctness testing...")
 
@@ -567,7 +622,9 @@ class BulletproofMetalEvaluator:
                         self._ensure_clean_gpu_state()
 
                         # Create conservative test inputs
-                        x = mx.random.normal((B, L, D)) * 0.1  # Smaller values for safety
+                        x = (
+                            mx.random.normal((B, L, D)) * 0.1
+                        )  # Smaller values for safety
                         mask = "causal"
 
                         # Test with maximum GPU protection
@@ -598,7 +655,9 @@ class BulletproofMetalEvaluator:
                                 time.sleep(self.retry_base_delay * (2**retry_count))
                                 continue
                             else:
-                                print(f"      ❌ All retries failed for length {L}: {error_msg}")
+                                print(
+                                    f"      ❌ All retries failed for length {L}: {error_msg}"
+                                )
                                 correctness_scores.append(0.0)
                                 break
 
@@ -617,10 +676,14 @@ class BulletproofMetalEvaluator:
             # Update global error counters
             self.metal_command_buffer_errors += local_command_buffer_errors
             self.metal_memory_violations += local_memory_violations
-            self.total_metal_errors += local_command_buffer_errors + local_memory_violations
+            self.total_metal_errors += (
+                local_command_buffer_errors + local_memory_violations
+            )
 
             # Calculate overall correctness with partial credit
-            overall_correctness = np.mean(correctness_scores) if correctness_scores else 0.0
+            overall_correctness = (
+                np.mean(correctness_scores) if correctness_scores else 0.0
+            )
 
             print(f"    📊 Memory-safe overall correctness: {overall_correctness:.3f}")
             print(f"    🛡️  Command buffer errors: {local_command_buffer_errors}")
@@ -676,16 +739,22 @@ class BulletproofMetalEvaluator:
             # Shape validation
             expected_shape = x.shape
             if output.shape != expected_shape:
-                raise ValueError(f"Wrong output shape: {output.shape}, expected {expected_shape}")
+                raise ValueError(
+                    f"Wrong output shape: {output.shape}, expected {expected_shape}"
+                )
 
             # Enhanced finite value check
             finite_mask = mx.isfinite(output)
             if not mx.all(finite_mask):
                 finite_ratio = float(mx.mean(finite_mask.astype(mx.float32)))
                 if finite_ratio < 0.9:
-                    raise ValueError(f"Too many non-finite values: {finite_ratio:.2%} finite")
+                    raise ValueError(
+                        f"Too many non-finite values: {finite_ratio:.2%} finite"
+                    )
                 else:
-                    print(f"        ⚠️  Some non-finite values: {finite_ratio:.2%} finite")
+                    print(
+                        f"        ⚠️  Some non-finite values: {finite_ratio:.2%} finite"
+                    )
                     return 0.7  # Partial credit
 
             # Enhanced statistical validation
@@ -721,7 +790,9 @@ class BulletproofMetalEvaluator:
             else:
                 raise ValueError(f"Sequence test error: {error_msg}")
 
-    def _command_buffer_protected_benchmark(self, custom_attention_class: Any) -> Dict[str, Any]:
+    def _command_buffer_protected_benchmark(
+        self, custom_attention_class: Any
+    ) -> Dict[str, Any]:
         """Command-buffer-protected benchmarking with maximum safety"""
         print("  🚀 Running command-buffer-protected benchmarking...")
 
@@ -729,7 +800,9 @@ class BulletproofMetalEvaluator:
 
         while retry_attempt <= self.max_retry_attempts:
             try:
-                print(f"  🔄 Protected attempt {retry_attempt + 1}/{self.max_retry_attempts + 1}")
+                print(
+                    f"  🔄 Protected attempt {retry_attempt + 1}/{self.max_retry_attempts + 1}"
+                )
 
                 # Clean GPU state before each major attempt
                 self._ensure_clean_gpu_state()
@@ -738,7 +811,9 @@ class BulletproofMetalEvaluator:
                 hook_result = self._gpu_protected_apply_hook(custom_attention_class)
                 if not hook_result["success"]:
                     if retry_attempt < self.max_retry_attempts:
-                        print(f"    🔄 Hook failed, retrying... ({hook_result['error']})")
+                        print(
+                            f"    🔄 Hook failed, retrying... ({hook_result['error']})"
+                        )
                         retry_attempt += 1
                         time.sleep(self.retry_base_delay * (2**retry_attempt))
                         continue
@@ -767,8 +842,12 @@ class BulletproofMetalEvaluator:
                                 self._ensure_clean_gpu_state()
 
                                 # Run with maximum protection
-                                success, result = self._bulletproof_execute_with_gpu_protection(
-                                    lambda: self.benchmark_suite.run_single_benchmark(config)
+                                success, result = (
+                                    self._bulletproof_execute_with_gpu_protection(
+                                        lambda: self.benchmark_suite.run_single_benchmark(
+                                            config
+                                        )
+                                    )
                                 )
 
                                 if success and result:
@@ -803,7 +882,9 @@ class BulletproofMetalEvaluator:
                                     break
 
                     # Check success rate
-                    min_required = max(2, len(custom_configs) * 0.4)  # Lowered to 40% for safety
+                    min_required = max(
+                        2, len(custom_configs) * 0.4
+                    )  # Lowered to 40% for safety
                     if successful_benchmarks >= min_required:
                         print(
                             f"  ✅ Command-buffer-protected benchmarks complete ({successful_benchmarks} successful)"
@@ -832,7 +913,10 @@ class BulletproofMetalEvaluator:
                     continue
                 return {"success": False, "error": error_msg}
 
-        return {"success": False, "error": "All command-buffer-protected attempts exhausted"}
+        return {
+            "success": False,
+            "error": "All command-buffer-protected attempts exhausted",
+        }
 
     def _ensure_clean_gpu_state(self):
         """Ensure clean GPU state before operations"""
@@ -860,7 +944,10 @@ class BulletproofMetalEvaluator:
                 return {"success": False, "error": result}
 
         except Exception as e:
-            return {"success": False, "error": f"GPU-protected hook application failed: {e}"}
+            return {
+                "success": False,
+                "error": f"GPU-protected hook application failed: {e}",
+            }
 
     def _apply_attention_hook_safely(self, custom_attention_class: Any) -> Any:
         """Safely apply attention hook"""
@@ -972,10 +1059,14 @@ class BulletproofMetalEvaluator:
     def _store_enhanced_baseline_metrics(self, baseline_results: List[BenchmarkResult]):
         """Store enhanced baseline metrics"""
         decode_speeds = [
-            r.decode_tokens_per_sec for r in baseline_results if r.decode_tokens_per_sec > 0
+            r.decode_tokens_per_sec
+            for r in baseline_results
+            if r.decode_tokens_per_sec > 0
         ]
         prefill_speeds = [
-            r.prefill_tokens_per_sec for r in baseline_results if r.prefill_tokens_per_sec > 0
+            r.prefill_tokens_per_sec
+            for r in baseline_results
+            if r.prefill_tokens_per_sec > 0
         ]
         memories = [r.peak_memory_gb for r in baseline_results if r.peak_memory_gb > 0]
 
@@ -984,8 +1075,12 @@ class BulletproofMetalEvaluator:
             "avg_decode_speed": float(np.mean(decode_speeds)) if decode_speeds else 0.0,
             "min_decode_speed": float(np.min(decode_speeds)) if decode_speeds else 0.0,
             "max_decode_speed": float(np.max(decode_speeds)) if decode_speeds else 0.0,
-            "std_decode_speed": float(np.std(decode_speeds)) if len(decode_speeds) > 1 else 0.0,
-            "avg_prefill_speed": float(np.mean(prefill_speeds)) if prefill_speeds else 0.0,
+            "std_decode_speed": float(np.std(decode_speeds))
+            if len(decode_speeds) > 1
+            else 0.0,
+            "avg_prefill_speed": float(np.mean(prefill_speeds))
+            if prefill_speeds
+            else 0.0,
             "avg_memory_gb": float(np.mean(memories)) if memories else 0.0,
             "max_memory_gb": float(np.max(memories)) if memories else 0.0,
             "num_baseline_tests": len(baseline_results),
@@ -996,7 +1091,9 @@ class BulletproofMetalEvaluator:
         )
 
     def _analyze_performance_with_safety_metrics(
-        self, baseline_results: List[BenchmarkResult], custom_results: List[BenchmarkResult]
+        self,
+        baseline_results: List[BenchmarkResult],
+        custom_results: List[BenchmarkResult],
     ) -> Dict[str, Any]:
         """Analyze performance with enhanced safety metrics"""
         print("  📈 Analyzing performance with safety metrics...")
@@ -1030,10 +1127,12 @@ class BulletproofMetalEvaluator:
                     custom.total_tokens_per_sec, baseline.total_tokens_per_sec
                 )
                 memory_improvement = self._safe_calculate_improvement(
-                    baseline.peak_memory_gb, custom.peak_memory_gb  # Reversed for memory
+                    baseline.peak_memory_gb,
+                    custom.peak_memory_gb,  # Reversed for memory
                 )
                 time_improvement = self._safe_calculate_improvement(
-                    baseline.total_time_sec, custom.total_time_sec  # Reversed for time
+                    baseline.total_time_sec,
+                    custom.total_time_sec,  # Reversed for time
                 )
 
                 comparison = {
@@ -1064,7 +1163,9 @@ class BulletproofMetalEvaluator:
         for key, values in improvements.items():
             if values:
                 # Use robust statistics
-                valid_values = [v for v in values if not np.isnan(v) and not np.isinf(v)]
+                valid_values = [
+                    v for v in values if not np.isnan(v) and not np.isinf(v)
+                ]
                 if valid_values:
                     aggregate_stats[f"{key}_avg"] = float(np.mean(valid_values))
                     aggregate_stats[f"{key}_median"] = float(np.median(valid_values))
@@ -1074,12 +1175,18 @@ class BulletproofMetalEvaluator:
 
         # Calculate custom metrics
         custom_decode_speeds = [
-            r.decode_tokens_per_sec for r in custom_results if r.decode_tokens_per_sec > 0
+            r.decode_tokens_per_sec
+            for r in custom_results
+            if r.decode_tokens_per_sec > 0
         ]
         custom_prefill_speeds = [
-            r.prefill_tokens_per_sec for r in custom_results if r.prefill_tokens_per_sec > 0
+            r.prefill_tokens_per_sec
+            for r in custom_results
+            if r.prefill_tokens_per_sec > 0
         ]
-        custom_memories = [r.peak_memory_gb for r in custom_results if r.peak_memory_gb > 0]
+        custom_memories = [
+            r.peak_memory_gb for r in custom_results if r.peak_memory_gb > 0
+        ]
 
         aggregate_metrics = {
             "avg_decode_speed": (
@@ -1094,24 +1201,33 @@ class BulletproofMetalEvaluator:
             "avg_prefill_speed": (
                 float(np.mean(custom_prefill_speeds)) if custom_prefill_speeds else 0.0
             ),
-            "avg_memory_gb": float(np.mean(custom_memories)) if custom_memories else 0.0,
+            "avg_memory_gb": float(np.mean(custom_memories))
+            if custom_memories
+            else 0.0,
             "max_memory_gb": float(np.max(custom_memories)) if custom_memories else 0.0,
             "num_successful_tests": len(custom_results),
             "decode_speed_std": (
-                float(np.std(custom_decode_speeds)) if len(custom_decode_speeds) > 1 else 0.0
+                float(np.std(custom_decode_speeds))
+                if len(custom_decode_speeds) > 1
+                else 0.0
             ),
         }
 
         # Enhanced comparison summary
         comparison_summary = {
-            "avg_decode_improvement_pct": aggregate_stats.get("decode_speed_improvements_avg", 0),
+            "avg_decode_improvement_pct": aggregate_stats.get(
+                "decode_speed_improvements_avg", 0
+            ),
             "avg_decode_improvement_absolute": (
-                aggregate_metrics["avg_decode_speed"] - self.baseline_metrics["avg_decode_speed"]
+                aggregate_metrics["avg_decode_speed"]
+                - self.baseline_metrics["avg_decode_speed"]
             ),
             "memory_change_gb": (
-                aggregate_metrics["avg_memory_gb"] - self.baseline_metrics["avg_memory_gb"]
+                aggregate_metrics["avg_memory_gb"]
+                - self.baseline_metrics["avg_memory_gb"]
             ),
-            "target_achieved": aggregate_stats.get("decode_speed_improvements_avg", 0) >= 5.0,
+            "target_achieved": aggregate_stats.get("decode_speed_improvements_avg", 0)
+            >= 5.0,
             "num_benchmarks_improved": sum(
                 1 for x in improvements["decode_speed_improvements"] if x > 1.0
             ),  # More lenient
@@ -1190,8 +1306,10 @@ class BulletproofMetalEvaluator:
             - error_penalty
         )
 
-        print(f"  🎯 Safety-adjusted score breakdown:")
-        print(f"    • Performance: {avg_improvement:.2f}% × 3 = {performance_score:.2f}")
+        print("  🎯 Safety-adjusted score breakdown:")
+        print(
+            f"    • Performance: {avg_improvement:.2f}% × 3 = {performance_score:.2f}"
+        )
         print(f"    • Memory: {memory_bonus:.2f}")
         print(f"    • Consistency: {success_rate:.2f} × 10 = {consistency_bonus:.2f}")
         print(f"    • Correctness: {correctness:.3f} × 5 = {correctness_bonus:.2f}")
@@ -1216,19 +1334,23 @@ class BulletproofMetalEvaluator:
         summary = f"""Bulletproof Custom GQA Implementation Results:
 • Decode Speed: {current_decode:.1f} tokens/sec (baseline: {baseline_decode:.1f})
 • Improvement: {avg_improvement:+.1f}%
-• Memory Usage: {metrics['avg_memory_gb']:.2f} GB
+• Memory Usage: {metrics["avg_memory_gb"]:.2f} GB
 • Correctness: {correctness:.1%}
 • Safety Score: {safety_score:.1f}/100
-• Tests Passed: {metrics['num_successful_tests']}/{len(self._get_safe_benchmark_configs())}
-• Benchmarks Improved: {comparison['num_benchmarks_improved']}/{comparison['total_benchmarks']}
+• Tests Passed: {metrics["num_successful_tests"]}/{len(self._get_safe_benchmark_configs())}
+• Benchmarks Improved: {comparison["num_benchmarks_improved"]}/{comparison["total_benchmarks"]}
 • Metal Errors Handled: {self.total_metal_errors}"""
 
         if self.total_metal_errors == 0:
             summary += "\n🛡️  PERFECT SAFETY: No Metal kernel errors"
         elif self.total_metal_errors < 3:
-            summary += f"\n🛡️  GOOD SAFETY: {self.total_metal_errors} Metal errors handled"
+            summary += (
+                f"\n🛡️  GOOD SAFETY: {self.total_metal_errors} Metal errors handled"
+            )
         else:
-            summary += f"\n⚠️  SAFETY CONCERNS: {self.total_metal_errors} Metal errors handled"
+            summary += (
+                f"\n⚠️  SAFETY CONCERNS: {self.total_metal_errors} Metal errors handled"
+            )
 
         if avg_improvement >= 15:
             summary += "\n🎯 EXCELLENT: 15%+ improvement achieved!"
@@ -1267,16 +1389,18 @@ class BulletproofMetalEvaluator:
                     self.metal_compilation_errors / max(1, self.total_metal_errors)
                 )
                 * 100,
-                "resource_error_pct": (self.gpu_resource_errors / max(1, self.total_metal_errors))
+                "resource_error_pct": (
+                    self.gpu_resource_errors / max(1, self.total_metal_errors)
+                )
                 * 100,
             },
         }
 
     def _print_bulletproof_evaluation_results(self, result: Dict[str, Any]):
         """Print comprehensive bulletproof evaluation results"""
-        print(f"\n{'🛡️ '*25}")
+        print(f"\n{'🛡️ ' * 25}")
         print(f"{'🛡️  BULLETPROOF EVALUATION RESULTS  🛡️':^100}")
-        print(f"{'🛡️ '*25}")
+        print(f"{'🛡️ ' * 25}")
 
         if result["success"]:
             performance = result["performance_metrics"]
@@ -1284,30 +1408,38 @@ class BulletproofMetalEvaluator:
             safety_stats = result["metal_safety_statistics"]
 
             print(f"📊 FINAL SCORE: {result['final_score']:.2f}")
-            print(f"")
-            print(f"📈 PERFORMANCE COMPARISON:")
-            print(f"  • Average Decode Speed: {performance['avg_decode_speed']:.1f} tokens/sec")
+            print("")
+            print("📈 PERFORMANCE COMPARISON:")
+            print(
+                f"  • Average Decode Speed: {performance['avg_decode_speed']:.1f} tokens/sec"
+            )
             print(
                 f"  • Baseline Decode Speed: {self.baseline_metrics['avg_decode_speed']:.1f} tokens/sec"
             )
-            print(f"  • Average Improvement: {comparison['avg_decode_improvement_pct']:+.1f}%")
+            print(
+                f"  • Average Improvement: {comparison['avg_decode_improvement_pct']:+.1f}%"
+            )
             print(
                 f"  • Absolute Improvement: {comparison['avg_decode_improvement_absolute']:+.1f} tokens/sec"
             )
-            print(f"")
-            print(f"🛡️  SAFETY STATISTICS:")
+            print("")
+            print("🛡️  SAFETY STATISTICS:")
             print(f"  • Safety Score: {safety_stats['safety_score']:.1f}/100")
-            print(f"  • Command Buffer Errors: {safety_stats['metal_command_buffer_errors']}")
+            print(
+                f"  • Command Buffer Errors: {safety_stats['metal_command_buffer_errors']}"
+            )
             print(f"  • Memory Violations: {safety_stats['metal_memory_violations']}")
             print(f"  • Total Metal Errors: {safety_stats['total_metal_errors']}")
             print(f"  • Retry Attempts Used: {safety_stats['retry_attempts_used']}")
-            print(f"")
-            print(f"💾 MEMORY USAGE:")
+            print("")
+            print("💾 MEMORY USAGE:")
             print(f"  • Average Memory: {performance['avg_memory_gb']:.2f} GB")
-            print(f"  • Baseline Memory: {self.baseline_metrics['avg_memory_gb']:.2f} GB")
+            print(
+                f"  • Baseline Memory: {self.baseline_metrics['avg_memory_gb']:.2f} GB"
+            )
             print(f"  • Memory Change: {comparison['memory_change_gb']:+.2f} GB")
-            print(f"")
-            print(f"✓ RELIABILITY:")
+            print("")
+            print("✓ RELIABILITY:")
             print(f"  • Correctness Score: {result['correctness_score']:.1%}")
             print(f"  • Successful Tests: {performance['num_successful_tests']}")
             print(
@@ -1315,20 +1447,24 @@ class BulletproofMetalEvaluator:
             )
 
             if comparison["target_achieved"]:
-                print(f"\n🎯 TARGET ACHIEVED: Significant improvement with safety!")
+                print("\n🎯 TARGET ACHIEVED: Significant improvement with safety!")
 
             if safety_stats["total_metal_errors"] == 0:
-                print(f"\n🛡️  PERFECT EXECUTION: No Metal kernel errors encountered!")
+                print("\n🛡️  PERFECT EXECUTION: No Metal kernel errors encountered!")
 
         else:
-            print(f"❌ EVALUATION FAILED (SAFELY)")
+            print("❌ EVALUATION FAILED (SAFELY)")
             print(f"📋 Error: {result.get('error', 'Unknown error')}")
             safety_stats = result.get("metal_safety_statistics", {})
-            print(f"🛡️  Metal Errors Handled: {safety_stats.get('total_metal_errors', 0)}")
+            print(
+                f"🛡️  Metal Errors Handled: {safety_stats.get('total_metal_errors', 0)}"
+            )
 
-        print(f"{'🛡️ '*25}")
+        print(f"{'🛡️ ' * 25}")
 
-    def _create_comprehensive_failure_result(self, error_message: str) -> Dict[str, Any]:
+    def _create_comprehensive_failure_result(
+        self, error_message: str
+    ) -> Dict[str, Any]:
         """Create comprehensive failure result with full error statistics"""
         return {
             "success": False,
@@ -1373,15 +1509,17 @@ def test_bulletproof_evaluator():
     print(f"📁 Testing with bulletproof protection: {initial_program_path}")
     result = evaluate(initial_program_path)
 
-    print(f"\n{'🛡️ '*20}")
-    print(f"🔬 BULLETPROOF EVALUATOR TEST RESULTS")
-    print(f"{'🛡️ '*20}")
+    print(f"\n{'🛡️ ' * 20}")
+    print("🔬 BULLETPROOF EVALUATOR TEST RESULTS")
+    print(f"{'🛡️ ' * 20}")
     print(f"Success: {result['success']}")
     print(f"Final Score: {result.get('final_score', 'N/A')}")
 
     if result.get("metal_safety_statistics"):
         stats = result["metal_safety_statistics"]
-        print(f"Metal Command Buffer Errors: {stats.get('metal_command_buffer_errors', 0)}")
+        print(
+            f"Metal Command Buffer Errors: {stats.get('metal_command_buffer_errors', 0)}"
+        )
         print(f"Metal Memory Violations: {stats.get('metal_memory_violations', 0)}")
         print(f"Total Metal Errors Handled: {stats.get('total_metal_errors', 0)}")
         print(f"Safety Score: {stats.get('safety_score', 0):.1f}/100")

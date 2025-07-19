@@ -6,16 +6,14 @@ import asyncio
 import os
 import tempfile
 import unittest
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
-import json
-import time
+from unittest.mock import AsyncMock, Mock, patch
 
 # Set dummy API key for testing to prevent OpenAI SDK import failures
 os.environ["OPENAI_API_KEY"] = "test"
 
 from openevolve.config import Config
 from openevolve.controller import OpenEvolve
-from openevolve.database import Program, ProgramDatabase
+from openevolve.database import Program
 
 
 class MockEvaluator:
@@ -201,7 +199,9 @@ def evaluate(program_path):
                 )
 
                 controller.database.add(existing_program)
-                controller.database.last_iteration = 10  # Simulate resuming from iteration 10
+                controller.database.last_iteration = (
+                    10  # Simulate resuming from iteration 10
+                )
 
                 # Verify database has the existing program
                 self.assertEqual(len(controller.database.programs), 1)

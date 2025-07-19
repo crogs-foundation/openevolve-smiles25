@@ -7,7 +7,6 @@ import numpy as np
 import time
 import concurrent.futures
 import traceback
-import signal
 
 
 def run_with_timeout(func, args=(), kwargs={}, timeout_seconds=5):
@@ -65,7 +64,7 @@ def evaluate(program_path):
 
         # Check if the required function exists
         if not hasattr(program, "run_search"):
-            print(f"Error: program does not have 'run_search' function")
+            print("Error: program does not have 'run_search' function")
             return {
                 "value_score": 0.0,
                 "distance_score": 0.0,
@@ -98,8 +97,12 @@ def evaluate(program_path):
                         # Assume it's (x, y) and calculate value
                         x, y = result
                         # Calculate the function value since it wasn't returned
-                        value = np.sin(x) * np.cos(y) + np.sin(x * y) + (x**2 + y**2) / 20
-                        print(f"Trial {trial}: Got 2 values, calculated function value: {value}")
+                        value = (
+                            np.sin(x) * np.cos(y) + np.sin(x * y) + (x**2 + y**2) / 20
+                        )
+                        print(
+                            f"Trial {trial}: Got 2 values, calculated function value: {value}"
+                        )
                     else:
                         print(
                             f"Trial {trial}: Invalid result format, expected tuple of 2 or 3 values but got {len(result)}"
@@ -127,7 +130,9 @@ def evaluate(program_path):
                     or np.isinf(y)
                     or np.isinf(value)
                 ):
-                    print(f"Trial {trial}: Invalid result, got x={x}, y={y}, value={value}")
+                    print(
+                        f"Trial {trial}: Invalid result, got x={x}, y={y}, value={value}"
+                    )
                     continue
 
                 # Calculate metrics
@@ -173,7 +178,9 @@ def evaluate(program_path):
         avg_time = float(np.mean(times)) if times else 1.0
 
         # Convert to scores (higher is better)
-        value_score = float(1.0 / (1.0 + abs(avg_value - GLOBAL_MIN_VALUE)))  # Normalize and invert
+        value_score = float(
+            1.0 / (1.0 + abs(avg_value - GLOBAL_MIN_VALUE))
+        )  # Normalize and invert
         distance_score = float(1.0 / (1.0 + avg_distance))
         speed_score = float(1.0 / avg_time) if avg_time > 0 else 0.0
 
@@ -252,7 +259,7 @@ def evaluate_stage1(program_path):
 
         # Check if the required function exists
         if not hasattr(program, "run_search"):
-            print(f"Stage 1 validation: Program does not have 'run_search' function")
+            print("Stage 1 validation: Program does not have 'run_search' function")
             return {"runs_successfully": 0.0, "error": "Missing run_search function"}
 
         try:
@@ -275,7 +282,9 @@ def evaluate_stage1(program_path):
                     )
                     return {"runs_successfully": 0.0, "error": "Invalid result format"}
             else:
-                print(f"Stage 1: Invalid result format, expected tuple but got {type(result)}")
+                print(
+                    f"Stage 1: Invalid result format, expected tuple but got {type(result)}"
+                )
                 return {"runs_successfully": 0.0, "error": "Invalid result format"}
 
             # Ensure all values are float
@@ -292,7 +301,9 @@ def evaluate_stage1(program_path):
                 or np.isinf(y)
                 or np.isinf(value)
             ):
-                print(f"Stage 1 validation: Invalid result, got x={x}, y={y}, value={value}")
+                print(
+                    f"Stage 1 validation: Invalid result, got x={x}, y={y}, value={value}"
+                )
                 return {"runs_successfully": 0.5, "error": "Invalid result values"}
 
             # Calculate distance safely
@@ -325,7 +336,9 @@ def evaluate_stage1(program_path):
         except IndexError as e:
             # Specifically handle IndexError which often happens with early termination checks
             print(f"Stage 1 evaluation failed with IndexError: {e}")
-            print("This is likely due to a list index check before the list is fully populated.")
+            print(
+                "This is likely due to a list index check before the list is fully populated."
+            )
             return {"runs_successfully": 0.0, "error": f"IndexError: {str(e)}"}
         except Exception as e:
             print(f"Stage 1 evaluation failed: {e}")

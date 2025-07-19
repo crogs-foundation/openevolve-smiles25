@@ -4,7 +4,7 @@ Prompt templates for OpenEvolve
 
 import os
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import Optional
 
 # Base system message template for evolution
 BASE_SYSTEM_TEMPLATE = """You are an expert software developer tasked with iteratively improving a codebase.

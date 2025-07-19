@@ -332,10 +332,15 @@ def submit(
     for f in files:
         with open(f, "rb") as sub_file:
             sub_files.append(
-                ("sub_file[]", (os.path.basename(f), sub_file.read(), "application/octet-stream"))
+                (
+                    "sub_file[]",
+                    (os.path.basename(f), sub_file.read(), "application/octet-stream"),
+                )
             )
 
-    return requests.post(submit_url, data=data, files=sub_files, cookies=cookies, headers=_HEADERS)
+    return requests.post(
+        submit_url, data=data, files=sub_files, cookies=cookies, headers=_HEADERS
+    )
 
 
 def confirm_or_die(problem, language, files, mainclass, tag):
@@ -422,9 +427,11 @@ def show_judgement(submission_url, cfg):
 
                 # NB: We need to do the following math since len(color('.', _SOME_COLOR)) == 10
                 if status_id == _RUNNING_STATUS:
-                    progress = progress[: 10 * (testcases_done - 1)] + color("?", _YELLOW_COLOR)
+                    progress = progress[: 10 * (testcases_done - 1)] + color(
+                        "?", _YELLOW_COLOR
+                    )
                 print(
-                    f'[{progress}{" " * (9*testcases_done + testcases_total - len(progress))}]  {testcases_done} / {testcases_total}',
+                    f"[{progress}{' ' * (9 * testcases_done + testcases_total - len(progress))}]  {testcases_done} / {testcases_total}",
                     end="",
                 )
 
@@ -439,25 +446,36 @@ def show_judgement(submission_url, cfg):
                 cpu_time = root.xpath('.//*[@data-type="cpu"]')[0].text_content()
                 try:
                     score = re.findall(
-                        r"\(([\d\.]+)\)", root.xpath('.//*[@data-type="status"]')[0].text_content()
+                        r"\(([\d\.]+)\)",
+                        root.xpath('.//*[@data-type="status"]')[0].text_content(),
                     )[0]
                 except:
                     score = ""
                 status_text += (
-                    " (" + cpu_time + ", " + score + ")" if score else " (" + cpu_time + ")"
+                    " (" + cpu_time + ", " + score + ")"
+                    if score
+                    else " (" + cpu_time + ")"
                 )
             except:
                 pass
             if status_id != _COMPILE_ERROR_STATUS:
                 print(color(status_text, _GREEN_COLOR if success else _RED_COLOR))
             numerical_score = int(score) if score else 0
-            return success, numerical_score, testcases_done, testcases_correct, testcases_total
+            return (
+                success,
+                numerical_score,
+                testcases_done,
+                testcases_correct,
+                testcases_total,
+            )
 
         time.sleep(0.25)
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="kattis", description="Submit a solution to Kattis")
+    parser = argparse.ArgumentParser(
+        prog="kattis", description="Submit a solution to Kattis"
+    )
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         "-a",
@@ -491,7 +509,10 @@ Overrides default guess (based on suffix of first filename)""",
     )
     parser.add_argument("-t", "--tag", help=argparse.SUPPRESS)
     parser.add_argument(
-        "-f", "--force", help="Force, no confirmation prompt before submission", action="store_true"
+        "-f",
+        "--force",
+        help="Force, no confirmation prompt before submission",
+        action="store_true",
     )
     parser.add_argument("files", nargs="+")
 

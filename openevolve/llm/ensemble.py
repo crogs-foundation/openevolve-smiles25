@@ -5,7 +5,7 @@ Model ensemble for LLMs
 import asyncio
 import logging
 import random
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 from openevolve.llm.base import LLMInterface
 from openevolve.llm.openai import OpenAILLM
@@ -44,7 +44,7 @@ class LLMEnsemble:
         # Only log if we have multiple models or this is the first ensemble
         if len(models_cfg) > 1 or not hasattr(logger, "_ensemble_logged"):
             logger.info(
-                f"Initialized LLM ensemble with models: "
+                "Initialized LLM ensemble with models: "
                 + ", ".join(
                     f"{model.name} (weight: {weight:.2f})"
                     for model, weight in zip(models_cfg, self.weights)
@@ -66,7 +66,9 @@ class LLMEnsemble:
 
     def _sample_model(self) -> LLMInterface:
         """Sample a model from the ensemble based on weights"""
-        index = self.random_state.choices(range(len(self.models)), weights=self.weights, k=1)[0]
+        index = self.random_state.choices(
+            range(len(self.models)), weights=self.weights, k=1
+        )[0]
         sampled_model = self.models[index]
         logger.info(f"Sampled model: {vars(sampled_model)['model']}")
         return sampled_model
@@ -87,5 +89,7 @@ class LLMEnsemble:
         """Generate text using a all available models and average their returned metrics"""
         responses = []
         for model in self.models:
-            responses.append(await model.generate_with_context(system_message, messages, **kwargs))
+            responses.append(
+                await model.generate_with_context(system_message, messages, **kwargs)
+            )
         return responses

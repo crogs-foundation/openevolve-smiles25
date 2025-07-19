@@ -2,7 +2,6 @@
 Evaluation result structures for OpenEvolve
 """
 
-import json
 from dataclasses import dataclass, field
 from typing import Dict, Union
 
@@ -17,7 +16,9 @@ class EvaluationResult:
     """
 
     metrics: Dict[str, float]  # mandatory - existing contract
-    artifacts: Dict[str, Union[str, bytes]] = field(default_factory=dict)  # optional side-channel
+    artifacts: Dict[str, Union[str, bytes]] = field(
+        default_factory=dict
+    )  # optional side-channel
 
     @classmethod
     def from_dict(cls, metrics: Dict[str, float]) -> "EvaluationResult":

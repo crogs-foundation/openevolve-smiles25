@@ -4,11 +4,10 @@ Prompt sampling for OpenEvolve
 
 import logging
 import random
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Union
 
 from openevolve.config import PromptConfig
 from openevolve.prompt.templates import TemplateManager
-from openevolve.utils.format_utils import format_metrics_safe
 from openevolve.utils.metrics_utils import safe_numeric_average
 
 logger = logging.getLogger(__name__)
@@ -45,7 +44,9 @@ class PromptSampler:
         """
         self.system_template_override = system_template
         self.user_template_override = user_template
-        logger.info(f"Set custom templates: system={system_template}, user={user_template}")
+        logger.info(
+            f"Set custom templates: system={system_template}, user={user_template}"
+        )
 
     def build_prompt(
         self,
@@ -91,14 +92,18 @@ class PromptSampler:
             user_template_key = self.user_template_override
         else:
             # Default behavior: diff-based vs full rewrite
-            user_template_key = "diff_user" if diff_based_evolution else "full_rewrite_user"
+            user_template_key = (
+                "diff_user" if diff_based_evolution else "full_rewrite_user"
+            )
 
         # Get the template
         user_template = self.template_manager.get_template(user_template_key)
 
         # Use system template override if set
         if self.system_template_override:
-            system_message = self.template_manager.get_template(self.system_template_override)
+            system_message = self.template_manager.get_template(
+                self.system_template_override
+            )
         else:
             system_message = self.config.system_message
             # If system_message is a template name rather than content, get the template
@@ -193,7 +198,9 @@ class PromptSampler:
                 for attempt in recent_attempts:
                     attempt_value = attempt["metrics"].get(metric, 0)
                     # Only compare if both values are numeric
-                    if isinstance(value, (int, float)) and isinstance(attempt_value, (int, float)):
+                    if isinstance(value, (int, float)) and isinstance(
+                        attempt_value, (int, float)
+                    ):
                         if attempt_value <= value:
                             regressed = False
                         if attempt_value >= value:
@@ -238,7 +245,9 @@ class PromptSampler:
         """Format the evolution history for the prompt"""
         # Get templates
         history_template = self.template_manager.get_template("evolution_history")
-        previous_attempt_template = self.template_manager.get_template("previous_attempt")
+        previous_attempt_template = self.template_manager.get_template(
+            "previous_attempt"
+        )
         top_program_template = self.template_manager.get_template("top_program")
 
         # Format previous attempts (most recent first)
@@ -277,7 +286,9 @@ class PromptSampler:
                 parent_value = parent_metrics.get(m, 0)
 
                 # Only compare if both values are numeric
-                if isinstance(prog_value, (int, float)) and isinstance(parent_value, (int, float)):
+                if isinstance(prog_value, (int, float)) and isinstance(
+                    parent_value, (int, float)
+                ):
                     if prog_value > parent_value:
                         numeric_comparisons_improved.append(True)
                     else:
@@ -306,7 +317,9 @@ class PromptSampler:
 
         # Format top programs
         top_programs_str = ""
-        selected_top = top_programs[: min(self.config.num_top_programs, len(top_programs))]
+        selected_top = top_programs[
+            : min(self.config.num_top_programs, len(top_programs))
+        ]
 
         for i, program in enumerate(selected_top):
             # Extract a snippet (first 10 lines) for display
@@ -325,7 +338,9 @@ class PromptSampler:
                 for name, value in program.get("metrics", {}).items():
                     if isinstance(value, (int, float)):
                         try:
-                            key_features.append(f"Performs well on {name} ({value:.4f})")
+                            key_features.append(
+                                f"Performs well on {name} ({value:.4f})"
+                            )
                         except (ValueError, TypeError):
                             key_features.append(f"Performs well on {name} ({value})")
                     else:
@@ -398,7 +413,9 @@ class PromptSampler:
         combined_programs_str = top_programs_str + diverse_programs_str
 
         # Format inspirations section
-        inspirations_section_str = self._format_inspirations_section(inspirations, language)
+        inspirations_section_str = self._format_inspirations_section(
+            inspirations, language
+        )
 
         # Combine into full history
         return history_template.format(
@@ -424,8 +441,12 @@ class PromptSampler:
             return ""
 
         # Get templates
-        inspirations_section_template = self.template_manager.get_template("inspirations_section")
-        inspiration_program_template = self.template_manager.get_template("inspiration_program")
+        inspirations_section_template = self.template_manager.get_template(
+            "inspirations_section"
+        )
+        inspiration_program_template = self.template_manager.get_template(
+            "inspiration_program"
+        )
 
         inspiration_programs_str = ""
 
@@ -574,7 +595,9 @@ class PromptSampler:
             content = self._safe_decode_artifact(value)
             # Truncate if too long
             if len(content) > self.config.max_artifact_bytes:
-                content = content[: self.config.max_artifact_bytes] + "\n... (truncated)"
+                content = (
+                    content[: self.config.max_artifact_bytes] + "\n... (truncated)"
+                )
 
             sections.append(f"### {key}\n```\n{content}\n```")
 
