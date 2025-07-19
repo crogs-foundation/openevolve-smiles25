@@ -1,4 +1,11 @@
 repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.8.0
+    hooks:
+      - id: uv-lock
+      - id: uv-export
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -9,13 +16,6 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    # uv version.
-    rev: 0.8.0
-    hooks:
-      - id: uv-lock
-      - id: uv-export
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.

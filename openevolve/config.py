@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 import yaml
+from dotenv import load_dotenv
 
 
 @dataclass
@@ -373,6 +374,7 @@ def load_config(config_path: Optional[Union[str, Path]] = None) -> Config:
         config = Config()
 
         # Use environment variables if available
+        load_dotenv()
         api_key = os.environ.get("OPENAI_API_KEY")
         api_base = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
 

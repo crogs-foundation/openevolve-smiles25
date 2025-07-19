@@ -20,6 +20,7 @@ dependencies = [
     "flask",
     "pre-commit>=4.2.0",
     "ruff>=0.12.4",
+    "python-dotenv>=1.1.1",
 ]
 
 [project.optional-dependencies]
