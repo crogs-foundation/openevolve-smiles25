@@ -226,10 +226,10 @@ def evaluate(program_path):
 class Evaluator:
     def evaluate_stage1(self, program_path):
         return {"stage1_score": 0.5}
-    
+
     def evaluate_stage2(self, program_path):
         return {"stage2_score": 0.7}
-    
+
     def evaluate(self, program_path):
         return {"score": 0.5}
 

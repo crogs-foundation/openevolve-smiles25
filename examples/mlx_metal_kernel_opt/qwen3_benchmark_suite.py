@@ -151,15 +151,15 @@ def binary_search(arr, target):
                     name="step_by_step_reasoning",
                     prompt="""Solve this step by step:
 
-A train travels from City A to City B at 80 mph. The distance is 240 miles. 
+A train travels from City A to City B at 80 mph. The distance is 240 miles.
 If it leaves at 2:00 PM, what time will it arrive? Show your work.""",
                     max_tokens=400,
                     description="Step-by-step reasoning - logical sequence patterns",
                 ),
                 BenchmarkConfig(
                     name="creative_writing",
-                    prompt="""Write a short story about a robot who discovers emotions for the first time. 
-Include dialogue and describe the robot's internal experience as it learns about feelings like 
+                    prompt="""Write a short story about a robot who discovers emotions for the first time.
+Include dialogue and describe the robot's internal experience as it learns about feelings like
 joy, sadness, and wonder. Make it engaging and thoughtful.""",
                     max_tokens=800,
                     description="Creative writing - diverse vocabulary and narrative",
@@ -168,7 +168,7 @@ joy, sadness, and wonder. Make it engaging and thoughtful.""",
                     name="technical_documentation",
                     prompt="""Create comprehensive documentation for a REST API with the following endpoints:
 - GET /users - List all users
-- POST /users - Create new user  
+- POST /users - Create new user
 - GET /users/{id} - Get specific user
 - PUT /users/{id} - Update user
 - DELETE /users/{id} - Delete user
@@ -181,8 +181,8 @@ Include request/response examples, error codes, and authentication details.""",
                     name="conversational_assistant",
                     prompt="""You are a helpful AI assistant. A user asks:
 
-"I'm planning a trip to Japan for 2 weeks. I've never been there before. I like 
-history, food, and nature. I have a moderate budget. Can you help me plan an 
+"I'm planning a trip to Japan for 2 weeks. I've never been there before. I like
+history, food, and nature. I have a moderate budget. Can you help me plan an
 itinerary with recommendations for cities to visit, things to do, and travel tips?"
 
 Provide a detailed, helpful response:""",
@@ -244,15 +244,15 @@ Provide a detailed, helpful response:""",
 
     def _create_medium_context_prompt(self) -> str:
         """Create medium-length context prompt"""
-        return """Context: Machine learning has revolutionized many industries in recent years. 
-From healthcare diagnosis to autonomous vehicles, AI systems are becoming increasingly 
-sophisticated. However, challenges remain in areas like interpretability, fairness, 
-and robustness. Recent advances in transformer architectures have shown remarkable 
-capabilities in natural language processing, while computer vision has benefited 
+        return """Context: Machine learning has revolutionized many industries in recent years.
+From healthcare diagnosis to autonomous vehicles, AI systems are becoming increasingly
+sophisticated. However, challenges remain in areas like interpretability, fairness,
+and robustness. Recent advances in transformer architectures have shown remarkable
+capabilities in natural language processing, while computer vision has benefited
 from innovations in convolutional neural networks and attention mechanisms.
 
-Question: Based on this context, analyze the current state of AI development and 
-predict the most important research directions for the next 5 years. Consider both 
+Question: Based on this context, analyze the current state of AI development and
+predict the most important research directions for the next 5 years. Consider both
 technical advances and societal implications."""
 
     def _create_long_context_prompt(self) -> str:
@@ -261,23 +261,23 @@ technical advances and societal implications."""
 
 Title: "Advances in Large Language Models: Architecture, Training, and Applications"
 
-Abstract: This paper reviews recent developments in large language models (LLMs), 
-focusing on architectural innovations, training methodologies, and real-world applications. 
-We examine the evolution from early transformer models to current state-of-the-art systems, 
+Abstract: This paper reviews recent developments in large language models (LLMs),
+focusing on architectural innovations, training methodologies, and real-world applications.
+We examine the evolution from early transformer models to current state-of-the-art systems,
 analyzing key improvements in efficiency, capability, and safety.
 
-Introduction: The field of natural language processing has undergone a paradigm shift 
-with the introduction of transformer-based architectures. Starting with the original 
-Transformer paper in 2017, we have witnessed exponential growth in model size and 
-capability. From GPT-1's 117M parameters to models with hundreds of billions of parameters, 
+Introduction: The field of natural language processing has undergone a paradigm shift
+with the introduction of transformer-based architectures. Starting with the original
+Transformer paper in 2017, we have witnessed exponential growth in model size and
+capability. From GPT-1's 117M parameters to models with hundreds of billions of parameters,
 the scaling trend has consistently led to emergent capabilities.
 
 Architecture Evolution: Modern LLMs incorporate several key innovations:
-1. Attention mechanisms have evolved from basic dot-product attention to more efficient 
+1. Attention mechanisms have evolved from basic dot-product attention to more efficient
 variants like sparse attention, local attention, and grouped query attention (GQA).
-2. Position encoding schemes have advanced from sinusoidal embeddings to learnable 
+2. Position encoding schemes have advanced from sinusoidal embeddings to learnable
 position encodings and rotary position embeddings (RoPE).
-3. Normalization techniques have shifted from post-norm to pre-norm configurations, 
+3. Normalization techniques have shifted from post-norm to pre-norm configurations,
 with RMSNorm becoming preferred over LayerNorm for efficiency.
 4. Activation functions have evolved from ReLU to GELU to SwiGLU for better performance.
 
@@ -287,9 +287,9 @@ Training Methodologies: The training of LLMs involves several sophisticated tech
 - Reinforcement learning from human feedback (RLHF)
 - Constitutional AI for improved safety and alignment
 
-Question: Given this comprehensive background, provide a detailed analysis of how 
-these architectural and training advances specifically impact inference efficiency 
-on mobile and edge devices. Consider memory requirements, computational complexity, 
+Question: Given this comprehensive background, provide a detailed analysis of how
+these architectural and training advances specifically impact inference efficiency
+on mobile and edge devices. Consider memory requirements, computational complexity,
 and potential optimization strategies."""
 
     def _create_very_long_context_prompt(self) -> str:
@@ -303,7 +303,7 @@ and potential optimization strategies."""
 Detailed Technical Analysis:
 
 Model Architecture Deep Dive:
-The transformer architecture consists of an encoder-decoder structure, though many 
+The transformer architecture consists of an encoder-decoder structure, though many
 modern LLMs use decoder-only architectures. The core components include:
 
 1. Multi-Head Attention Mechanism:
@@ -349,10 +349,10 @@ Inference Optimization Strategies:
 - Distillation to create smaller, faster models
 - Speculative decoding for improved throughput
 
-Now, considering all this technical detail and the specific challenges of deploying 
-large language models on resource-constrained devices, provide a comprehensive 
-analysis of optimization strategies specifically for Apple Silicon devices, 
-considering unified memory architecture, Metal Performance Shaders, and the 
+Now, considering all this technical detail and the specific challenges of deploying
+large language models on resource-constrained devices, provide a comprehensive
+analysis of optimization strategies specifically for Apple Silicon devices,
+considering unified memory architecture, Metal Performance Shaders, and the
 specific computational characteristics of M-series chips."""
         )
 
@@ -362,39 +362,39 @@ specific computational characteristics of M-series chips."""
         """Create prompt that builds context progressively"""
         return """Chapter 1: The Beginning
 
-In the early days of artificial intelligence, researchers dreamed of creating 
-machines that could think and reason like humans. The field began in the 1950s 
-with pioneers like Alan Turing, who proposed the famous Turing Test as a measure 
+In the early days of artificial intelligence, researchers dreamed of creating
+machines that could think and reason like humans. The field began in the 1950s
+with pioneers like Alan Turing, who proposed the famous Turing Test as a measure
 of machine intelligence.
 
-Chapter 2: Early Developments  
+Chapter 2: Early Developments
 
-The 1960s and 1970s saw the development of expert systems and symbolic AI. 
-Researchers focused on rule-based systems that could encode human knowledge 
-in formal logical structures. However, these systems were brittle and couldn't 
+The 1960s and 1970s saw the development of expert systems and symbolic AI.
+Researchers focused on rule-based systems that could encode human knowledge
+in formal logical structures. However, these systems were brittle and couldn't
 handle uncertainty or learning.
 
 Chapter 3: The Neural Network Revolution
 
-The 1980s brought renewed interest in neural networks, inspired by biological 
-neurons. Backpropagation was rediscovered, enabling the training of multi-layer 
+The 1980s brought renewed interest in neural networks, inspired by biological
+neurons. Backpropagation was rediscovered, enabling the training of multi-layer
 networks. This marked the beginning of connectionist AI approaches.
 
 Chapter 4: Machine Learning Boom
 
-The 1990s and 2000s saw machine learning become dominant. Support vector machines, 
-random forests, and ensemble methods proved effective for many practical problems. 
+The 1990s and 2000s saw machine learning become dominant. Support vector machines,
+random forests, and ensemble methods proved effective for many practical problems.
 The internet provided vast amounts of data to train these systems.
 
 Chapter 5: Deep Learning Era
 
-The 2010s marked the deep learning revolution. Convolutional neural networks 
-revolutionized computer vision, recurrent networks advanced natural language 
-processing, and deep reinforcement learning achieved superhuman performance 
+The 2010s marked the deep learning revolution. Convolutional neural networks
+revolutionized computer vision, recurrent networks advanced natural language
+processing, and deep reinforcement learning achieved superhuman performance
 in games like Go and Chess.
 
-Now, continue this historical narrative by writing Chapter 6, focusing on the 
-transformer era and large language models. Discuss the key innovations, 
+Now, continue this historical narrative by writing Chapter 6, focusing on the
+transformer era and large language models. Discuss the key innovations,
 breakthrough applications, and current challenges in the field."""
 
     def _create_maximum_context_prompt(self) -> str:

@@ -30,7 +30,7 @@ Check for syntax errors, import issues, or runtime exceptions
 ```
 ```
 
-#### ⚠️ **Validation Artifacts**  
+#### ⚠️ **Validation Artifacts**
 When geometric constraints are violated:
 ```
 ## Last Execution Output
@@ -92,7 +92,7 @@ Here's how artifacts help in a typical evolution scenario:
 **Generation N**: Program fails with overlapping circles
 ```python
 # Faulty code
-centers[5] = [0.3, 0.3]  
+centers[5] = [0.3, 0.3]
 centers[6] = [0.3, 0.3]  # Same position!
 radii[5] = radii[6] = 0.1
 ```
@@ -104,7 +104,7 @@ Circles 5 and 6 overlap: dist=0.000000, r1+r2=0.200000
 
 **Generation N+1**: LLM sees the overlap details and fixes it
 ```python
-# Fixed code  
+# Fixed code
 centers[5] = [0.3, 0.3]
 centers[6] = [0.5, 0.3]  # Different position!
 radii[5] = radii[6] = 0.1
@@ -115,7 +115,7 @@ This leads to faster convergence because the LLM gets specific, actionable feedb
 ### Backward Compatibility
 
 The artifacts enhancement is fully backward compatible:
-- **Existing evaluators** continue to work unchanged 
+- **Existing evaluators** continue to work unchanged
 - **Enhanced evaluators** return `EvaluationResult` with both metrics and artifacts
 - **Disable artifacts** by setting `export ENABLE_ARTIFACTS=false` if needed
 
@@ -153,7 +153,7 @@ In the first phase, we focused on exploring different fundamental approaches to 
 Configuration highlights:
 ```yaml
 max_iterations: 100
-population_size: 60  
+population_size: 60
 num_islands: 4
 exploitation_ratio: 0.7
 ```
@@ -170,7 +170,7 @@ After the initial exploration phase, we observed our solutions plateauing around
 Configuration highlights:
 ```yaml
 max_iterations: 100
-population_size: 70  
+population_size: 70
 num_islands: 5
 exploitation_ratio: 0.6
 ```
@@ -273,7 +273,7 @@ The breakthrough came when OpenEvolve discovered the power of mathematical optim
 # Final solution with scipy.optimize
 def construct_packing():
     # ... initialization code ...
-    
+
     # Objective function: Negative sum of radii (to maximize)
     def objective(x):
         centers = x[:2*n].reshape(n, 2)
@@ -284,7 +284,7 @@ def construct_packing():
     def constraint(x):
         centers = x[:2*n].reshape(n, 2)
         radii = x[2*n:]
-        
+
         # Overlap constraint
         overlap_constraints = []
         for i in range(n):
@@ -292,7 +292,7 @@ def construct_packing():
                 dist = np.sqrt(np.sum((centers[i] - centers[j])**2))
                 overlap_constraints.append(dist - (radii[i] + radii[j]))
         # ... boundary constraints ...
-        
+
     # Optimization using SLSQP
     result = minimize(objective, x0, method='SLSQP', bounds=bounds, constraints=constraints)
 ```

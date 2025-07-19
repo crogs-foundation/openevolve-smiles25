@@ -15,7 +15,7 @@ OpenEvolve implements a comprehensive evolutionary coding system with:
 - **Evolutionary Coding Agent**: LLM-guided evolution of entire code files (not just functions)
 - **Distributed Controller Loop**: Asynchronous pipeline coordinating LLMs, evaluators, and databases
 - **Program Database**: Storage and sampling of evolved programs with evaluation metrics
-- **Prompt Sampling**: Context-rich prompts with past programs, scores, and problem descriptions  
+- **Prompt Sampling**: Context-rich prompts with past programs, scores, and problem descriptions
 - **LLM Ensemble**: Multiple language models working together for code generation
 - **Multi-objective Optimization**: Simultaneous optimization of multiple evaluation metrics
 - **Checkpoint System**: Automatic saving and resuming of evolution state
@@ -25,14 +25,14 @@ OpenEvolve implements a comprehensive evolutionary coding system with:
 - **Default Reproducibility**: Seed=42 by default for immediate reproducible results
 - **Granular Control**: Per-component seeding for LLMs, database, and evaluation pipeline
 
-#### 🤖 **Advanced LLM Integration**  
+#### 🤖 **Advanced LLM Integration**
 - **Ensemble Sophistication**: Weighted model combinations with intelligent fallback strategies
 - **Test-Time Compute**: Integration with [optillm](https://github.com/codelion/optillm) for Mixture of Agents (MoA) and enhanced reasoning
 - **Universal API Support**: Works with any OpenAI-compatible endpoint (Anthropic, Google, local models)
 - **Plugin Ecosystem**: Support for optillm plugins (readurls, executecode, z3_solver, etc.)
 
 #### 🧬 **Evolution Algorithm Innovations**
-- **MAP-Elites Implementation**: Quality-diversity algorithm for balanced exploration/exploitation  
+- **MAP-Elites Implementation**: Quality-diversity algorithm for balanced exploration/exploitation
 - **Island-Based Evolution**: Multiple populations with periodic migration for diversity maintenance
 - **Inspiration vs Performance**: Sophisticated prompt engineering separating top performers from diverse inspirations
 - **Multi-Strategy Selection**: Elite, diverse, and exploratory program sampling strategies
@@ -69,12 +69,12 @@ OpenEvolve orchestrates a sophisticated evolutionary pipeline:
 ### Core Evolution Loop
 
 1. **Enhanced Prompt Sampler**: Creates rich prompts containing:
-   - Top-performing programs (for optimization guidance)  
+   - Top-performing programs (for optimization guidance)
    - Diverse inspiration programs (for creative exploration)
    - Execution artifacts and error feedback
    - Dynamic documentation fetching (via optillm plugins)
 
-2. **Intelligent LLM Ensemble**: 
+2. **Intelligent LLM Ensemble**:
    - Weighted model combinations for quality/speed tradeoffs
    - Test-time compute techniques (MoA, chain-of-thought, reflection)
    - Deterministic selection with comprehensive seeding
@@ -113,14 +113,14 @@ OpenEvolve uses the OpenAI SDK, which means it works with any LLM provider that 
    export OPENAI_API_KEY=your-api-key-here
    ```
 
-2. **Using Alternative LLM Providers**: 
+2. **Using Alternative LLM Providers**:
    - For providers other than OpenAI (e.g., Anthropic, Cohere, local models), update the `api_base` in your config.yaml:
    ```yaml
    llm:
      api_base: "https://your-provider-endpoint.com/v1"
    ```
-   
-3. **Maximum Flexibility with optillm**: 
+
+3. **Maximum Flexibility with optillm**:
    - For advanced routing, rate limiting, or using multiple providers, we recommend [optillm](https://github.com/codelion/optillm)
    - optillm acts as a proxy that can route requests to different LLMs based on your rules
    - Simply point `api_base` to your optillm instance:
@@ -269,20 +269,20 @@ llm:
     - name: "moa&readurls-gemini-2.0-flash"  # optillm test-time compute
       weight: 0.3
   temperature: 0.7
-  
+
 database:
   # MAP-Elites configuration
   population_size: 500
   num_islands: 5  # Island-based evolution
   migration_interval: 20
   feature_dimensions: ["complexity", "diversity"]  # Default quality-diversity features
-  
+
 evaluator:
   # Advanced evaluation features
   enable_artifacts: true  # Capture execution feedback
   cascade_evaluation: true  # Multi-stage testing
   use_llm_feedback: true  # AI-based code quality assessment
-  
+
 prompt:
   # Sophisticated prompt engineering
   num_top_programs: 3      # Performance examples
@@ -311,7 +311,7 @@ Only `complexity` and `diversity` are used as defaults because they work well ac
 database:
   feature_dimensions: ["complexity", "performance", "correctness"]  # Mix of built-in and custom
   # Per-dimension bin configuration (optional)
-  feature_bins: 
+  feature_bins:
     complexity: 10        # 10 bins for complexity
     performance: 20       # 20 bins for performance (from YOUR evaluator)
     correctness: 15       # 15 bins for correctness (from YOUR evaluator)
@@ -422,7 +422,7 @@ Below is the optimal packing found by OpenEvolve after 800 iterations:
 #### [Web Scraper with optillm](examples/web_scraper_optillm/)
 Demonstrates integration with [optillm](https://github.com/codelion/optillm) for test-time compute optimization, including:
 - **readurls plugin**: Automatic documentation fetching
-- **Mixture of Agents (MoA)**: Multi-response synthesis for improved accuracy  
+- **Mixture of Agents (MoA)**: Multi-response synthesis for improved accuracy
 - **Local model optimization**: Enhanced reasoning with smaller models
 
 #### [LLM Prompt Optimization](examples/llm_prompt_optimazation/)
@@ -482,5 +482,3 @@ If you use OpenEvolve in your research, please cite:
   url = {https://github.com/codelion/openevolve}
 }
 ```
-
-

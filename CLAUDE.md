@@ -67,7 +67,7 @@ python scripts/visualizer.py --path examples/function_minimization/openevolve_ou
 
 3. **Evaluator (`openevolve/evaluator.py`)**: Cascade evaluation pattern:
    - Stage 1: Quick validation
-   - Stage 2: Basic performance testing  
+   - Stage 2: Basic performance testing
    - Stage 3: Comprehensive evaluation
    - Programs must pass thresholds at each stage
 

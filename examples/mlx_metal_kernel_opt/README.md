@@ -15,7 +15,7 @@ Modern transformer models rely heavily on optimized attention kernels for effici
 ### 1.2 Target System
 
 - **Model**: Qwen3-0.6B with Grouped Query Attention (40 query heads : 8 key-value heads)
-- **Hardware**: Apple M-series GPUs with unified memory architecture  
+- **Hardware**: Apple M-series GPUs with unified memory architecture
 - **Framework**: MLX with custom Metal kernel integration
 - **Baseline**: `mx.fast.scaled_dot_product_attention`
 - **Evolution Target**: Metal shader source code implementing GQA attention computation
@@ -28,7 +28,7 @@ We employ OpenEvolve to automatically optimize the Metal kernel source code resp
 
 **Evolution Configuration**:
 - **Population Size**: 25 programs
-- **Generations**: 25 iterations  
+- **Generations**: 25 iterations
 - **Models**: Gemini 2.5 Flash (60%) + Gemini 2.5 Pro (40%)
 - **Selection**: Multi-objective optimization balancing performance and correctness
 
@@ -39,7 +39,7 @@ Each evolved kernel undergoes comprehensive evaluation:
 1. **Correctness Validation**: Numerical accuracy verification against MLX baseline
 2. **Performance Benchmarking**: 20 diverse inference scenarios covering:
    - Short context (16-64 tokens)
-   - Long context (512-2048 tokens) 
+   - Long context (512-2048 tokens)
    - Code generation
    - Sustained dialogue
    - Technical documentation
@@ -108,8 +108,8 @@ for (uint key_pos = 0; key_pos < SEQ_LEN; key_pos++) {
 #### 3.1.3 Memory Access Optimization
 ```metal
 // Pre-computed base indices for coalesced access
-const uint q_base = batch_idx * (NUM_HEADS * SEQ_LEN * HEAD_DIM) + 
-                    head_idx * (SEQ_LEN * HEAD_DIM) + 
+const uint q_base = batch_idx * (NUM_HEADS * SEQ_LEN * HEAD_DIM) +
+                    head_idx * (SEQ_LEN * HEAD_DIM) +
                     query_pos * HEAD_DIM;
 const uint kv_head_idx = head_idx / HEADS_PER_KV;  // Direct 5:1 mapping
 ```
@@ -120,7 +120,7 @@ const uint kv_head_idx = head_idx / HEADS_PER_KV;  // Direct 5:1 mapping
 
 The evolved kernel exploits specific Apple Silicon features:
 - **Unified Memory**: Optimized bandwidth utilization patterns
-- **SIMD Width**: 8-element vectors matching GPU vector units  
+- **SIMD Width**: 8-element vectors matching GPU vector units
 - **Thread Group Size**: 32-thread groups optimal for Apple GPUs
 - **Register Allocation**: Balanced computation vs. memory bandwidth
 
@@ -132,7 +132,7 @@ We evaluated the evolved kernel against MLX baseline across 20 comprehensive ben
 
 **Aggregate Performance Improvements**:
 - **Decode Speed**: +12.5% average improvement (σ = 38.3%)
-- **Prefill Speed**: +14.4% average improvement (σ = 17.6%)  
+- **Prefill Speed**: +14.4% average improvement (σ = 17.6%)
 - **Total Throughput**: +10.4% average improvement (σ = 30.7%)
 - **Memory Usage**: +0.99% average reduction (σ = 1.7%)
 
@@ -142,7 +142,7 @@ We evaluated the evolved kernel against MLX baseline across 20 comprehensive ben
 |--------------|----------------|------------------------|-------------------|
 | **Short Context** | 2 | -4.6% ± 3.8% | Mixed results on very short sequences |
 | **Long Context** | 6 | +8.1% ± 42.1% | High variance, strong improvements in some cases |
-| **Code Generation** | 1 | -16.5% | Performance regression |  
+| **Code Generation** | 1 | -16.5% | Performance regression |
 | **General Tasks** | 9 | +24.8% ± 35.4% | Strongest category with 106% peak improvement |
 | **Stress Tests** | 2 | +22.9% ± 31.5% | Robust performance under memory pressure |
 
@@ -150,7 +150,7 @@ We evaluated the evolved kernel against MLX baseline across 20 comprehensive ben
 
 **Distribution of Improvements**:
 - **Significant Gains** (>25%): 7/20 benchmarks
-- **Moderate Gains** (5-25%): 3/20 benchmarks  
+- **Moderate Gains** (5-25%): 3/20 benchmarks
 - **Neutral** (±5%): 4/20 benchmarks
 - **Regressions** (<-5%): 6/20 benchmarks
 
@@ -175,7 +175,7 @@ The evolved kernel shows workload-dependent performance characteristics:
 - **Long Sequences**: +73.9% improvement on extreme-length generation
 - **Memory Efficiency**: Consistent memory usage reduction
 
-**Limitations**:  
+**Limitations**:
 - **Short Sequences**: Limited improvement due to setup overhead
 - **Code Generation**: -16.5% regression suggesting suboptimal patterns for this workload
 - **Variance**: High performance variance across different sequence patterns
@@ -201,7 +201,7 @@ The evolved kernel shows workload-dependent performance characteristics:
 This work extends prior research in automated kernel optimization:
 
 - **AlphaTensor** [Fawzi et al., 2022]: Matrix multiplication algorithm discovery
-- **TensorIR** [Feng et al., 2023]: Tensor compiler optimization  
+- **TensorIR** [Feng et al., 2023]: Tensor compiler optimization
 - **Ansor** [Zheng et al., 2020]: Automated tensor program optimization
 
 Our approach differs by applying evolutionary optimization directly to GPU shader source code rather than higher-level tensor algebra, enabling discovery of hardware-specific optimizations that would be difficult to express in tensor IRs.
@@ -217,7 +217,7 @@ Our approach differs by applying evolutionary optimization directly to GPU shade
 ### 7.2 Future Directions
 
 - **Multi-Architecture**: Extend to CUDA, ROCm, and other GPU architectures
-- **Model Generalization**: Apply to different attention patterns and model sizes  
+- **Model Generalization**: Apply to different attention patterns and model sizes
 - **Algorithmic Expansion**: Explore evolution of other transformer components
 - **Cross-Compilation**: Develop architecture-agnostic optimization strategies
 

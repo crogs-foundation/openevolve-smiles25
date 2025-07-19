@@ -17,7 +17,7 @@ We need to develop a real-time signal processing algorithm that can:
 - **Type**: Univariate time series (1D array of real-valued samples)
 - **Properties**:
   - Non-linear dynamics
-  - Non-stationary statistical properties  
+  - Non-stationary statistical properties
   - Aperiodic (non-seasonal) behavior
   - High frequency variability and volatility
   - Rapidly changing spectral characteristics
@@ -220,7 +220,7 @@ This framework can be adapted for various domains:
 
 ### Evolution Timeline:
 1. **Early Stage (1-10 iterations)**: Discovered Savitzky-Golay adaptive filtering
-2. **Mid Evolution (10-100)**: Parameter optimization and technique refinement  
+2. **Mid Evolution (10-100)**: Parameter optimization and technique refinement
 3. **Breakthrough (100-130)**: Full Kalman Filter with adaptive initialization
 
 ### Final Performance Metrics:
@@ -238,7 +238,7 @@ class KalmanFilter:
         # State transition for constant velocity model
         self.F = np.array([[1, dt], [0, 1]])
         # Optimized process noise (100x improvement)
-        self.Q = G @ G.T * sigma_a_sq  
+        self.Q = G @ G.T * sigma_a_sq
         # Tuned measurement trust (55% improvement)
         self.R = measurement_noise
 ```

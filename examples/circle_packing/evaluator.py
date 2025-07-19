@@ -91,7 +91,7 @@ try:
     spec = __import__('importlib.util').util.spec_from_file_location("program", '{program_path}')
     program = __import__('importlib.util').util.module_from_spec(spec)
     spec.loader.exec_module(program)
-    
+
     # Run the packing function
     print("Calling run_packing()...")
     centers, radii, sum_radii = program.run_packing()
@@ -107,7 +107,7 @@ try:
     with open('{temp_file.name}.results', 'wb') as f:
         pickle.dump(results, f)
     print(f"Results saved to {temp_file.name}.results")
-    
+
 except Exception as e:
     # If an error occurs, save the error instead
     print(f"Error in subprocess: {{str(e)}}")

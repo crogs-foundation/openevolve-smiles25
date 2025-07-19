@@ -21,7 +21,7 @@ A practical example configuration demonstrating proper island-based evolution se
 ### `island_examples.yaml`
 Multiple example configurations for different scenarios:
 - **Maximum Diversity**: Many islands, frequent migration
-- **Focused Exploration**: Few islands, rare migration  
+- **Focused Exploration**: Few islands, rare migration
 - **Balanced Approach**: Default recommended settings
 - **Quick Exploration**: Small-scale rapid testing
 - **Large-Scale Evolution**: Complex optimization runs
@@ -35,7 +35,7 @@ The key new parameters for proper evolutionary diversity are:
 ```yaml
 database:
   num_islands: 5                      # Number of separate populations
-  migration_interval: 50              # Migrate every N generations  
+  migration_interval: 50              # Migrate every N generations
   migration_rate: 0.1                 # Fraction of top programs to migrate
 ```
 
@@ -67,7 +67,7 @@ Then use with OpenEvolve:
 from openevolve import OpenEvolve
 evolve = OpenEvolve(
     initial_program_path="program.py",
-    evaluation_file="evaluator.py", 
+    evaluation_file="evaluator.py",
     config_path="my_config.yaml"
 )
 ```

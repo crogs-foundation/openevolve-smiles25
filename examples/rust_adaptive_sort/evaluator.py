@@ -61,35 +61,35 @@ fn main() {
         // Random data
         generate_random_data(1000),
         generate_random_data(10000),
-        
+
         // Nearly sorted data
         generate_nearly_sorted_data(1000, 0.05),
         generate_nearly_sorted_data(10000, 0.05),
-        
+
         // Reverse sorted data
         generate_reverse_sorted_data(1000),
         generate_reverse_sorted_data(10000),
-        
+
         // Data with many duplicates
         generate_data_with_duplicates(1000, 10),
         generate_data_with_duplicates(10000, 100),
-        
+
         // Partially sorted data
         generate_partially_sorted_data(1000, 0.3),
         generate_partially_sorted_data(10000, 0.3),
     ];
-    
+
     let results = run_benchmark(test_data);
-    
+
     // Calculate metrics
     let all_correct = results.correctness.iter().all(|&c| c);
     let correctness_score = if all_correct { 1.0 } else { 0.0 };
-    
+
     let avg_time: f64 = results.times.iter().sum::<f64>() / results.times.len() as f64;
-    
+
     // Performance score (normalized, assuming baseline of 0.1 seconds for largest dataset)
     let performance_score = 1.0 / (1.0 + avg_time * 10.0);
-    
+
     // Output results as JSON
     println!("{{");
     println!("  \\"correctness\\": {},", correctness_score);
@@ -108,13 +108,13 @@ fn generate_random_data(size: usize) -> Vec<i32> {
 fn generate_nearly_sorted_data(size: usize, disorder_rate: f64) -> Vec<i32> {
     let mut data: Vec<i32> = (0..size as i32).collect();
     let swaps = (size as f64 * disorder_rate) as usize;
-    
+
     for _ in 0..swaps {
         let i = rand::random::<usize>() % size;
         let j = rand::random::<usize>() % size;
         data.swap(i, j);
     }
-    
+
     data
 }
 
@@ -129,13 +129,13 @@ fn generate_data_with_duplicates(size: usize, unique_values: usize) -> Vec<i32> 
 fn generate_partially_sorted_data(size: usize, sorted_fraction: f64) -> Vec<i32> {
     let sorted_size = (size as f64 * sorted_fraction) as usize;
     let mut data = Vec::with_capacity(size);
-    
+
     // Add sorted portion
     data.extend((0..sorted_size as i32));
-    
+
     // Add random portion
     data.extend((0..(size - sorted_size)).map(|_| rand::random::<i32>() % 10000));
-    
+
     data
 }
 
@@ -143,7 +143,7 @@ fn generate_partially_sorted_data(size: usize, sorted_fraction: f64) -> Vec<i32>
 mod rand {
     use std::cell::Cell;
     use std::time::{SystemTime, UNIX_EPOCH};
-    
+
     thread_local! {
         static SEED: Cell<u64> = Cell::new(
             SystemTime::now()
@@ -152,7 +152,7 @@ mod rand {
                 .as_secs()
         );
     }
-    
+
     pub fn random<T>() -> T
     where
         T: From<u64>,

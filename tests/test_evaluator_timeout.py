@@ -32,7 +32,7 @@ def evaluate(program_path):
     # Read the program to determine behavior
     with open(program_path, 'r') as f:
         code = f.read()
-    
+
     if 'SLEEP_LONG' in code:
         # Sleep for a long time to trigger timeout (reduced for faster tests)
         time.sleep(8)
@@ -51,7 +51,7 @@ def evaluate(program_path):
 def evaluate_stage1(program_path):
     with open(program_path, 'r') as f:
         code = f.read()
-    
+
     if 'STAGE1_TIMEOUT' in code:
         time.sleep(8)
         return {"stage1_score": 1.0}
@@ -61,7 +61,7 @@ def evaluate_stage1(program_path):
 def evaluate_stage2(program_path):
     with open(program_path, 'r') as f:
         code = f.read()
-    
+
     if 'STAGE2_TIMEOUT' in code:
         time.sleep(8)
         return {"stage2_score": 1.0}
@@ -71,7 +71,7 @@ def evaluate_stage2(program_path):
 def evaluate_stage3(program_path):
     with open(program_path, 'r') as f:
         code = f.read()
-    
+
     if 'STAGE3_TIMEOUT' in code:
         time.sleep(8)
         return {"stage3_score": 1.0}
@@ -433,7 +433,7 @@ class TestTimeoutIntegration(unittest.TestCase):
 import time
 
 def evaluate(program_path):
-    # Simulate a very long evaluation (like the 11-hour case) 
+    # Simulate a very long evaluation (like the 11-hour case)
     time.sleep(6)  # 6 seconds to test timeout (reduced for faster tests)
     return {"accReturn": 0.1, "CalmarRatio": 0.9, "combined_score": 0.82}
 """

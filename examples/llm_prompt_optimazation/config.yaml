@@ -49,7 +49,7 @@ database:
 
 # Evaluator configuration
 evaluator:
-  timeout: 45  
+  timeout: 45
   use_llm_feedback: true
 
 # Evolution settings

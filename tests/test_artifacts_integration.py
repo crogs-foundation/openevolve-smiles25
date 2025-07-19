@@ -43,9 +43,9 @@ def evaluate(program_path):
         # Try to compile the program
         with open(program_path, 'r') as f:
             code = f.read()
-        
+
         compile(code, program_path, 'exec')
-        
+
         # If compilation succeeds, return good metrics
         return EvaluationResult(
             metrics={"compile_ok": 1.0, "score": 0.8},
@@ -67,7 +67,7 @@ def evaluate_stage1(program_path):
     try:
         with open(program_path, 'r') as f:
             code = f.read()
-        
+
         compile(code, program_path, 'exec')
         return {"stage1_passed": 1.0, "compile_ok": 1.0}
     except Exception as e:

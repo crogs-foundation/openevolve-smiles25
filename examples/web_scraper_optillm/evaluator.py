@@ -137,7 +137,7 @@ def get_test_cases() -> List[Dict[str, Any]]:
                 <div class="section">
                     <h1>json — JSON encoder and decoder</h1>
                     <p>Source: https://docs.python.org/3/library/json.html</p>
-                    
+
                     <dl class="function">
                         <dt class="sig sig-object py">
                             <span class="sig-name descname">dumps</span>
@@ -150,7 +150,7 @@ def get_test_cases() -> List[Dict[str, Any]]:
                             <p>Serialize obj to a JSON formatted string.</p>
                         </dd>
                     </dl>
-                    
+
                     <dl class="function">
                         <dt class="sig sig-object py">
                             <span class="sig-name descname">loads</span>
@@ -179,12 +179,12 @@ def get_test_cases() -> List[Dict[str, Any]]:
                 <div class="document">
                     <h1>Requests Documentation</h1>
                     <p>Refer to https://requests.readthedocs.io/en/latest/api/ for full API</p>
-                    
+
                     <div class="function">
                         <h3>requests.get(url, params=None, **kwargs)</h3>
                         <p>Sends a GET request.</p>
                     </div>
-                    
+
                     <div class="function">
                         <h3>requests.post(url, data=None, json=None, **kwargs)</h3>
                         <p>Sends a POST request.</p>
@@ -206,17 +206,17 @@ def get_test_cases() -> List[Dict[str, Any]]:
                 <div class="section">
                     <h1>BeautifulSoup Documentation</h1>
                     <p>Documentation at https://www.crummy.com/software/BeautifulSoup/bs4/doc/</p>
-                    
+
                     <code class="python">
                         <span class="name">BeautifulSoup</span>(<span class="param">markup</span>, <span class="param">parser</span>)
                     </code>
                     <p>Parse a string using a specified parser.</p>
-                    
+
                     <code class="python">
                         <span class="name">find</span>(<span class="param">name</span>, <span class="param">attrs</span>=<span class="default">None</span>)
                     </code>
                     <p>Find the first matching tag.</p>
-                    
+
                     <code class="python">
                         <span class="name">find_all</span>(<span class="param">name</span>, <span class="param">attrs</span>=<span class="default">None</span>, <span class="param">limit</span>=<span class="default">None</span>)
                     </code>
@@ -239,12 +239,12 @@ def get_test_cases() -> List[Dict[str, Any]]:
                 <div class="weird-format">
                     <h2>Unusual Documentation Format</h2>
                     <p>This tests robustness - check https://example.com/weird-api-docs</p>
-                    
+
                     <pre>
                     function_name(arg1, arg2=default_value)
                     Another description here
                     </pre>
-                    
+
                     <table>
                         <tr>
                             <td>another_func()</td>
