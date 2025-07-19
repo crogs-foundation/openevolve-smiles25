@@ -117,6 +117,7 @@ class OpenAILLM(LLMInterface):
                     logger.error(f"All {retries + 1} attempts failed with timeout")
                     raise
             except Exception as e:
+                print(self.api_key)
                 if attempt < retries:
                     logger.warning(
                         f"Error on attempt {attempt + 1}/{retries + 1}: {str(e)}. Retrying..."

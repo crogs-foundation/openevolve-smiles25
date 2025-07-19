@@ -3,6 +3,7 @@ Configuration handling for OpenEvolve
 """
 
 import os
+from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
@@ -17,7 +18,7 @@ class LLMModelConfig:
 
     # API configuration
     api_base: str = None
-    api_key: Optional[str] = None
+    api_key: str = "DEFAULT_API_KEY"
     name: str = None
 
     # Weight for model in ensemble
@@ -68,7 +69,7 @@ class LLMConfig(LLMModelConfig):
     evaluator_models: List[LLMModelConfig] = field(default_factory=lambda: [])
 
     # Backwardes compatibility with primary_model(_weight) options
-    primary_model: str = None
+    primary_model: Optional[str] = None
     primary_model_weight: float = None
     secondary_model: str = None
     secondary_model_weight: float = None
@@ -96,7 +97,7 @@ class LLMConfig(LLMModelConfig):
 
         # If no evaluator models are defined, use the same models as for evolution
         if not self.evaluator_models or len(self.evaluator_models) < 1:
-            self.evaluator_models = self.models.copy()
+            self.evaluator_models = deepcopy(self.models)
 
         # Update models with shared configuration values
         shared_config = {
@@ -250,7 +251,7 @@ class Config:
     @classmethod
     def from_yaml(cls, path: Union[str, Path]) -> "Config":
         """Load configuration from a YAML file"""
-        with open(path, "r") as f:
+        with open(path, "r", encoding="utf-8") as f:
             config_dict = yaml.safe_load(f)
         return cls.from_dict(config_dict)
 
@@ -373,12 +374,13 @@ def load_config(config_path: Optional[Union[str, Path]] = None) -> Config:
     else:
         config = Config()
 
-        # Use environment variables if available
-        load_dotenv()
-        api_key = os.environ.get("OPENAI_API_KEY")
-        api_base = os.environ.get("OPENAI_API_BASE", "https://api.openai.com/v1")
+    # Use environment variables if available
+    load_dotenv()
+    for model in config.llm.models + config.llm.evaluator_models:
+        print(model.api_key, os.environ.get(model.api_key))
+        model.api_key = os.environ.get(model.api_key, "https://api.openai.com/v1")
 
-        config.llm.update_model_params({"api_key": api_key, "api_base": api_base})
+    # config.llm.update_model_params({"api_key": api_key, "api_base": api_base})
 
     # Make the system message available to the individual models, in case it is not provided from the prompt sampler
     config.llm.update_model_params({"system_message": config.prompt.system_message})

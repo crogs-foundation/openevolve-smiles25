@@ -7,9 +7,9 @@ import logging
 import random
 from typing import Dict, List
 
+from openevolve.config import LLMModelConfig
 from openevolve.llm.base import LLMInterface
 from openevolve.llm.openai import OpenAILLM
-from openevolve.config import LLMModelConfig
 
 logger = logging.getLogger(__name__)
 

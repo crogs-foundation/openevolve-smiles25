@@ -15,13 +15,8 @@ from openevolve.evaluator import Evaluator
 from openevolve.llm.ensemble import LLMEnsemble
 from openevolve.prompt.sampler import PromptSampler
 from openevolve.threaded_parallel import ImprovedParallelController
-from openevolve.utils.code_utils import (
-    extract_code_language,
-)
-from openevolve.utils.format_utils import (
-    format_metrics_safe,
-    format_improvement_safe,
-)
+from openevolve.utils.code_utils import extract_code_language
+from openevolve.utils.format_utils import format_improvement_safe, format_metrics_safe
 
 logger = logging.getLogger(__name__)
 
@@ -95,9 +90,10 @@ class OpenEvolve:
 
         # Set random seed for reproducibility if specified
         if self.config.random_seed is not None:
-            import random
-            import numpy as np
             import hashlib
+            import random
+
+            import numpy as np
 
             # Set global random seeds
             random.seed(self.config.random_seed)

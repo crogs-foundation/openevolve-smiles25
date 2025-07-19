@@ -122,22 +122,40 @@ OpenEvolve uses the OpenAI SDK, which means it works with any LLM provider that 
 1. **Set the API Key**: Export the `OPENAI_API_KEY` environment variable:
 
    ```bash
-   export OPENAI_API_KEY=your-api-key-here
+   export DEFAULT_API_KEY=your-api-key-here
+   ```
+
+   Alternatively, add it to `.env`:
+
+   ```bash
+    DEFAULT_API_KEY=your-api-key-here
    ```
 
 2. **Using Alternative LLM Providers**:
 
-   - For providers other than OpenAI (e.g., Anthropic, Cohere, local models), update the `api_base` in your config.yaml:
+   - For providers other than OpenAI (e.g., Anthropic, Cohere, local models), update the `api_base` and `api_key` in your config.yaml:
 
    ```yaml
    llm:
-     api_base: "https://your-provider-endpoint.com/v1"
+      models:
+        - ...
+          api_base: "https://your-provider-endpoint.com/v1"
+          api_base: "CUSTOM_API_KEY"
+   ```
+
+   And then add you custom API key to the `.env` file:
+
+   ```bash
+   DEFAULT_API_KEY=your-api-key-here
+   CUSTOM_API_KEY=your-another-api-key-here
    ```
 
 3. **Maximum Flexibility with optillm**:
+
    - For advanced routing, rate limiting, or using multiple providers, we recommend [optillm](https://github.com/codelion/optillm)
    - optillm acts as a proxy that can route requests to different LLMs based on your rules
    - Simply point `api_base` to your optillm instance:
+
    ```yaml
    llm:
      api_base: "http://localhost:8000/v1"
@@ -212,7 +230,7 @@ python openevolve-run.py examples/function_minimization/initial_program.py \
 
 Each checkpoint directory contains the best program found up to that point, making it easy to compare solutions over time:
 
-```
+```text
 checkpoints/
   checkpoint_10/
     best_program.py         # Best program at iteration 10

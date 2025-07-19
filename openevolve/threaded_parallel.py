@@ -5,15 +5,15 @@ Improved parallel processing using threads with shared memory
 import asyncio
 import logging
 import threading
-from concurrent.futures import ThreadPoolExecutor, Future
+from concurrent.futures import Future, ThreadPoolExecutor
 from typing import Optional
 
 from openevolve.config import Config
 from openevolve.database import ProgramDatabase
 from openevolve.evaluator import Evaluator
+from openevolve.iteration import run_iteration_with_shared_db
 from openevolve.llm.ensemble import LLMEnsemble
 from openevolve.prompt.sampler import PromptSampler
-from openevolve.iteration import run_iteration_with_shared_db
 
 logger = logging.getLogger(__name__)
 

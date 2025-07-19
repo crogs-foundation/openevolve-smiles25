@@ -9,7 +9,6 @@ import os
 import sys
 
 from openevolve import OpenEvolve
-from openevolve.config import load_config
 
 logger = logging.getLogger(__name__)
 
@@ -60,15 +59,6 @@ def parse_args() -> argparse.Namespace:
         help="Path to checkpoint directory to resume from (e.g., openevolve_output/checkpoints/checkpoint_50)",
         default=None,
     )
-
-    parser.add_argument("--api-base", help="Base URL for the LLM API", default=None)
-
-    parser.add_argument("--primary-model", help="Primary LLM model name", default=None)
-
-    parser.add_argument(
-        "--secondary-model", help="Secondary LLM model name", default=None
-    )
-
     return parser.parse_args()
 
 
@@ -92,22 +82,22 @@ async def main_async() -> int:
 
     # Create config object with command-line overrides
     config = None
-    if args.api_base or args.primary_model or args.secondary_model:
-        # Load base config from file or defaults
-        config = load_config(args.config)
+    # if args.api_base or args.primary_model or args.secondary_model:
+    #     # Load base config from file or defaults
+    #     config = load_config(args.config)
 
-        # Apply command-line overrides
-        if args.api_base:
-            config.llm.api_base = args.api_base
-            print(f"Using API base: {config.llm.api_base}")
+    #     # Apply command-line overrides
+    #     if args.api_base:
+    #         config.llm.api_base = args.api_base
+    #         print(f"Using API base: {config.llm.api_base}")
 
-        if args.primary_model:
-            config.llm.primary_model = args.primary_model
-            print(f"Using primary model: {config.llm.primary_model}")
+    #     if args.primary_model:
+    #         config.llm.primary_model = args.primary_model
+    #         print(f"Using primary model: {config.llm.primary_model}")
 
-        if args.secondary_model:
-            config.llm.secondary_model = args.secondary_model
-            print(f"Using secondary model: {config.llm.secondary_model}")
+    #     if args.secondary_model:
+    #         config.llm.secondary_model = args.secondary_model
+    #         print(f"Using secondary model: {config.llm.secondary_model}")
 
     # Initialize OpenEvolve
     try:
