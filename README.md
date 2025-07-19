@@ -21,17 +21,20 @@ OpenEvolve implements a comprehensive evolutionary coding system with:
 - **Checkpoint System**: Automatic saving and resuming of evolution state
 
 #### 🔬 **Scientific Reproducibility**
+
 - **Comprehensive Seeding**: Full deterministic reproduction with hash-based component isolation
 - **Default Reproducibility**: Seed=42 by default for immediate reproducible results
 - **Granular Control**: Per-component seeding for LLMs, database, and evaluation pipeline
 
 #### 🤖 **Advanced LLM Integration**
+
 - **Ensemble Sophistication**: Weighted model combinations with intelligent fallback strategies
 - **Test-Time Compute**: Integration with [optillm](https://github.com/codelion/optillm) for Mixture of Agents (MoA) and enhanced reasoning
 - **Universal API Support**: Works with any OpenAI-compatible endpoint (Anthropic, Google, local models)
 - **Plugin Ecosystem**: Support for optillm plugins (readurls, executecode, z3_solver, etc.)
 
 #### 🧬 **Evolution Algorithm Innovations**
+
 - **MAP-Elites Implementation**: Quality-diversity algorithm for balanced exploration/exploitation
 - **Island-Based Evolution**: Multiple populations with periodic migration for diversity maintenance
 - **Inspiration vs Performance**: Sophisticated prompt engineering separating top performers from diverse inspirations
@@ -39,23 +42,27 @@ OpenEvolve implements a comprehensive evolutionary coding system with:
 - **Adaptive Feature Dimensions**: Default features (complexity & diversity) with customizable multi-dimensional search spaces
 
 #### 📊 **Evaluation & Feedback Systems**
+
 - **Artifacts Side-Channel**: Capture build errors, profiling data, and execution feedback for LLM improvement
 - **Cascade Evaluation**: Multi-stage testing with progressive complexity for efficient resource usage
 - **LLM-Based Feedback**: Automated code quality assessment and reasoning capture
 - **Comprehensive Error Handling**: Graceful recovery from evaluation failures with detailed diagnostics
 
 #### 🌐 **Multi-Language & Platform Support**
+
 - **Language Agnostic**: Python, Rust, R, Metal shaders, and more
 - **Platform Optimization**: Apple Silicon GPU kernels, CUDA optimization, CPU-specific tuning
 - **Framework Integration**: MLX, PyTorch, scientific computing libraries
 
 #### 🔧 **Developer Experience & Tooling**
+
 - **Real-Time Visualization**: Interactive web-based evolution tree viewer with performance analytics
 - **Advanced CLI**: Rich command-line interface with checkpoint management and configuration override
 - **Comprehensive Examples**: 12+ diverse examples spanning optimization, ML, systems programming, and scientific computing
 - **Error Recovery**: Robust checkpoint loading with automatic fix for common serialization issues
 
 #### 🚀 **Performance & Scalability**
+
 - **Threaded Parallelism**: High-throughput asynchronous evaluation pipeline
 - **Resource Management**: Memory limits, timeouts, and resource monitoring
 - **Efficient Storage**: Optimized database with artifact management and cleanup policies
@@ -69,17 +76,20 @@ OpenEvolve orchestrates a sophisticated evolutionary pipeline:
 ### Core Evolution Loop
 
 1. **Enhanced Prompt Sampler**: Creates rich prompts containing:
+
    - Top-performing programs (for optimization guidance)
    - Diverse inspiration programs (for creative exploration)
    - Execution artifacts and error feedback
    - Dynamic documentation fetching (via optillm plugins)
 
 2. **Intelligent LLM Ensemble**:
+
    - Weighted model combinations for quality/speed tradeoffs
    - Test-time compute techniques (MoA, chain-of-thought, reflection)
    - Deterministic selection with comprehensive seeding
 
 3. **Advanced Evaluator Pool**:
+
    - Multi-stage cascade evaluation
    - Artifact collection for detailed feedback
    - LLM-based code quality assessment
@@ -96,6 +106,7 @@ OpenEvolve orchestrates a sophisticated evolutionary pipeline:
 ### Installation
 
 To install natively, use:
+
 ```bash
 git clone https://github.com/codelion/openevolve.git
 cd openevolve
@@ -109,12 +120,15 @@ pip install -e .
 OpenEvolve uses the OpenAI SDK, which means it works with any LLM provider that supports an OpenAI-compatible API:
 
 1. **Set the API Key**: Export the `OPENAI_API_KEY` environment variable:
+
    ```bash
    export OPENAI_API_KEY=your-api-key-here
    ```
 
 2. **Using Alternative LLM Providers**:
+
    - For providers other than OpenAI (e.g., Anthropic, Cohere, local models), update the `api_base` in your config.yaml:
+
    ```yaml
    llm:
      api_base: "https://your-provider-endpoint.com/v1"
@@ -173,6 +187,7 @@ python openevolve-run.py path/to/initial_program.py path/to/evaluator.py \
 ```
 
 When resuming from a checkpoint:
+
 - The system loads all previously evolved programs and their metrics
 - Checkpoint numbering continues from where it left off (e.g., if loaded from checkpoint_50, the next checkpoint will be checkpoint_60)
 - All evolution state is preserved (best programs, feature maps, archives, etc.)
@@ -235,6 +250,7 @@ python scripts/visualizer.py --path examples/function_minimization/openevolve_ou
 ```
 
 In the visualization UI, you can
+
 - see the branching of your program evolution in a network visualization, with node radius chosen by the program fitness (= the currently selected metric),
 - see the parent-child relationship of nodes and click through them in the sidebar (use the yellow locator icon in the sidebar to center the node in the graph),
 - select the metric of interest (with the available metric choices depending on your data set),
@@ -247,6 +263,7 @@ In the visualization UI, you can
 ### Docker
 
 You can also install and execute via Docker:
+
 ```bash
 docker build -t openevolve .
 docker run --rm -v $(pwd):/app --network="host" openevolve examples/function_minimization/initial_program.py examples/function_minimization/evaluator.py --config examples/function_minimization/config.yaml --iterations 1000
@@ -259,38 +276,39 @@ OpenEvolve is highly configurable with advanced options:
 ```yaml
 # Example configuration showcasing advanced features
 max_iterations: 1000
-random_seed: 42  # Full reproducibility by default
+random_seed: 42 # Full reproducibility by default
 
 llm:
   # Advanced ensemble configuration
   models:
     - name: "gemini-2.0-flash-lite"
       weight: 0.7
-    - name: "moa&readurls-gemini-2.0-flash"  # optillm test-time compute
+    - name: "moa&readurls-gemini-2.0-flash" # optillm test-time compute
       weight: 0.3
   temperature: 0.7
 
 database:
   # MAP-Elites configuration
   population_size: 500
-  num_islands: 5  # Island-based evolution
+  num_islands: 5 # Island-based evolution
   migration_interval: 20
-  feature_dimensions: ["complexity", "diversity"]  # Default quality-diversity features
+  feature_dimensions: ["complexity", "diversity"] # Default quality-diversity features
 
 evaluator:
   # Advanced evaluation features
-  enable_artifacts: true  # Capture execution feedback
-  cascade_evaluation: true  # Multi-stage testing
-  use_llm_feedback: true  # AI-based code quality assessment
+  enable_artifacts: true # Capture execution feedback
+  cascade_evaluation: true # Multi-stage testing
+  use_llm_feedback: true # AI-based code quality assessment
 
 prompt:
   # Sophisticated prompt engineering
-  num_top_programs: 3      # Performance examples
-  num_diverse_programs: 2  # Creative inspiration
-  include_artifacts: true  # Execution feedback
+  num_top_programs: 3 # Performance examples
+  num_diverse_programs: 2 # Creative inspiration
+  include_artifacts: true # Execution feedback
 ```
 
 Sample configuration files are available in the `configs/` directory:
+
 - `default_config.yaml`: Comprehensive configuration with all available options
 - `island_config_example.yaml`: Advanced island-based evolution setup
 
@@ -301,20 +319,22 @@ Feature dimensions control how programs are organized in the MAP-Elites quality-
 **Default Features**: If `feature_dimensions` is NOT specified in your config, OpenEvolve uses `["complexity", "diversity"]` as defaults.
 
 **Built-in Features** (always computed internally by OpenEvolve):
+
 - **complexity**: Code length (recommended default)
 - **diversity**: Code structure diversity compared to other programs (recommended default)
 
 Only `complexity` and `diversity` are used as defaults because they work well across all program types.
 
 **Custom Features**: You can mix built-in features with metrics from your evaluator:
+
 ```yaml
 database:
-  feature_dimensions: ["complexity", "performance", "correctness"]  # Mix of built-in and custom
+  feature_dimensions: ["complexity", "performance", "correctness"] # Mix of built-in and custom
   # Per-dimension bin configuration (optional)
   feature_bins:
-    complexity: 10        # 10 bins for complexity
-    performance: 20       # 20 bins for performance (from YOUR evaluator)
-    correctness: 15       # 15 bins for correctness (from YOUR evaluator)
+    complexity: 10 # 10 bins for complexity
+    performance: 20 # 20 bins for performance (from YOUR evaluator)
+    correctness: 15 # 15 bins for correctness (from YOUR evaluator)
 ```
 
 **Important**: OpenEvolve will raise an error if a specified feature is not found in the evaluator's metrics. This ensures your configuration is correct. The error message will show available metrics to help you fix the configuration.
@@ -324,6 +344,7 @@ See the [Configuration Guide](configs/default_config.yaml) for a full list of op
 ### Default Metric for Program Selection
 
 When comparing and selecting programs, OpenEvolve uses the following priority:
+
 1. **combined_score**: If your evaluator returns a `combined_score` metric, it will be used as the primary fitness measure
 2. **Average of all metrics**: If no `combined_score` is provided, OpenEvolve calculates the average of all numeric metrics returned by your evaluator
 
@@ -351,18 +372,23 @@ return EvaluationResult(
 ```
 
 The next generation prompt will include:
+
 ```markdown
 ## Last Execution Output
+
 ### Stderr
+
 SyntaxError: invalid syntax (line 15)
 
 ### Traceback
+
 ...
 ```
 
 ## Example: LLM Feedback
 
 An example for an LLM artifact side channel is part of the default evaluation template, which ends with
+
 ```markdown
 Return your evaluation as a JSON object with the following format:
 {{
@@ -372,6 +398,7 @@ Return your evaluation as a JSON object with the following format:
     "reasoning": "[brief explanation of scores]"
 }}
 ```
+
 The non-float values, in this case the "reasoning" key of the json response that the evaluator LLM generates, will be available within the next generation prompt.
 
 ### Configuration
@@ -385,7 +412,7 @@ evaluator:
 
 prompt:
   include_artifacts: true
-  max_artifact_bytes: 4096  # 4KB limit in prompts
+  max_artifact_bytes: 4096 # 4KB limit in prompts
   artifact_security_filter: true
 ```
 
@@ -408,9 +435,11 @@ See the `examples/` directory for complete examples of using OpenEvolve on vario
 ### Mathematical Optimization
 
 #### [Function Minimization](examples/function_minimization/)
+
 A comprehensive example demonstrating evolution from random search to sophisticated simulated annealing.
 
 #### [Circle Packing](examples/circle_packing/)
+
 Our implementation of the circle packing problem. For the n=26 case, we achieve state-of-the-art results matching published benchmarks.
 
 Below is the optimal packing found by OpenEvolve after 800 iterations:
@@ -420,45 +449,54 @@ Below is the optimal packing found by OpenEvolve after 800 iterations:
 ### Advanced AI & LLM Integration
 
 #### [Web Scraper with optillm](examples/web_scraper_optillm/)
+
 Demonstrates integration with [optillm](https://github.com/codelion/optillm) for test-time compute optimization, including:
+
 - **readurls plugin**: Automatic documentation fetching
 - **Mixture of Agents (MoA)**: Multi-response synthesis for improved accuracy
 - **Local model optimization**: Enhanced reasoning with smaller models
 
 #### [LLM Prompt Optimization](examples/llm_prompt_optimazation/)
+
 Evolving prompts themselves for better LLM performance, demonstrating self-improving AI systems.
 
 ### Systems & Performance Optimization
 
 #### [MLX Metal Kernel Optimization](examples/mlx_metal_kernel_opt/)
+
 Automated discovery of custom GPU kernels for Apple Silicon, achieving:
+
 - **2-3x speedup** over baseline attention implementations
 - **Hardware-aware optimizations** for unified memory architecture
 - **Metal shader evolution** with numerical correctness validation
 
 #### [Rust Adaptive Sort](examples/rust_adaptive_sort/)
+
 Evolution of sorting algorithms that adapt to data patterns, showcasing OpenEvolve's language-agnostic capabilities.
 
 ### Scientific Computing & Discovery
 
 #### [Symbolic Regression](examples/symbolic_regression/)
+
 A comprehensive example demonstrating automated discovery of mathematical expressions from scientific datasets using the LLM-SRBench benchmark.
 
 #### [R Robust Regression](examples/r_robust_regression/)
+
 Developing robust regression methods resistant to outliers using R language support.
 
 #### [Signal Processing](examples/signal_processing/)
+
 Automated design of digital filters with superior performance characteristics.
 
 ### Web and Integration Examples
 
 #### [Online Judge Programming](examples/online_judge_programming/)
+
 Automated competitive programming solution generation with external evaluation systems.
 
 #### [LM-Eval Integration](examples/lm_eval/)
+
 Working with standard ML evaluation harnesses for automated benchmark improvement.
-
-
 
 ## Preparing Your Own Problems
 

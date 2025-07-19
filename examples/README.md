@@ -25,6 +25,7 @@ def helper_function():
 ```
 
 **Critical Requirements:**
+
 - ✅ **Exactly one EVOLVE-BLOCK** (not multiple blocks)
 - ✅ Use `# EVOLVE-BLOCK-START` and `# EVOLVE-BLOCK-END` markers
 - ✅ Put only the code you want evolved inside the block
@@ -60,6 +61,7 @@ def evaluate(program_path: str) -> Dict:
 ```
 
 **Critical Requirements:**
+
 - ✅ **Return a dictionary**, not `EvaluationResult` object
 - ✅ **Must include `'combined_score'`** - this is the primary metric OpenEvolve uses
 - ✅ Higher `combined_score` values should indicate better programs
@@ -77,7 +79,7 @@ parallel_evaluations: 1
 
 # LLM configuration
 llm:
-  api_base: "https://api.openai.com/v1"  # Or your LLM provider
+  api_base: "https://api.openai.com/v1" # Or your LLM provider
   models:
     - name: "gpt-4"
       weight: 1.0
@@ -90,7 +92,7 @@ database:
   population_size: 50
   num_islands: 3
   migration_interval: 10
-  feature_dimensions:  # MUST be a list, not an integer
+  feature_dimensions: # MUST be a list, not an integer
     - "score"
     - "complexity"
 
@@ -114,6 +116,7 @@ log_level: "INFO"
 ```
 
 **Critical Requirements:**
+
 - ✅ **`feature_dimensions` must be a list** (e.g., `["score", "complexity"]`), not an integer
 - ✅ Set appropriate timeouts for your use case
 - ✅ Configure LLM settings for your provider
@@ -152,6 +155,7 @@ python scripts/visualizer.py --path path/to/openevolve_output/checkpoints/checkp
 ## Advanced Configuration Options
 
 ### LLM Ensemble (Multiple Models)
+
 ```yaml
 llm:
   models:
@@ -162,19 +166,21 @@ llm:
 ```
 
 ### Island Evolution (Population Diversity)
+
 ```yaml
 database:
-  num_islands: 5        # More islands = more diversity
-  migration_interval: 15  # How often islands exchange programs
-  population_size: 100   # Larger population = more exploration
+  num_islands: 5 # More islands = more diversity
+  migration_interval: 15 # How often islands exchange programs
+  population_size: 100 # Larger population = more exploration
 ```
 
 ### Cascade Evaluation (Multi-Stage Testing)
+
 ```yaml
 evaluator:
   cascade_stages:
-    - stage1_timeout: 30   # Quick validation
-    - stage2_timeout: 120  # Full evaluation
+    - stage1_timeout: 30 # Quick validation
+    - stage2_timeout: 120 # Full evaluation
 ```
 
 ## Example Directory
@@ -182,18 +188,22 @@ evaluator:
 ### 🧮 Mathematical Optimization
 
 #### [Function Minimization](function_minimization/)
+
 **Task:** Find global minimum of complex non-convex function
 **Achievement:** Evolved from random search to sophisticated simulated annealing
 **Key Lesson:** Shows automatic discovery of optimization algorithms
+
 ```bash
 cd examples/function_minimization
 python ../../openevolve-run.py initial_program.py evaluator.py --config config.yaml
 ```
 
 #### [Circle Packing](circle_packing/)
+
 **Task:** Pack 26 circles in unit square to maximize sum of radii
 **Achievement:** Matched AlphaEvolve paper results (2.634/2.635)
 **Key Lesson:** Demonstrates evolution from geometric heuristics to mathematical optimization
+
 ```bash
 cd examples/circle_packing
 python ../../openevolve-run.py initial_program.py evaluator.py --config config_phase_1.yaml
@@ -202,18 +212,22 @@ python ../../openevolve-run.py initial_program.py evaluator.py --config config_p
 ### 🔧 Algorithm Discovery
 
 #### [Signal Processing](signal_processing/)
+
 **Task:** Design digital filters for audio processing
 **Achievement:** Discovered novel filter designs with superior characteristics
 **Key Lesson:** Shows evolution of domain-specific algorithms
+
 ```bash
 cd examples/signal_processing
 python ../../openevolve-run.py initial_program.py evaluator.py --config config.yaml
 ```
 
 #### [Rust Adaptive Sort](rust_adaptive_sort/)
+
 **Task:** Create sorting algorithm that adapts to data patterns
 **Achievement:** Evolved sorting strategies beyond traditional algorithms
 **Key Lesson:** Multi-language support (Rust) and algorithm adaptation
+
 ```bash
 cd examples/rust_adaptive_sort
 python ../../openevolve-run.py initial_program.rs evaluator.py --config config.yaml
@@ -222,9 +236,11 @@ python ../../openevolve-run.py initial_program.rs evaluator.py --config config.y
 ### 🚀 Performance Optimization
 
 #### [MLX Metal Kernel Optimization](mlx_metal_kernel_opt/)
+
 **Task:** Optimize attention mechanisms for Apple Silicon
 **Achievement:** 2-3x speedup over baseline implementation
 **Key Lesson:** Hardware-specific optimization and performance tuning
+
 ```bash
 cd examples/mlx_metal_kernel_opt
 python ../../openevolve-run.py initial_program.py evaluator.py --config config.yaml
@@ -233,9 +249,11 @@ python ../../openevolve-run.py initial_program.py evaluator.py --config config.y
 ### 🌐 Web and Data Processing
 
 #### [Web Scraper with optillm](web_scraper_optillm/)
+
 **Task:** Extract API documentation from HTML pages
 **Achievement:** Demonstrates optillm integration with readurls and MoA
 **Key Lesson:** Shows integration with LLM proxy systems and test-time compute
+
 ```bash
 cd examples/web_scraper_optillm
 python ../../openevolve-run.py initial_program.py evaluator.py --config config.yaml
@@ -244,9 +262,11 @@ python ../../openevolve-run.py initial_program.py evaluator.py --config config.y
 ### 💻 Programming Challenges
 
 #### [Online Judge Programming](online_judge_programming/)
+
 **Task:** Solve competitive programming problems
 **Achievement:** Automated solution generation and submission
 **Key Lesson:** Integration with external evaluation systems
+
 ```bash
 cd examples/online_judge_programming
 python ../../openevolve-run.py initial_program.py evaluator.py --config config.yaml
@@ -255,20 +275,24 @@ python ../../openevolve-run.py initial_program.py evaluator.py --config config.y
 ### 📊 Machine Learning and AI
 
 #### [LLM Prompt Optimization](llm_prompt_optimazation/)
+
 **Task:** Evolve prompts for better LLM performance
 **Achievement:** Discovered effective prompt engineering techniques
 **Key Lesson:** Self-improving AI systems and prompt evolution
+
 ```bash
 cd examples/llm_prompt_optimazation
 python ../../openevolve-run.py initial_prompt.txt evaluator.py --config config.yaml
 ```
 
 #### [LM-Eval Integration](lm_eval/)
+
 **Task:** Integrate with language model evaluation harness
 **Achievement:** Automated benchmark improvement
 **Key Lesson:** Integration with standard ML evaluation frameworks
 
 #### [Symbolic Regression](symbolic_regression/)
+
 **Task:** Discover mathematical expressions from data
 **Achievement:** Automated discovery of scientific equations
 **Key Lesson:** Scientific discovery and mathematical modeling
@@ -276,9 +300,11 @@ python ../../openevolve-run.py initial_prompt.txt evaluator.py --config config.y
 ### 🔬 Scientific Computing
 
 #### [R Robust Regression](r_robust_regression/)
+
 **Task:** Develop robust statistical regression methods
 **Achievement:** Novel statistical algorithms resistant to outliers
 **Key Lesson:** Multi-language support (R) and statistical algorithm evolution
+
 ```bash
 cd examples/r_robust_regression
 python ../../openevolve-run.py initial_program.r evaluator.py --config config.yaml
@@ -287,9 +313,11 @@ python ../../openevolve-run.py initial_program.r evaluator.py --config config.ya
 ### 🎯 Advanced Features
 
 #### [Circle Packing with Artifacts](circle_packing_with_artifacts/)
+
 **Task:** Circle packing with detailed execution feedback
 **Achievement:** Advanced debugging and artifact collection
 **Key Lesson:** Using OpenEvolve's artifact system for detailed analysis
+
 ```bash
 cd examples/circle_packing_with_artifacts
 python ../../openevolve-run.py initial_program.py evaluator.py --config config_phase_1.yaml
@@ -298,24 +326,28 @@ python ../../openevolve-run.py initial_program.py evaluator.py --config config_p
 ## Best Practices
 
 ### 🎯 Design Effective Evaluators
+
 - Use meaningful metrics that reflect your goals
 - Include both quality and efficiency measures
 - Handle edge cases and errors gracefully
 - Provide informative feedback for debugging
 
 ### 🔧 Configuration Tuning
+
 - Start with smaller populations and fewer iterations for testing
 - Increase `num_islands` for more diverse exploration
 - Adjust `temperature` based on how creative you want the LLM to be
 - Set appropriate timeouts for your compute environment
 
 ### 📈 Evolution Strategy
+
 - Use multiple phases with different configurations
 - Begin with exploration, then focus on exploitation
 - Consider cascade evaluation for expensive tests
 - Monitor progress and adjust configuration as needed
 
 ### 🐛 Debugging
+
 - Check logs in `openevolve_output/logs/`
 - Examine failed programs in checkpoint directories
 - Use artifacts to understand program behavior
