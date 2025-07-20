@@ -21,6 +21,11 @@ dependencies = [
     "pre-commit>=4.2.0",
     "ruff>=0.12.4",
     "python-dotenv>=1.1.1",
+    "scikit-learn>=1.6.1",
+    "cadquery>=2.5.2",
+    "trimesh[easy]>=4.7.1",
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.7",
 ]
 
 [project.optional-dependencies]
