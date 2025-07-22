@@ -1,0 +1,67 @@
+# Configuration for function minimization example
+max_iterations: 10
+checkpoint_interval: 1
+log_level: "INFO"
+
+# LLM configuration
+llm:
+  models:
+    - name: "deepseek/deepseek-r1:free"
+      weight: 0.8
+      api_base: "https://openrouter.ai/api/v1"
+      temperature: 0.8
+      top_p: 0.95
+      max_tokens: 2048
+
+    - name: "deepseek/deepseek-r1:free"
+      weight: 0.2
+      api_base: "https://openrouter.ai/api/v1"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 4096
+
+# Prompt configuration
+prompt:
+  system_message: |
+    You are an expert in parametric 3D modeling using CadQuery and Python. Your task is to write a Python code using the CadQuery library that generates a 3D model matching a reference information about the shape as closely as possible.
+
+    Requirements:
+    1. The code must use CadQuery primitives and operations.
+    2. The code should assign a final CadQuery solid object (`cq.Workplane` with 3D geometry) to a variable with name "r".
+
+    Input:
+    - You have a high-level shape description. This description may contain specific dimensions and other important information.
+    - You must convert those into exact CadQuery modeling steps.
+
+    Output:
+    - A working Python script that builds the desired 3D shape using CadQuery.
+    - The script must be executable in a standard Python environment with CadQuery installed.
+
+    Shape description:
+    # Create a block based on the dimensions above and add a 22mm center hole.
+    # 1.  Establishes a workplane that an object can be built on.
+    # 1a. Uses the X and Y origins to define the workplane, meaning that the
+    # positive Z direction is "up", and the negative Z direction is "down".
+    # 2.  The highest (max) Z face is selected and a new workplane is created on it.
+    # 3.  The new workplane is used to drill a hole through the block.
+    # 3a. The hole is automatically centered in the workplane.
+
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 120
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false

@@ -707,7 +707,9 @@ manifold3d==3.2.0 \
     --hash=sha256:cfd9a0ed16500147d5f06dfb4d28e3e75901b8af4241a0e12fc5e9592fee1801 \
     --hash=sha256:e10b9718ef26a1163e2e2acf6abad515b716dcfcaf4a58450fc9973631594182 \
     --hash=sha256:f28e1cc1babec7595bfbd84759156018c09ba9ca7dee996a2a84d5a43f7ec701
-    # via trimesh
+    # via
+    #   openevolve
+    #   trimesh
 mapbox-earcut==1.0.3 \
     --hash=sha256:016b0cef0ab502291ae3dc498d182f2ec04c79e4362524f1c44a53cf0f8ed271 \
     --hash=sha256:032ef45e8278d092e875abd27615e66ef1573672bc63ae30ae00abbcf35b833f \
@@ -921,6 +923,7 @@ numpy==2.0.2 ; python_full_version < '3.10' \
     #   mapbox-earcut
     #   nlopt
     #   openevolve
+    #   pot
     #   pycollada
     #   scikit-learn
     #   scipy
@@ -991,6 +994,7 @@ numpy==2.2.6 ; python_full_version == '3.10.*' \
     #   mapbox-earcut
     #   nlopt
     #   openevolve
+    #   pot
     #   pycollada
     #   scikit-learn
     #   scipy
@@ -1057,6 +1061,7 @@ numpy==2.3.1 ; python_full_version >= '3.11' \
     #   mapbox-earcut
     #   nlopt
     #   openevolve
+    #   pot
     #   pycollada
     #   scikit-learn
     #   scipy
@@ -1197,6 +1202,37 @@ platformdirs==4.3.8 \
     # via
     #   jupyter-core
     #   virtualenv
+pot==0.9.5 \
+    --hash=sha256:00a18427c9abdd107a2285ea0a814c6b22e95a1af8f88a37c56f23cd216f7a6b \
+    --hash=sha256:043706d69202ac87e140121ba32ed1b038f2b3fc4a5549586187239a583cd50d \
+    --hash=sha256:088c930a5fcd1e8e36fb6af710df47ce6e9331b6b5a28eb09c673df4186dcb10 \
+    --hash=sha256:2f37039cd356198c1fb994e7d935b9bf75d44f2a40319d298bf8cc149eb360d5 \
+    --hash=sha256:2f6af660505772833d4ccc189d9de264b429d9ec8e0cb564f33d2181e6f1bbce \
+    --hash=sha256:34d766c38e65a69c087b01a854fe89fbd152c3e8af93da2227b6c40aed6d37b9 \
+    --hash=sha256:4fa190662670868126a2372499aec513bd4ac50b4565fe2014525c7cef11e2bf \
+    --hash=sha256:6680aadb69df2f75a413fe9c58bd1c5cb744d017a7c8ba8841654fd0dc75433b \
+    --hash=sha256:7d57f96b333c9816a2af7817753108739b38155e52648c5967681dbd89d92ed2 \
+    --hash=sha256:7eb9b88c73387a9966775a6f6d077d9d071814783701d2656dc05b5032a9662d \
+    --hash=sha256:8312bee055389db47adab063749c8d77b5981534177ca6cd9b91e4fb68f69d00 \
+    --hash=sha256:931fa46ff8e01d47309207243988c783a2d8364452bc080b130c5d319349ad3f \
+    --hash=sha256:95c29ee3e647b272bfcb35c3c4cb7409326a0a6d3bf3ed8460495e9ac3f3a76d \
+    --hash=sha256:9644ee7ff51c3cffa3c2632b9dd9dff4f3520266f9fb771450935ffb646d6042 \
+    --hash=sha256:9eddd9ff29bdb17d4db8ba00ba18d42656c694a128591502bf59afc1369e1bb3 \
+    --hash=sha256:afad647c78f999439f8c5cbcf74b03c5c0afefb08727cd7d68994130fabfc761 \
+    --hash=sha256:b1bca1b3465eadab9d5e1c075122963da3e921102555d1c6b7ff3c1f437d3e18 \
+    --hash=sha256:b5407377256de11b6fdc94bbba9b50ea5a2301570905fc9014541cc8473806d9 \
+    --hash=sha256:b5f000da00e408ff781672a4895bfa8daacec055bd534c9e66ead479f3c6d83c \
+    --hash=sha256:bca891c28592d6e0e8f04b35989de7005f0fb9b3923f00537f1b269c5084aa7b \
+    --hash=sha256:be786612b391c2e4d3b5db4e7d51cdb2360284e3a6949990051c2eb102f60d3c \
+    --hash=sha256:c9f44446056f5fc9d132ed8e431732c33cbe754fb1e6d73636f1b6ae811be7df \
+    --hash=sha256:cd79a8b4d35b706f2124f73ebff3bb1ce3450e01cc8f610eda3b6ce13616b829 \
+    --hash=sha256:ceea4cffebce88211cd63bfddc878e2f29a6b6347125cbac40fa214308315878 \
+    --hash=sha256:d7f5d27bc9063e01b03d906bb77e7b3428065fdd72ed64233b249584ead2e2bf \
+    --hash=sha256:dfb18268fac1e982e21821a03f802802a0d579c4690988b764115dd886dc38f5 \
+    --hash=sha256:e64f5d8890e21eb1e7decac694c34820496238e7d9c95309411e58cb0b04d384 \
+    --hash=sha256:f0dc608cea1107289a58dec33cddc1b0a3fea77ff36d66e2c8ac7aeea543969a \
+    --hash=sha256:f9b775daf69cb4043897050961f9b654c30261543e531d53248a99e5599db0c8
+    # via openevolve
 pre-commit==4.2.0 \
     --hash=sha256:601283b9757afd87d40c4c4a9b2b5de9637a8ea02eaff7adc2d0fb4e04841146 \
     --hash=sha256:a009ca7205f1eb497d10b845e52c838a98b6cdd2102a6c8e4540e94ee75c58bd
@@ -1336,6 +1372,10 @@ pydantic-core==2.33.2 \
     --hash=sha256:fa854f5cf7e33842a892e5c73f45327760bc7bc516339fda888c75ae60edaeb6 \
     --hash=sha256:fe5b32187cbc0c862ee201ad66c30cf218e5ed468ec8dc1cf49dec66e160cc4d
     # via pydantic
+pyglet==2.1.6 \
+    --hash=sha256:18483880b1411b39692eaf7756819285797b1aaf9ef63d40eb9f9b5d01c63416 \
+    --hash=sha256:52ef9e75f3969b6a28bfa5c223e50ff03a05c2baa67bfe00d2a9eec4e831a7c5
+    # via openevolve
 pygments==2.19.2 \
     --hash=sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887 \
     --hash=sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b
@@ -1768,6 +1808,7 @@ scipy==1.13.1 ; python_full_version < '3.10' \
     --hash=sha256:eccfa1906eacc02de42d70ef4aecea45415f5be17e72b61bafcfd329bdc52e94 \
     --hash=sha256:f26264b282b9da0952a024ae34710c2aff7d27480ee91a2e82b7b7073c24722f
     # via
+    #   pot
     #   scikit-learn
     #   trimesh
 scipy==1.15.3 ; python_full_version == '3.10.*' \
@@ -1818,6 +1859,7 @@ scipy==1.15.3 ; python_full_version == '3.10.*' \
     --hash=sha256:ed7284b21a7a0c8f1b6e5977ac05396c0d008b89e05498c8b7e8f4a1423bba0e \
     --hash=sha256:f77f853d584e72e874d87357ad70f44b437331507d1c311457bed8ed2b956126
     # via
+    #   pot
     #   scikit-learn
     #   trimesh
 scipy==1.16.0 ; python_full_version >= '3.11' \
@@ -1859,6 +1901,7 @@ scipy==1.16.0 ; python_full_version >= '3.11' \
     --hash=sha256:f56296fefca67ba605fd74d12f7bd23636267731a72cb3947963e76b8c0a25db \
     --hash=sha256:f91b87e1689f0370690e8470916fe1b2308e5b2061317ff76977c8f836452a47
     # via
+    #   pot
     #   scikit-learn
     #   trimesh
 shapely==2.0.7 ; python_full_version < '3.10' \
