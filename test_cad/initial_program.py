@@ -1,33 +1,22 @@
 # EVOLVE-BLOCK-START
-"""Function that builds some figure which should match a reference 3D model in stl-format"""
-
 import cadquery as cq
 
+length = 10
+height = 10
+thickness = 10
 
-def create_cad_figure():
-    length = 10
-    height = 10
-    thickness = 10
-
-    r = cq.Workplane("XY").box(length, height, thickness)
-    r = cq.Workplane("XY").rect(40, 20).extrude(5)
-    return r
-
-
+r = cq.Workplane("XY").box(length, height, thickness).faces(">Z").workplane().hole(0)
 # EVOLVE-BLOCK-END
 
 
+from datetime import datetime
+from pathlib import Path
+
 # This part remains fixed (not evolved)
-import datetime
-
-
-def run_build():
-    r = create_cad_figure()
-    return r
 
 
 def save_evolve_block(
-    source_file: str = __file__, output_file: str = "evolved_block.py"
+    source_file: str = __file__, output_file: Path = Path("./test_cad/evolved_block.py")
 ):
     start_marker = "# EVOLVE-BLOCK-START"
     end_marker = "# EVOLVE-BLOCK-END"
@@ -46,12 +35,14 @@ def save_evolve_block(
             if inside_block:
                 block_lines.append(line)
 
-    with open(output_file, "w", encoding="utf-8") as f:
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    new_output_filename = f"{output_file.stem}_{timestamp}{output_file.suffix}"
+
+    with open(new_output_filename, "w", encoding="utf-8") as f:
         f.writelines(block_lines)
 
-    return datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + output_file
+    return str(new_output_filename)
 
 
 if __name__ == "__main__":
-    r = create_cad_figure()
-    r.export("result.stl")
+    r.export("./test_cad/result.stl")

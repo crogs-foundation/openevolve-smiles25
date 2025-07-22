@@ -5,26 +5,29 @@ log_level: "INFO"
 
 # LLM configuration
 llm:
-  # primary_model: "gemini-2.0-flash-lite"
-  primary_model: "deepseek/deepseek-r1:free"
-  primary_model_weight: 0.8
-  # secondary_model: "gemini-2.0-flash"
-  secondary_model: "deepseek/deepseek-r1:free"
-  secondary_model_weight: 0.2
-  # api_base: "https://generativelanguage.googleapis.com/v1beta/openai/"
-  api_base: "https://openrouter.ai/api/v1"
-  temperature: 0.7
-  top_p: 0.95
-  max_tokens: 4096
+  models:
+    - name: "deepseek/deepseek-r1:free"
+      weight: 0.8
+      api_base: "https://openrouter.ai/api/v1"
+      temperature: 0.8
+      top_p: 0.95
+      max_tokens: 2048
+
+    - name: "deepseek/deepseek-r1:free"
+      weight: 0.2
+      api_base: "https://openrouter.ai/api/v1"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 4096
 
 # Prompt configuration
 prompt:
   system_message: |
-    You are an expert in parametric 3D modeling using CadQuery and Python. Your task is to write a Python function using the CadQuery library that generates a 3D model matching a reference information about the shape as closely as possible.
+    You are an expert in parametric 3D modeling using CadQuery and Python. Your task is to write a Python code using the CadQuery library that generates a 3D model matching a reference information about the shape as closely as possible.
 
     Requirements:
-    1. The function must use CadQuery primitives and operations.
-    2. The function should return a CadQuery solid object (`cq.Workplane` with 3D geometry).
+    1. The code must use CadQuery primitives and operations.
+    2. The code should assign a final CadQuery solid object (`cq.Workplane` with 3D geometry) to a variable with name "r".
 
     Input:
     - You have a high-level shape description. This description may contain specific dimensions and other important information.

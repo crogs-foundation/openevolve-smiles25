@@ -96,6 +96,9 @@ class OpenAILLM(LLMInterface):
             else:
                 params["seed"] = seed
 
+        if "seed" in params and self.api_base == "https://api.mistral.ai/v1/":
+            del params["seed"]
+
         # Attempt the API call with retries
         retries = kwargs.get("retries", self.retries)
         retry_delay = kwargs.get("retry_delay", self.retry_delay)
@@ -117,7 +120,6 @@ class OpenAILLM(LLMInterface):
                     logger.error(f"All {retries + 1} attempts failed with timeout")
                     raise
             except Exception as e:
-                print(self.api_key)
                 if attempt < retries:
                     logger.warning(
                         f"Error on attempt {attempt + 1}/{retries + 1}: {str(e)}. Retrying..."

@@ -1,5 +1,3 @@
-import tempfile
-from argparse import ArgumentParser
 from multiprocessing import Process
 from pathlib import Path
 from typing import Callable, Optional
@@ -265,30 +263,7 @@ def evaluate(obj1: trimesh.Trimesh, obj2: trimesh.Trimesh) -> dict[str, float]:
     return {name: metric_fn(t_obj1, t_obj2) for name, metric_fn in METRICS_DICT.items()}
 
 
-def run_evaluation(gt_mesh_path: Path, pred_py_path: Path) -> dict[str, float]:
-    """Main function to run the full evaluation pipeline."""
-    error_metrics = {name: 0.0 for name in METRICS_DICT}
-
-    with tempfile.NamedTemporaryFile(suffix=".stl", delete=True) as tmp_mesh_file:
-        pred_mesh_path = Path(tmp_mesh_file.name)
-
-        if not _convert_script_to_mesh_safe(pred_py_path, pred_mesh_path):
-            print(f"Failed to generate mesh from {pred_py_path.name}")
-            return error_metrics
-
-        try:
-            pred_mesh = trimesh.load_mesh(pred_mesh_path)
-            gt_mesh = trimesh.load_mesh(gt_mesh_path)
-            metrics = evaluate(pred_mesh, gt_mesh)
-        except Exception as e:
-            print(f"Error during mesh loading or evaluation: {e}")
-            return error_metrics
-
-    print(metrics)
-    return metrics
-
-
-def run_evaluation2(gt_mesh_path: Path, mesh: trimesh.Trimesh) -> dict[str, float]:
+def run_compute(gt_mesh_path: Path, mesh: trimesh.Trimesh) -> dict[str, float]:
     """Main function to run the full evaluation pipeline."""
     error_metrics = {name: 0.0 for name in METRICS_DICT}
 
@@ -304,29 +279,32 @@ def run_evaluation2(gt_mesh_path: Path, mesh: trimesh.Trimesh) -> dict[str, floa
     return metrics
 
 
-if __name__ == "__main__":
-    parser = ArgumentParser(description="Evaluate 3D mesh similarity.")
-    parser.add_argument(
-        "-b",
-        "--baseline-mesh-path",
-        type=Path,
-        required=True,
-        help="Path to the ground truth mesh file (e.g., .stl, .obj).",
-    )
-    parser.add_argument(
-        "-c",
-        "--py-code-path",
-        type=Path,
-        required=True,
-        help="Path to the Python script that generates the predicted mesh.",
-    )
-    args = parser.parse_args()
+# if __name__ == "__main__":
+# parser = ArgumentParser(description="Evaluate 3D mesh similarity.")
+# parser.add_argument(
+#     "-b",
+#     "--baseline-mesh-path",
+#     type=Path,
+#     required=True,
+#     help="Path to the ground truth mesh file (e.g., .stl, .obj).",
+# )
+# parser.add_argument(
+#     "-c",
+#     "--py-code-path",
+#     type=Path,
+#     required=True,
+#     help="Path to the Python script that generates the predicted mesh.",
+# )
+# args = parser.parse_args()
 
-    if not args.baseline_mesh_path.is_file():
-        print(f"Error: Baseline mesh file not found at {args.baseline_mesh_path}")
-        exit(1)
-    if not args.py_code_path.is_file():
-        print(f"Error: Python code file not found at {args.py_code_path}")
-        exit(1)
+# if not args.baseline_mesh_path.is_file():
+#     print(f"Error: Baseline mesh file not found at {args.baseline_mesh_path}")
+#     exit(1)
+# if not args.py_code_path.is_file():
+#     print(f"Error: Python code file not found at {args.py_code_path}")
+#     exit(1)
 
-    run_evaluation(Path(args.baseline_mesh_path), Path(args.py_code_path))
+
+# mesh = trimesh.load_mesh(temp_file.name)
+
+# run_compute(Path(args.baseline_mesh_path), Path(args.py_code_path))

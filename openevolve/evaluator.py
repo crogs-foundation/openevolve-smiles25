@@ -17,8 +17,8 @@ from openevolve.config import EvaluatorConfig
 from openevolve.database import ProgramDatabase
 from openevolve.evaluation_result import EvaluationResult
 from openevolve.llm.ensemble import LLMEnsemble
-from openevolve.utils.async_utils import TaskPool
 from openevolve.prompt.sampler import PromptSampler
+from openevolve.utils.async_utils import TaskPool
 from openevolve.utils.format_utils import format_metrics_safe
 
 logger = logging.getLogger(__name__)
