@@ -5,7 +5,7 @@ Evaluator for the function minimization example
 import importlib.util
 import concurrent.futures
 import traceback
-from evaluate_cad_code import METRICS_DICT, run_evaluator
+from evaluate_cad_code import METRICS_DICT, run_evaluation
 
 # PRED_MESH_PATH = "pred.stl"
 GROUND_TRUTH_MESH_PATH = "test_cad/a.stl"
@@ -58,22 +58,20 @@ def evaluate(program_path):
         program = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(program)
 
-        metric_names = list(METRICS_DICT.keys())
-
         # Check if the required function exists
-        if not hasattr(program, "run_build"):
-            print("Error: program does not have 'run_build' function")
-            return {metric_name: 0.0 for metric_name in metric_names} | {
+        if not hasattr(program, "save_evolve_block"):
+            print("Error: program does not have 'save_evolve_block' function")
+            return {name: 0.0 for name in METRICS_DICT} | {
                 "error": "Missing run_build function"
             }
 
         pred_py_path = run_with_timeout(program.save_evolve_block, timeout_seconds=120)
 
-        metrics = run_evaluator(GROUND_TRUTH_MESH_PATH, pred_py_path)
+        metrics = run_evaluation(GROUND_TRUTH_MESH_PATH, pred_py_path)
 
         return metrics
 
     except Exception as e:
         print(f"Evaluation failed completely: {str(e)}")
         print(traceback.format_exc())
-        return {metric_name: 0.0 for metric_name in metric_names} | {"error": str(e)}
+        return {name: 0.0 for name in METRICS_DICT} | {"error": str(e)}
