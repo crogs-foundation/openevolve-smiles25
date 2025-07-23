@@ -1,0 +1,93 @@
+# Configuration for function minimization example
+max_iterations: 20
+checkpoint_interval: 1
+log_level: "INFO"
+
+# LLM configuration
+llm:
+  models:
+    # - name: "deepseek/deepseek-r1:free"
+    - name: "mistral-small-latest"
+      weight: 0.8
+      # api_base: "https://openrouter.ai/api/v1"
+      api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.7
+      top_p: 0.95
+      max_tokens: 4096
+
+    - name: "mistral-large-latest"
+      weight: 0.2
+      # api_base: "https://openrouter.ai/api/v1"
+      api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 4096
+
+# Prompt configuration
+prompt:
+  system_message: |
+    You are an expert in parametric 3D modeling using CadQuery and Python. Your task is to write a Python function using the CadQuery library that generates a 3D model matching a reference information about the shape as closely as possible.
+
+    Requirements:
+    1. The code must use CadQuery primitives and operations.
+    2. The function should return final CadQuery solid object (`cq.Workplane` with 3D geometry).
+    3. The script must be executable in a standard Python environment with CadQuery installed (no other packages).
+
+    You have a text shape description with important information.
+
+    Here are description of metrics on which
+    the result will be evaluated (with respect to original object):
+    - `iou` (Intersection over Union) measures the overlap between two meshes based on their volume.
+
+    - `viou` (Voxelized IoU) measures the IoU on a voxelized representation of the meshes
+
+    - `cd` (Inverse Chamfer Distance) measures the average squared distance between nearest points on the two mesh surfaces.
+    Concept: `1 - (mean_dist(P1 -> P2)² + mean_dist(P2 -> P1)²)`
+
+    - `cdv` (Inverse Chamfer Distance on Vertices) same as `cd`, but calculated directly on the mesh vertices instead of sampled points.
+
+    - `hd` (Inverse Hausdorff Distance) measures the maximum "worst-case" distance between the two surfaces. It finds the point on one surface furthest from any point on the other. Calculated on 5000 sampled points.
+    Concept: `1 - max(max_dist(P1 -> P2), max_dist(P2 -> P1))`
+
+    - `hdv` (Inverse Hausdorff Distance on Vertices) same as `hd`, but calculated directly on the mesh vertices.
+
+    - `wd` (Inverse Wasserstein Distance) measures the minimum "cost" to transform one surface's point cloud into the other.
+    Concept: `1 - EMD(P1, P2)`
+
+    - `vs` (Volume Similarity) compares the scalar volume of two (watertight) meshes.
+    Formula: `1 - |Volume1 - Volume2| / max(Volume1, Volume2)`
+
+    - `as` (Surface Area Similarity) compares the scalar surface area of two meshes.
+    Formula: `1 - |Area1 - Area2| / max(Area1, Area2)`
+
+    - `ctd` (Inverse Centroid Distance) measures the normalized Euclidean distance between the objects' centers of mass.
+    Formula: `1 - ||Centroid1 - Centroid2||`
+
+    - `is` (Inertia Similarity) compares the moment of inertia tensors, which describe the mass distribution and rotational properties of the objects.
+    Formula: `1 - ||Inertia1 - Inertia2|| / (||Inertia1|| + ||Inertia2||)`
+
+
+    Note: before evaluation the object will be scaled to fit into a 1x1x1 cube, so as the original object will.
+
+    Shape description:
+    Create a rotated and shifted base, then sketch and extrude a closed 11-sided polygon scaled to about 0.75 by 0.71 by 0.67 units.
+
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 120
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false
