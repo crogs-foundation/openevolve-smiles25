@@ -377,7 +377,6 @@ def load_config(config_path: Optional[Union[str, Path]] = None) -> Config:
     # Use environment variables if available
     load_dotenv()
     for model in config.llm.models + config.llm.evaluator_models:
-        print(model.api_key, os.environ.get(model.api_key))
         model.api_key = os.environ.get(model.api_key, "https://api.openai.com/v1")
 
     # config.llm.update_model_params({"api_key": api_key, "api_base": api_base})

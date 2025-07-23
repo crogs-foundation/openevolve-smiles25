@@ -80,8 +80,9 @@ class OpenEvolve:
             self.config = load_config(config_path)
 
         # Set up output directory
+        datetime_str = time.strftime("%Y%m%d_%H%M%S")
         self.output_dir = output_dir or os.path.join(
-            os.path.dirname(initial_program_path), "openevolve_output"
+            os.path.dirname(initial_program_path), f"openevolve_output_{datetime_str}"
         )
         os.makedirs(self.output_dir, exist_ok=True)
 
