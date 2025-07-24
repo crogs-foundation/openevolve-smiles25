@@ -29,6 +29,7 @@ dependencies = [
     "pyglet>=2.1.6",
     "manifold3d>=3.2.0",
     "pot>=0.9.5",
+    "g4f[full]>=0.5.7.5",
 ]
 
 [project.optional-dependencies]

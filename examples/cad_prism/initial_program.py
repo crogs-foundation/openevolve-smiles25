@@ -5,7 +5,7 @@ import cadquery as cq
 
 
 def build_3d_figure() -> cq.Workplane:
-    return cq.Workplane().sphere(5)
+    return cq.Workplane().sphere(0.1)
 
 
 # EVOLVE-BLOCK-END

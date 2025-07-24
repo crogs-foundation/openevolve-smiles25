@@ -5,23 +5,43 @@ log_level: "INFO"
 
 # LLM configuration
 llm:
+  # models:
+  # - name: "deepseek/deepseek-r1:free"
+  # - name: "mistral-small-latest"
+  #   weight: 0.8
+  #   # api_base: "https://openrouter.ai/api/v1"
+  #   api_base: "https://api.mistral.ai/v1/"
+  #   temperature: 0.7
+  #   top_p: 0.95
+  #   max_tokens: 4096
+
+  # - name: "mistral-large-latest"
+  #   weight: 0.2
+  #   # api_base: "https://openrouter.ai/api/v1"
+  #   api_base: "https://api.mistral.ai/v1/"
+  #   temperature: 0.2
+  #   top_p: 0.95
+  #   max_tokens: 4096
   models:
-    # - name: "deepseek/deepseek-r1:free"
-    - name: "mistral-small-latest"
+    - name: "qwen-2.5-72b"
+      # - name: "deepseek/deepseek-r1:free"
+      # - name: "google/gemini-2.0-flash-exp:free"
       weight: 0.8
+      api_base: "g4f"
       # api_base: "https://openrouter.ai/api/v1"
-      api_base: "https://api.mistral.ai/v1/"
+      # api_base: "https://api.mistral.ai/v1/"
       temperature: 0.7
       top_p: 0.95
-      max_tokens: 4096
+      max_tokens: 2048
 
-    - name: "mistral-large-latest"
+    - name: "qwen-2.5-72b"
       weight: 0.2
+      api_base: "g4f"
       # api_base: "https://openrouter.ai/api/v1"
-      api_base: "https://api.mistral.ai/v1/"
+      # api_base: "https://api.mistral.ai/v1/"
       temperature: 0.2
       top_p: 0.95
-      max_tokens: 4096
+      max_tokens: 2048
 
 # Prompt configuration
 prompt:
@@ -32,6 +52,7 @@ prompt:
     1. The code must use CadQuery primitives and operations.
     2. The function should return final CadQuery solid object (`cq.Workplane` with 3D geometry).
     3. The script must be executable in a standard Python environment with CadQuery installed (no other packages).
+    4. Remove all comments and descriptions from the solution code
 
     You have a text shape description with important information.
 
@@ -70,7 +91,9 @@ prompt:
     Note: before evaluation the object will be scaled to fit into a 1x1x1 cube, so as the original object will.
 
     Shape description:
-    Create a rotated and shifted base, then sketch and extrude a closed 11-sided polygon scaled to about 0.75 by 0.71 by 0.67 units.
+    A solid prism with 11-sided polygon as a base, with height of 200mm and width of 190mm
+
+    Note: sometimes you should change the orientation/translation of the figure to get better metrics
 
   num_top_programs: 3
   use_template_stochasticity: true

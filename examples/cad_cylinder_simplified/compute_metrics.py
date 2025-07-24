@@ -10,7 +10,7 @@ from scipy.spatial import KDTree
 # as it executes code that calls methods like .val() and .tessellate().
 # The executed script is expected to place the final CAD object in a variable named 'r'.
 OUTPUT_NAME = "r"
-ALIGN_MESH = False  # TODO: if true - errors
+ALIGN_MESH = True  # TODO: if true - errors
 
 
 def eval_wrapper(error_value: float = 0.0, precision: int = 5, debug: bool = False):
@@ -193,62 +193,19 @@ METRICS_DICT: dict[str, Callable] = {
     "is": inertia_similarity,
 }
 
-# --- Core Logic ---
-
-
-# def py_script_to_mesh_file(py_path: Path, mesh_path: Path):
-#     """Executes a python script to generate a CAD object and saves it as a mesh."""
-
-#     with open(py_path, "r") as f:
-#         py_string = f.read()
-
-#     context = {}
-#     exec(py_string, context)
-
-
-#     compound = context[OUTPUT_NAME].val()
-#     vertices, faces = compound.tessellate(0.001, 0.1)
-#     mesh = trimesh.Trimesh(vertices=[(v.x, v.y, v.z) for v in vertices], faces=faces)
-
-#     if len(mesh.faces) < 3:
-#         raise ValueError("Generated mesh has too few faces.")
-#     mesh.export(str(mesh_path))
-
-
-# def _convert_script_to_mesh_safe(
-#     py_path: Path, mesh_path: Path, timeout: int = 15
-# ) -> bool:
-#     """Runs script-to-mesh conversion in a separate process with a timeout."""
-#     process = Process(target=py_script_to_mesh_file, args=(py_path, mesh_path))
-
-#     process.start()
-#     process.join(timeout)
-
-#     if process.is_alive():
-#         print(f"Process for {py_path.name} timed out. Terminating.")
-#         process.terminate()
-#         process.join()
-#         return False
-
-#     if process.exitcode != 0:
-#         print(f"Process for {py_path.name} failed with exit code {process.exitcode}.")
-#         return False
-
-#     return mesh_path.exists() and mesh_path.stat().st_size > 0
-
 
 def align_mesh(
     source_mesh: trimesh.Trimesh,
     target_mesh: trimesh.Trimesh,
-    n_samples: int = 1000,
-    icp_iterations: int = 20,
+    n_samples: int = 5000,
+    icp_iterations: int = 50,
 ) -> trimesh.Trimesh:
     source_points = source_mesh.sample(n_samples)
     target_points = target_mesh.sample(n_samples)
 
     # ----- Step 1: Procrustes Alignment -----
     matrix_procrustes, _, _ = trimesh.registration.procrustes(
-        source_points, target_points, reflection=False
+        source_points, target_points, reflection=True, scale=False, translation=False
     )
 
     source_mesh_procrustes = source_mesh.copy()

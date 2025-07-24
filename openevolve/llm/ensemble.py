@@ -9,6 +9,7 @@ from typing import Dict, List
 
 from openevolve.config import LLMModelConfig
 from openevolve.llm.base import LLMInterface
+from openevolve.llm.g4f import G4FLLM
 from openevolve.llm.openai import OpenAILLM
 
 logger = logging.getLogger(__name__)
@@ -21,7 +22,10 @@ class LLMEnsemble:
         self.models_cfg = models_cfg
 
         # Initialize models from the configuration
-        self.models = [OpenAILLM(model_cfg) for model_cfg in models_cfg]
+        self.models = [
+            OpenAILLM(model_cfg) if model_cfg.api_base != "g4f" else G4FLLM(model_cfg)
+            for model_cfg in models_cfg
+        ]
 
         # Extract and normalize model weights
         self.weights = [model.weight for model in models_cfg]

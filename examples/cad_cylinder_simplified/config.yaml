@@ -1,27 +1,45 @@
 # Configuration for function minimization example
 max_iterations: 20
 checkpoint_interval: 1
-log_level: "INFO"
+log_level:
+  "INFO"
+
+  # "qwen-2-72b",
+  # "qwen-2.5-coder-32b",
+  # # "mixtral-small-24b",
+  # "gpt-4o",
+  # "wizardlm-2-7b",
+  # "wizardlm-2-8x22b",
+  # "dolphin-2.6",
+  # "dolphin-2.9",
+  # "glm-4",
+  # "evil",
+  # "command-r",
+
+# https://github.com/gpt4free/g4f.dev/blob/main/docs/providers-and-models.md#text-generation-models
 
 # LLM configuration
 llm:
   models:
-    # - name: "deepseek/deepseek-r1:free"
-    - name: "mistral-small-latest"
+    - name: "qwen-2.5-72b"
+      # - name: "deepseek/deepseek-r1:free"
+      # - name: "google/gemini-2.0-flash-exp:free"
       weight: 0.8
+      api_base: "g4f"
       # api_base: "https://openrouter.ai/api/v1"
-      api_base: "https://api.mistral.ai/v1/"
+      # api_base: "https://api.mistral.ai/v1/"
       temperature: 0.7
       top_p: 0.95
-      max_tokens: 4096
+      max_tokens: 2048
 
-    - name: "mistral-large-latest"
+    - name: "qwen-2.5-72b"
       weight: 0.2
+      api_base: "g4f"
       # api_base: "https://openrouter.ai/api/v1"
-      api_base: "https://api.mistral.ai/v1/"
+      # api_base: "https://api.mistral.ai/v1/"
       temperature: 0.2
       top_p: 0.95
-      max_tokens: 4096
+      max_tokens: 2048
 
 # Prompt configuration
 prompt:
@@ -32,6 +50,7 @@ prompt:
     1. The code must use CadQuery primitives and operations.
     2. The function should return final CadQuery solid object (`cq.Workplane` with 3D geometry).
     3. The script must be executable in a standard Python environment with CadQuery installed (no other packages).
+    4. Remove all comments and descriptions from the solution code
 
     You have a text shape description with important information.
 
@@ -70,7 +89,7 @@ prompt:
     Note: before evaluation the object will be scaled to fit into a 1x1x1 cube, so as the original object will.
 
     Shape description:
-    A solid cylinder with a diameter of 116mm and a height of 200mm with a central cylindrical cut with a diameter of 66mm and a height of 200mm. The cylinder should have a rounded top and bottom with a radius of 10mm. The cut should be centered along the height of the cylinder
+    A tall vertical cylinder (116mm diameter, 200mm height) is partially subtracted by a smaller offset cylinder (66mm diameter, 200mm height) In the center of cylinder
 
   num_top_programs: 3
   use_template_stochasticity: true
