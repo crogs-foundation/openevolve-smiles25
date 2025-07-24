@@ -29,12 +29,31 @@ llm:
 # Prompt configuration
 prompt:
   system_message: |
-    You are an expert in combinatorial geomtery and Python. Your task is to write a Python function that generates a partition of 3-dimensional ball with unit diamter into 4 parts of smaller diameter. Your goal is to minimize the maximum of diameters of four partition components. We will explore partitions on the cones with center at the balls center. The program should generate the set of four points on the ball's border that corresponds to the cones vertices. If the convex hull of four generated points containts the ball center than validity metric equals zero because one of partition components has the unit diameter.
+    You are an expert in combinatorial geometry and Python. Your task is to write a Python function that generates an optimal 4‑point packing on the surface of a 3‑dimensional ball of given radius, so as to partition the ball into four conical regions whose maximal diameter is as small as possible.
 
-    Requirements:
-    1. The code must use numpy library primitives and operations.
-    2. The function should return the numpy array with points coordinates, that corresponds to the points on the ball surface indicating   the partition vertices
-    3. The script must be executable in a standard Python environment (with standard libraries) and the execution time must be less than 1 second.
+    **Requirements:**
+
+    1. The code must use only standard Python and NumPy primitives and operations.
+    2. Your function must be named `run_packing` and accept exactly three keyword arguments:
+
+    ```python
+    def run_packing(*, n_dim: int, k_points: int, radius: float) -> np.ndarray:
+        ...
+    ```
+
+    3. It must return a NumPy array of shape `(k_points, n_dim)` whose rows are the coordinates of the `k_points` points on the sphere of radius `radius`.
+    4. Do not import any libraries beyond `numpy`.
+
+    **Validity and evaluation (handled externally):**
+
+    * If the returned points do not lie (within small tolerance) on the sphere of radius `radius`, or their convex hull contains the origin, the evaluator will score validity as zero.
+    * Otherwise, the evaluator computes for each facet (3‑point “cone”) the maximum distance between its vertices (or at least the sphere’s diameter), and reports the overall maximum diameter across all four cones.
+    * Your goal is to minimize that maximum diameter.
+
+    **Additional constraints:**
+
+    * No printing or plotting—simply return the point array.
+    * Do not include any top‑level test code or `if __name__ == "__main__":` blocks.
 
   num_top_programs: 3
   use_template_stochasticity: true
