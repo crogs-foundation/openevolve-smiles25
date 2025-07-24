@@ -1,27 +1,25 @@
 # Configuration for function minimization example
 max_iterations: 20
 checkpoint_interval: 1
-log_level: "INFO"
+log_level:
+  "INFO"
+
+  # "qwen-2-72b",
+  # "qwen-2.5-coder-32b",
+  # # "mixtral-small-24b",
+  # "gpt-4o",
+  # "wizardlm-2-7b",
+  # "wizardlm-2-8x22b",
+  # "dolphin-2.6",
+  # "dolphin-2.9",
+  # "glm-4",
+  # "evil",
+  # "command-r",
+
+# https://github.com/gpt4free/g4f.dev/blob/main/docs/providers-and-models.md#text-generation-models
 
 # LLM configuration
 llm:
-  # models:
-  # - name: "deepseek/deepseek-r1:free"
-  # - name: "mistral-small-latest"
-  #   weight: 0.8
-  #   # api_base: "https://openrouter.ai/api/v1"
-  #   api_base: "https://api.mistral.ai/v1/"
-  #   temperature: 0.7
-  #   top_p: 0.95
-  #   max_tokens: 4096
-
-  # - name: "mistral-large-latest"
-  #   weight: 0.2
-  #   # api_base: "https://openrouter.ai/api/v1"
-  #   api_base: "https://api.mistral.ai/v1/"
-  #   temperature: 0.2
-  #   top_p: 0.95
-  #   max_tokens: 4096
   models:
     - name: "mistral-small-24b"
       # - name: "deepseek/deepseek-r1:free"
@@ -87,8 +85,11 @@ prompt:
     - `is` (Inertia Similarity) compares the moment of inertia tensors, which describe the mass distribution and rotational properties of the objects.
     Formula: `1 - ||Inertia1 - Inertia2|| / (||Inertia1|| + ||Inertia2||)`
 
+
+    Note: before evaluation the object will be scaled to fit into a 1x1x1 cube, so as the original object will.
+
     Shape description:
-    A solid prism with height of 178mm and 10-sided right polygon as base. The polygon has diameter 200mm
+    A tall vertical cylinder (116mm diameter, 200mm height) is partially subtracted by a smaller offset cylinder (66mm diameter, 200mm height) In the center of cylinder
 
   num_top_programs: 3
   use_template_stochasticity: true
