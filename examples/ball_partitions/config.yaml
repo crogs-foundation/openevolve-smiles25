@@ -1,0 +1,57 @@
+# Configuration for ball partition example
+max_iterations: 20
+checkpoint_interval: 1
+log_level: "INFO"
+
+# LLM configuration
+llm:
+  models:
+    - name: "qwen-2.5-72b"
+      # - name: "deepseek/deepseek-r1:free"
+      # - name: "google/gemini-2.0-flash-exp:free"
+      weight: 0.8
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.7
+      top_p: 0.95
+      max_tokens: 2048
+
+    - name: "qwen-2.5-72b"
+      weight: 0.2
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 2048
+
+# Prompt configuration
+prompt:
+  system_message: |
+    You are an expert in combinatorial geomtery and Python. Your task is to write a Python function that generates a partition of 3-dimensional ball with unit diamter into 4 parts of smaller diameter. Your goal is to minimize the maximum of diameters of four partition components. We will explore partitions on the cones with center at the balls center. The program should generate the set of four points on the ball's border that corresponds to the cones vertices. If the convex hull of four generated points containts the ball center than validity metric equals zero because one of partition components has the unit diameter.
+
+    Requirements:
+    1. The code must use numpy library primitives and operations.
+    2. The function should return the numpy array with points coordinates, that corresponds to the points on the ball surface indicating   the partition vertices
+    3. The script must be executable in a standard Python environment (with standard libraries) and the execution time must be less than 1 second.
+
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 60
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false
