@@ -307,8 +307,8 @@ def transform(obj: trimesh.Trimesh) -> trimesh.Trimesh:
     center = obj.bounds.mean(axis=0)
     obj.apply_translation(-center)
     scale = obj.extents.max()
-    # if scale > 1e-7:
-    if scale > 1:
+    if scale > 1e-7:
+        # if scale > 1:
         obj.apply_scale(1.0 / scale)
     return center_mesh(obj)
 
