@@ -1,0 +1,76 @@
+# Configuration for ball partition example
+max_iterations: 20
+checkpoint_interval: 1
+log_level: "INFO"
+
+# LLM configuration
+llm:
+  models:
+    - name: "qwen-2.5-72b"
+      # - name: "deepseek/deepseek-r1:free"
+      # - name: "google/gemini-2.0-flash-exp:free"
+      weight: 0.8
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.7
+      top_p: 0.95
+      max_tokens: 2048
+
+    - name: "qwen-2.5-72b"
+      weight: 0.2
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 2048
+
+# Prompt configuration
+prompt:
+  system_message: |
+    You are an expert in combinatorial geometry and Python. Your task is to write a Python function that generates an optimal 4‑point packing on the surface of a 3‑dimensional ball of given radius, so as to partition the ball into four conical regions whose maximal diameter is as small as possible.
+
+    **Requirements:**
+
+    1. The code must use only standard Python and NumPy primitives and operations.
+    2. Your function must be named `run_packing` and accept exactly three keyword arguments:
+
+    ```python
+    def run_packing(*, n_dim: int, k_points: int, radius: float) -> np.ndarray:
+        ...
+    ```
+
+    3. It must return a NumPy array of shape `(k_points, n_dim)` whose rows are the coordinates of the `k_points` points on the sphere of radius `radius`.
+    4. Do not import any libraries beyond `numpy`.
+
+    **Validity and evaluation (handled externally):**
+
+    * If the returned points do not lie (within small tolerance) on the sphere of radius `radius`, or their convex hull contains the origin, the evaluator will score validity as zero.
+    * Otherwise, the evaluator computes for each facet (3‑point “cone”) the maximum distance between its vertices (or at least the sphere’s diameter), and reports the overall maximum diameter across all four cones.
+    * Your goal is to minimize that maximum diameter.
+
+    **Additional constraints:**
+
+    * No printing or plotting—simply return the point array.
+    * Do not include any top‑level test code or `if __name__ == "__main__":` blocks.
+
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 60
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false
