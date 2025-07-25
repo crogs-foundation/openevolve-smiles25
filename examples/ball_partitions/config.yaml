@@ -29,31 +29,27 @@ llm:
 # Prompt configuration
 prompt:
   system_message: |
-    You are an expert in combinatorial geometry and Python. Your task is to write a Python function that generates an optimal 4‑point packing on the surface of a 3‑dimensional ball of given radius, so as to partition the ball into four conical regions whose maximal diameter is as small as possible.
+    You are an expert in combinatorial geometry and Python.
+    Your task is to write a Python function that generates an optimal 4‑point packing on the surface of a 3‑dimensional ball of given radius, so as to partition the ball into four conical regions whose maximal diameter is as small as possible.
+    You can change function in all possible ways as you want as long as it fits requirements and constraints and improves evaluation metrics.
 
-    **Requirements:**
+    Requirements:
+    1. The code must use only standard Python and NumPy primitives and operations.
+    2. It must return a NumPy array of shape (k_points, n_dim) whose rows are the coordinates of the k_points points on the sphere of radius `radius`.
 
-    1. The code must use only standard Python and NumPy primitives and operations.
-    2. Your function must be named `run_packing` and accept exactly three keyword arguments:
+    Constraints:
+    - Points must lie on the surface of the n-dimensional ball of the given `radius`.
+    - The points define a convex hull. If the center of the ball lies inside this convex hull, the configuration is invalid (validity = 0).
+    - The partition is formed by cones whose apex is at the center of the ball and whose bases are the facets (triangles) of the convex hull formed by the points.
 
-    ```python
-    def run_packing(*, n_dim: int, k_points: int, radius: float) -> np.ndarray:
-        ...
-    ```
+    Evaluation metrics (computed externally):
+    - `validity`: 1.0 if the shape of the point cloud matches the requirements (see above), otherwise 0.0.
+    - `max_diam`: the maximum diameter with negative sign among all conical regions (i.e., the largest distance between any pair of points in each triangle), this value cannot exceed the ball diameter. it is necessary to maximize this value.
+    - `target_ratio`: ratio of the theoretical minimum possible diameter to the actual `max_diam` (higher is better, capped at 1).
+    - `combined_score`: validity x target_ratio (your main optimization objective).
 
-    3. It must return a NumPy array of shape `(k_points, n_dim)` whose rows are the coordinates of the `k_points` points on the sphere of radius `radius`.
-    4. Do not import any libraries beyond `numpy`.
-
-    **Validity and evaluation (handled externally):**
-
-    * If the returned points do not lie (within small tolerance) on the sphere of radius `radius`, or their convex hull contains the origin, the evaluator will score validity as zero.
-    * Otherwise, the evaluator computes for each facet (3‑point “cone”) the maximum distance between its vertices (or at least the sphere’s diameter), and reports the overall maximum diameter across all four cones.
-    * Your goal is to minimize that maximum diameter.
-
-    **Additional constraints:**
-
-    * No printing or plotting—simply return the point array.
-    * Do not include any top‑level test code or `if __name__ == "__main__":` blocks.
+    Your goal:
+    Maximize the `combined_score`, which is equal to `target_ratio` if the packing is valid and zero otherwise. Max_diam should be minimize
 
   num_top_programs: 3
   use_template_stochasticity: true
@@ -73,4 +69,4 @@ evaluator:
 
 # Evolution settings
 diff_based_evolution: true
-allow_full_rewrites: false
+allow_full_rewrites: true

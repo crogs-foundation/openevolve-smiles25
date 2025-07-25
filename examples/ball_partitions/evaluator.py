@@ -41,14 +41,14 @@ def max_cone_diameter(
     Compute the maximum diameter among all cones: the largest distance between any two vertices,
     but at least the sphere diameter (2*radius).
     """
-    max_diam = 2 * radius
+    max_diam = radius
     diams = []
     for cone in cones:
         pts = points[cone]
         # pairwise distances
         dists = [distance.euclidean(p1, p2) for p1, p2 in combinations(pts, 2)]
         cone_max = max(dists, default=0.0)
-        cone_max = max(cone_max, 2 * radius)
+        cone_max = max(cone_max, radius)
         diams.append(cone_max)
         if cone_max > max_diam:
             max_diam = cone_max
@@ -133,6 +133,7 @@ def evaluate(
             max_diam, _ = max_cone_diameter(pts, cones, radius=radius)
         else:
             max_diam = 2 * radius
+            valid = False
 
         target_ratio = (target_val / max_diam) if valid else 0.0
         validity = 1.0 if valid else 0.0
@@ -144,7 +145,7 @@ def evaluate(
         )
 
         return {
-            "max_diam": float(max_diam),
+            "max_diam": -float(max_diam),
             "target_ratio": float(target_ratio),
             "validity": validity,
             # "eval_time": duration,
@@ -154,7 +155,7 @@ def evaluate(
     except Exception:
         traceback.print_exc()
         return {
-            "max_diam": 2 * radius,
+            "max_diam": -2 * radius,
             "target_ratio": 0.0,
             "validity": 0.0,
             # "eval_time": 0.0,
