@@ -1,0 +1,72 @@
+# Configuration for ball partition example
+max_iterations: 20
+checkpoint_interval: 1
+log_level: "INFO"
+
+# LLM configuration
+llm:
+  models:
+    - name: "qwen-2.5-72b"
+      # - name: "deepseek/deepseek-r1:free"
+      # - name: "google/gemini-2.0-flash-exp:free"
+      weight: 0.8
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.7
+      top_p: 0.95
+      max_tokens: 2048
+
+    - name: "qwen-2.5-72b"
+      weight: 0.2
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 2048
+
+# Prompt configuration
+prompt:
+  system_message: |
+    You are an expert in combinatorial geometry and Python.
+    Your task is to write a Python function that generates an optimal k‑parts (k = n + 1) partition of a n‑dimensional ball of given radius where k = (n + 1), so as to partition the ball into (n + 1) conical regions whose maximal diameter is as small as possible.
+    You can change function in all possible ways as you want as long as it fits requirements and constraints and improves evaluation metrics.
+
+    Requirements:
+    1. The code must use only standard Python and NumPy primitives and operations.
+    2. It must return a NumPy array of shape (k_points, n_dim) whose rows are the coordinates of the k_points points on the sphere of radius `radius`.
+
+    Constraints:
+    - Points must lie on the surface of the n-dimensional ball of the given `radius`.
+    - The points define a convex hull. If the center of the ball lies inside this convex hull, the configuration is invalid (validity = 0).
+    - The partition is formed by cones whose apex is at the center of the ball and whose bases are the facets (triangles) of the convex hull formed by the points.
+
+    Evaluation metrics (computed externally):
+    - `validity`: 1.0 if the shape of the point cloud matches the requirements (see above), otherwise 0.0.
+    - `max_diam`: the maximum diameter among all conical regions (i.e., the largest distance between any pair of points in each partitions cone), this value cannot exceed the ball diameter. it is necessary to minimize this value.
+    - `target_ratio`: ratio of the theoretical minimum possible diameter to the actual `max_diam` (higher is better, capped at 1).
+    - `combined_score`: validity x target_ratio (your main optimization objective).
+
+    Your goal:
+    Maximize the `combined_score`, which is equal to `target_ratio` if the packing is valid and zero otherwise. Max_diam should be minimize
+
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 60
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false

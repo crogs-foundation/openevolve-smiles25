@@ -1,0 +1,3 @@
+python openevolve-run.py examples/ball_partitions/initial_program.py \
+  examples/ball_partitions/evaluator.py \
+  --iterations 50
