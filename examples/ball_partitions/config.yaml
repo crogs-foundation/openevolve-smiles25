@@ -44,7 +44,7 @@ prompt:
 
     Evaluation metrics (computed externally):
     - `validity`: 1.0 if the shape of the point cloud matches the requirements (see above), otherwise 0.0.
-    - `max_diam`: the maximum diameter with negative sign among all conical regions (i.e., the largest distance between any pair of points in each triangle), this value cannot exceed the ball diameter. it is necessary to maximize this value.
+    - `max_diam`: the maximum diameter among all conical regions (i.e., the largest distance between any pair of points in each triangle), this value cannot exceed the ball diameter. it is necessary to minimize this value.
     - `target_ratio`: ratio of the theoretical minimum possible diameter to the actual `max_diam` (higher is better, capped at 1).
     - `combined_score`: validity x target_ratio (your main optimization objective).
 

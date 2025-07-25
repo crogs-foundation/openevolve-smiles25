@@ -145,7 +145,7 @@ def evaluate(
         )
 
         return {
-            "max_diam": -float(max_diam),
+            "max_diam": float(max_diam),
             "target_ratio": float(target_ratio),
             "validity": validity,
             # "eval_time": duration,
@@ -155,7 +155,7 @@ def evaluate(
     except Exception:
         traceback.print_exc()
         return {
-            "max_diam": -2 * radius,
+            "max_diam": 2 * radius,
             "target_ratio": 0.0,
             "validity": 0.0,
             # "eval_time": 0.0,
