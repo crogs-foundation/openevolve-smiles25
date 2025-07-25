@@ -1,0 +1,104 @@
+# Configuration for function minimization example
+max_iterations: 20
+checkpoint_interval: 1
+log_level:
+  "INFO"
+
+  # "qwen-2-72b",
+  # "qwen-2.5-coder-32b",
+  # # "mixtral-small-24b",
+  # "gpt-4o",
+  # "wizardlm-2-7b",
+  # "wizardlm-2-8x22b",
+  # "dolphin-2.6",
+  # "dolphin-2.9",
+  # "glm-4",
+  # "evil",
+  # "command-r",
+
+# https://github.com/gpt4free/g4f.dev/blob/main/docs/providers-and-models.md#text-generation-models
+
+# LLM configuration
+llm:
+  models:
+    - name: "qwen-2.5-7b"
+      # - name: "deepseek/deepseek-r1:free"
+      # - name: "google/gemini-2.0-flash-exp:free"
+      weight: 0.8
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.7
+      top_p: 0.95
+      max_tokens: 4096
+
+    # - name: "qwen-2.5-72b"
+    - name: "qwen-2.5-72b"
+      weight: 0.2
+      api_base: "g4f"
+      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "https://api.mistral.ai/v1/"
+      temperature: 0.2
+      top_p: 0.95
+      max_tokens: 4096
+
+# Prompt configuration
+prompt:
+  system_message: |
+    You are an expert in parametric 3D modeling using CadQuery and Python. Your task is to write a Python function using the CadQuery library that generates a 3D model matching a reference information about the shape as closely as possible.
+
+    Requirements:
+    1. The code must use CadQuery primitives and operations.
+    2. The function should return final CadQuery solid object (`cq.Workplane` with 3D geometry).
+    3. The script must be executable in a standard Python environment with CadQuery installed (no other packages).
+
+    Here are description of metrics on which
+    the result will be evaluated (with respect to original object):
+    - `iou` (Intersection over Union) measures the overlap between two meshes based on their volume.
+
+    - `viou` (Voxelized IoU) measures the IoU on a voxelized representation of the meshes
+
+    - `cd` (Inverse Chamfer Distance) measures the average squared distance between nearest points on the two mesh surfaces.
+    Concept: `1 - (mean_dist(P1 -> P2)² + mean_dist(P2 -> P1)²)`
+
+    - `hd` (Inverse Hausdorff Distance) measures the maximum "worst-case" distance between the two surfaces. It finds the point on one surface furthest from any point on the other. Calculated on 5000 sampled points.
+    Concept: `1 - max(max_dist(P1 -> P2), max_dist(P2 -> P1))`
+
+    - `wd` (Inverse Wasserstein Distance) measures the minimum "cost" to transform one surface's point cloud into the other.
+    Concept: `1 - EMD(P1, P2)`
+
+    - `vs` (Volume Similarity) compares the scalar volume of two (watertight) meshes.
+    Formula: `1 - |Volume1 - Volume2| / max(Volume1, Volume2)`
+
+    - `as` (Surface Area Similarity) compares the scalar surface area of two meshes.
+    Formula: `1 - |Area1 - Area2| / max(Area1, Area2)`
+
+    - `is` (Inertia Similarity) compares the moment of inertia tensors, which describe the mass distribution and rotational properties of the objects.
+    Formula: `1 - ||Inertia1 - Inertia2|| / (||Inertia1|| + ||Inertia2||)`
+
+    You have a text shape description with important information.
+
+    Shape description:
+    Box with length of 150mm, width of 100mm and bottom thickness 10 mm. Walls height: 40 mm.
+    Walls along length sides have thicknesses of 15 mm.
+    Walls along width have thicknesses of 30mm.
+
+  num_top_programs: 3
+  use_template_stochasticity: true
+
+# Database configuration
+database:
+  population_size: 50
+  archive_size: 20
+  num_islands: 3
+  elite_selection_ratio: 0.2
+  exploitation_ratio: 0.7
+
+# Evaluator configuration
+evaluator:
+  timeout: 120
+  use_llm_feedback: false
+
+# Evolution settings
+diff_based_evolution: true
+allow_full_rewrites: false

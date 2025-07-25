@@ -30,6 +30,7 @@ dependencies = [
     "manifold3d>=3.2.0",
     "pot>=0.9.5",
     "g4f[full]>=0.5.7.5",
+    "open3d>=0.19.0",
 ]
 
 [project.optional-dependencies]
