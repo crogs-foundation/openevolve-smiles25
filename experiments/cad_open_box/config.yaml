@@ -1,5 +1,5 @@
 # Configuration for function minimization example
-max_iterations: 20
+max_iterations: 100
 checkpoint_interval: 1
 log_level:
   "INFO"
@@ -21,22 +21,22 @@ log_level:
 # LLM configuration
 llm:
   models:
-    - name: "qwen-2.5-72b"
+    - name: "qwen/qwen-2.5-72b-instruct:free"
       # - name: "deepseek/deepseek-r1:free"
       # - name: "google/gemini-2.0-flash-exp:free"
       weight: 0.8
-      api_base: "g4f"
-      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "g4f"
+      api_base: "https://openrouter.ai/api/v1"
       # api_base: "https://api.mistral.ai/v1/"
       temperature: 0.7
       top_p: 0.95
       max_tokens: 4096
 
-    # - name: "qwen-2.5-72b"
-    - name: "qwen-2.5-72b"
+    # - name: "qwen/qwen-2.5-72b-instruct:free"
+    - name: "qwen/qwen-2.5-72b-instruct:free"
       weight: 0.2
-      api_base: "g4f"
-      # api_base: "https://openrouter.ai/api/v1"
+      # api_base: "g4f"
+      api_base: "https://openrouter.ai/api/v1"
       # api_base: "https://api.mistral.ai/v1/"
       temperature: 0.2
       top_p: 0.95
@@ -94,6 +94,7 @@ database:
 
 # Evaluator configuration
 evaluator:
+  cascade_evaluation: false
   timeout: 120
   use_llm_feedback: false
 
