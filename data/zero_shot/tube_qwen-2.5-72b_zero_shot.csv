@@ -1,0 +1,54 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+
+r = cylinder_large.cut(cylinder_small)",0.69061,0.24845,0.99741,0.99433,0.85138,0.97665,4.75883
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+
+r = cylinder_large.cut(cylinder_small)",0.74882,0.66013,0.9974,0.99427,0.88354,0.93722,5.22138
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+r = cylinder_large.cut(cylinder_small)",0.70454,0.30577,0.99743,0.99448,0.85904,0.96902,4.83028
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+
+r = cylinder_large.cut(cylinder_small)",0.75644,0.69027,0.99739,0.99427,0.8878,0.93142,5.25759
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(58).extrude(200).cut(cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 0)))",0.88502,0.3062,0.99948,0.99675,0.96434,0.95428,5.10607
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+r = cylinder_large.cut(cylinder_small)",0.72068,0.27923,0.99744,0.99436,0.86795,0.95806,4.81772
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+r = cylinder_large.cut(cylinder_small)",0.67975,0.28007,0.99739,0.99451,0.84544,0.97994,4.7771
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+r = cylinder_large.cut(cylinder_small)",0.74803,0.64576,0.99741,0.99431,0.88311,0.93782,5.20644
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+
+r = cylinder_large.cut(cylinder_small)",0.67379,0.23157,0.99736,0.99437,0.84218,0.98021,4.71948
+"import cadquery as cq
+
+cylinder_large = cq.Workplane(""XY"").circle(58).extrude(200)
+cylinder_small = cq.Workplane(""XY"").circle(33).extrude(200).translate((0, 0, 100))
+
+r = cylinder_large.cut(cylinder_small)",0.71627,0.27137,0.99744,0.99435,0.86551,0.96118,4.80612

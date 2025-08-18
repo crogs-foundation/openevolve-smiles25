@@ -1,0 +1,31 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.27757,0.08882,0.97621,0.96873,0.69481,0.73575,3.74189
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces(""<X"").workplane().moveTo(30, 40).lineTo(0, -40).lineTo(0, 40).close().extrude(-50)",0.30308,0.0431,0.97278,0.96236,0.70015,0.80484,3.78631
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.28505,0.02491,0.9829,0.97842,0.9019,0.67343,3.84661
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.27608,0.03912,0.98017,0.97088,0.74312,0.8096,3.8189699999999998
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.26096,0.03933,0.97726,0.96886,0.71989,0.77752,3.74382
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.30416,0.03421,0.97894,0.96885,0.96243,0.81293,4.06152
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.26472,0.17438,0.97436,0.96632,0.65526,0.67208,3.7071199999999997
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.27224,0.15727,0.97564,0.9679,0.67598,0.70622,3.7552499999999998
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces("">Z"").workplane().center(10, 0).rect(20, 80).cutBlind(-50).faces("">X"").workplane().center(30, 0).lineTo(0, 80).lineTo(-30, 0).close().cutThruAll()",0.25898,0.08078,0.96837,0.96282,0.82534,0.83213,3.92842
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Z"").workplane().center(-10, 0).rect(20, 80).cutBlind(-50).faces(""<X"").workplane().moveTo(30, 40).lineTo(0, -40).lineTo(0, 40).close().extrude(-50)",0.29381,0.04978,0.97089,0.96144,0.63272,0.71993,3.62857

@@ -1,0 +1,36 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").cylinder(200, 58).cut(cq.Workplane(""XY"").cylinder(200, 33))",0.93418,0.6618,0.99956,0.9969,0.97988,0.97453,5.54685
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").cylinder(200, 58).faces("">Z"").workplane().cylinder(200, 33, combine=False)
+r = s.cut(s.solids()[1])",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").cylinder(200, 58).faces("">Z"").workplane().cylinder(200, 33, combine=False)
+r = s.cut(s.solids()[1])",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").cylinder(200, 58).cut(cq.Workplane(""XY"").cylinder(200, 33))",0.91509,0.31346,0.99953,0.99685,0.97389,0.96677,5.16559
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").cylinder(200, 58).cut(cq.Workplane(""XY"").cylinder(200, 33))",0.98582,0.9587,0.9996,0.99687,0.99578,0.99493,5.9317
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").cylinder(200, 58).cut(cq.Workplane(""XY"").cylinder(200, 33))",0.94279,0.33088,0.99957,0.99687,0.98256,0.97799,5.23066
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").cylinder(200, 58).cut(cq.Workplane(""XY"").cylinder(200, 33))",0.94498,0.7099,0.99957,0.99689,0.98324,0.97886,5.61344
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").cylinder(200, 58).faces("">Z"").workplane().cylinder(200, 33, combine=False)
+r = s.cut(s.solids()[1])",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").cylinder(200, 58).faces("">Z"").workplane().cylinder(200, 33, combine=False)
+r = s.cut(s.solids()[1])",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").cylinder(200, 58).faces("">Z"").workplane().cylinder(200, 33, combine=False)
+r = s.cut(s.solids()[1])",0.0,0.0,0.0,0.0,0.0,0.0,0.0

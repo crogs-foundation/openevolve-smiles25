@@ -1,5 +1,5 @@
 # Configuration for function minimization example
-max_iterations: 50
+max_iterations: 20
 checkpoint_interval: 1
 log_level:
   "INFO"

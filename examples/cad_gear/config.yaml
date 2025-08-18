@@ -79,7 +79,7 @@ prompt:
     You have a text shape description with important information.
 
     Shape description:
-    Gear wheel: inner radius of 10 mm, outer radius of 40 mm, thickness of 20 mm, 6 rectangular cogs as thick as a gear, protruding from the gear to a width of 20 mm and a length of 10 mm.
+    Gear wheel: inner radius of 10 mm, outer radius of 40 mm, thickness of 20 mm, 6 rectangular cogs as thick as a gear, protruding from the gear to a width of 20 mm and a height of 10 mm.
     The cogs must be inserted into the gear by 2 mm.
 
   num_top_programs: 3

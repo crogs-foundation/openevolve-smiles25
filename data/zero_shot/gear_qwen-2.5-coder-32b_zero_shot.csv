@@ -1,0 +1,101 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(10).extrude(20).faces("">Z"").workplane().circle(40).cutBlind(-20).faces("">Z"").workplane().rarray(30, 0, 6, 1).rect(20, 10).extrude(-2).cutThruAll()",0,0,0,0,0,0,0
+"import cadquery as cq
+
+h = 20
+ir = 10
+or_ = 40
+cog_width = 20
+cog_height = 10
+cog_thickness = h
+num_cogs = 6
+cog_insert = 2
+
+gear = cq.Workplane(""XY"").gear(teeth=num_cogs, module=(or_-ir)/num_cogs, pressure_angle=20, height=h, clearance=0).extrude(h)
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(cog_thickness).translate((0, or_+cog_insert+cog_height/2, h/2))
+
+for i in range(num_cogs):
+    angle = i * 360 / num_cogs
+    r = gear.union(cog.rotate((0, 0, 0), (0, 0, 1), angle))",0,0,0,0,0,0,0
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(10).extrude(20).faces("">Z"").workplane().circle(40).cutBlind(-20).faces("">Z"").workplane().rarray(30, 0, 6, 1).rect(20, 10).extrude(-2).cutThruAll()",0,0,0,0,0,0,0
+"import cadquery as cq
+
+h = 20
+ir = 10
+or_ = 40
+cog_width = 20
+cog_height = 10
+cog_thickness = h
+num_cogs = 6
+cog_insert = 2
+
+gear = cq.Workplane(""XY"").gear(teeth=num_cogs, module=(or_-ir)/num_cogs, pressure_angle=20, height=h, clearance=0).extrude(h)
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(cog_thickness).translate((0, or_+cog_insert+cog_height/2, h/2))
+
+for i in range(num_cogs):
+    angle = i * 360 / num_cogs
+    r = gear.union(cog.rotate((0, 0, 0), (0, 0, 1), angle))",0,0,0,0,0,0,0
+"import cadquery as cq
+
+h = 20
+ir = 10
+or_ = 40
+cog_width = 20
+cog_height = 10
+cog_thickness = h
+num_cogs = 6
+cog_insert = 2
+
+gear = cq.Workplane(""XY"").gear(teeth=num_cogs, module=(or_-ir)/num_cogs, pressure_angle=20, height=h, clearance=0).extrude(h)
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(cog_thickness).translate((0, or_+cog_insert+cog_height/2, h/2))
+
+for i in range(num_cogs):
+    angle = i * 360 / num_cogs
+    r = gear.union(cog.rotate((0, 0, 0), (0, 0, 1), angle))",0,0,0,0,0,0,0
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(10).extrude(20).faces("">Z"").workplane().circle(40).cutBlind(-20).faces("">Z"").workplane().rarray(30, 0, 6, 1).rect(20, 10).extrude(-2).cutThruAll()",0,0,0,0,0,0,0
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(10).extrude(20).faces("">Z"").workplane().circle(40).cutBlind(-20).faces("">Z"").workplane().rarray(30, 0, 6, 1).rect(20, 10).extrude(-2).cutThruAll()",0,0,0,0,0,0,0
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(10).extrude(20).faces("">Z"").workplane().circle(40).cutBlind(-20).faces("">Z"").workplane().rarray(30, 0, 6, 1).rect(20, 10).extrude(-2).cutThruAll()",0,0,0,0,0,0,0
+"import cadquery as cq
+
+h = 20
+ir = 10
+or_ = 40
+cog_width = 20
+cog_height = 10
+cog_thickness = h
+num_cogs = 6
+cog_insert = 2
+
+gear = cq.Workplane(""XY"").gear(teeth=num_cogs, module=(or_-ir)/num_cogs, pressure_angle=20, height=h, clearance=0).extrude(h)
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(cog_thickness).translate((0, or_+cog_insert+cog_height/2, h/2))
+
+for i in range(num_cogs):
+    angle = i * 360 / num_cogs
+    r = gear.union(cog.rotate((0, 0, 0), (0, 0, 1), angle))",0,0,0,0,0,0,0
+"import cadquery as cq
+
+h = 20
+ir = 10
+or_ = 40
+cog_width = 20
+cog_height = 10
+cog_thickness = h
+num_cogs = 6
+cog_insert = 2
+
+gear = cq.Workplane(""XY"").gear(teeth=num_cogs, module=(or_-ir)/num_cogs, pressure_angle=20, height=h, clearance=0).extrude(h)
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(cog_thickness).translate((0, or_+cog_insert+cog_height/2, h/2))
+
+for i in range(num_cogs):
+    angle = i * 360 / num_cogs
+    r = gear.union(cog.rotate((0, 0, 0), (0, 0, 1), angle))",0,0,0,0,0,0,0

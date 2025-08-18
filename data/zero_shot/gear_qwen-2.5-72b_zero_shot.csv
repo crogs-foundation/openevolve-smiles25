@@ -1,0 +1,220 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+for i in range(cog_count):
+    angle = 360 / cog_count * i
+    cog_pos = (outer_radius - cog_width / 2) * cq.Vector(cq.Vector(1, 0, 0).rotated((0, 0, angle)))
+    gear = gear.union(cog.translate(cog_pos))
+
+r = gear",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.6768,0.13941,0.9962,0.99403,0.85378,0.78338,4.4436
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.66901,0.20705,0.99605,0.99354,0.8681,0.76389,4.49764
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.67265,0.07963,0.99621,0.99378,0.8426,0.79852,4.38339
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.6761,0.1441,0.99621,0.99385,0.85499,0.78173,4.44698
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.66971,0.16521,0.99608,0.99374,0.86674,0.76574,4.4572199999999995
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.6752,0.13789,0.99621,0.99411,0.85657,0.77959,4.43957
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.67792,0.07472,0.99624,0.99421,0.85018,0.78823,4.3815
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.67005,0.082,0.99617,0.99412,0.84004,0.80199,4.38437
+"import cadquery as cq
+
+inner_radius = 10
+outer_radius = 40
+thickness = 20
+cog_count = 6
+cog_width = 20
+cog_height = 10
+cog_insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(outer_radius).circle(inner_radius).extrude(thickness)
+
+cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+cog = cog.translate((0, 0, -cog_insert_depth / 2))
+
+angle = 360 / cog_count
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * angle) for i in range(cog_count)]
+
+for cog in cogs:
+    gear = gear.union(cog)
+
+r = gear",0.67522,0.14376,0.9962,0.9942,0.85646,0.77977,4.44561

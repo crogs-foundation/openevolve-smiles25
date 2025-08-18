@@ -1,0 +1,36 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80))
+r = s.union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.1564,0.06677,0.97828,0.97374,0.31266,0.34353,2.8313800000000002
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80)).union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15638,0.06645,0.97849,0.97155,0.31259,0.34338,2.82884
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80))
+r = s.union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15637,0.06602,0.97851,0.97486,0.31261,0.34343,2.8318
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80))
+r = s.union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15635,0.06568,0.97869,0.97365,0.31264,0.34348,2.8304899999999997
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80))
+r = s.union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15635,0.06554,0.97842,0.96992,0.31255,0.34328,2.82606
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80)).union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15641,0.0662,0.97877,0.97453,0.31264,0.34348,2.83203
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80)).union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15636,0.0664,0.97843,0.97471,0.31257,0.34334,2.83181
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80)).union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15641,0.06593,0.97883,0.97448,0.31265,0.3435,2.8318
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80)).union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15636,0.06551,0.97796,0.97037,0.31258,0.34335,2.82613
+"import cadquery as cq
+
+s = cq.Workplane(""XY"").sphere(100).cut(cq.Workplane(""XY"").translate((-70, 20, 0)).sphere(80))
+r = s.union(cq.Workplane(""XY"").translate((0, 0, -150)).sphere(50))",0.15638,0.0661,0.97826,0.97148,0.31264,0.34349,2.82835

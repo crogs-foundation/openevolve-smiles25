@@ -1,0 +1,51 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.18732,0.05658,0.9686,0.96791,0.53175,0.37269,3.08485
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.28343,0.05596,0.96983,0.97029,0.53204,0.37728,3.18883
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.19965,0.06084,0.96393,0.96774,0.53197,0.37443,3.09856
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.25216,0.05089,0.96774,0.96799,0.53216,0.37464,3.14558
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.22607,0.06805,0.96832,0.96946,0.53213,0.37375,3.13778
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.22295,0.04529,0.96589,0.9685,0.53207,0.37273,3.10743
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.30038,0.0543,0.97256,0.97417,0.53184,0.37742,3.21067
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.20723,0.05067,0.9609,0.9647,0.53199,0.37374,3.08923
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.1549,0.05003,0.95987,0.9633,0.53209,0.36536,3.02555
+"import cadquery as cq
+
+r = cq.Workplane(""front"").sphere(100)
+r = r.cut(cq.Workplane(""front"").sphere(80).translate((-70, 0, 20)))
+r = r.cut(cq.Workplane(""front"").sphere(50).translate((0, 0, -100)))",0.28161,0.0563,0.97015,0.97085,0.53211,0.37867,3.18969

@@ -1,0 +1,161 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, wh).cutBlind(wt_w)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, wh).cutBlind(wt_w)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(wh, w).cutBlind(wt_l)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(wh, w).cutBlind(wt_l)",0.48102,0.09276,0.99609,0.99355,0.58009,0.84086,3.98437
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)",0.53117,0.11888,0.99602,0.99339,0.61499,0.91103,4.1654800000000005
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, wh).cutBlind(wt_w)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, wh).cutBlind(wt_w)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(wh, w).cutBlind(wt_l)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(wh, w).cutBlind(wt_l)",0.49619,0.06803,0.99556,0.99327,0.61136,0.8996,4.06401
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)",0.5268,0.14709,0.99599,0.99356,0.6097,0.89901,4.17215
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, wh).cutBlind(wt_w)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, wh).cutBlind(wt_w)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(wh, w).cutBlind(wt_l)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(wh, w).cutBlind(wt_l)",0.49309,0.14963,0.99611,0.99348,0.58937,0.86026,4.08194
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)",0.51075,0.12064,0.99601,0.994,0.60374,0.88882,4.1139600000000005
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)",0.55252,0.21752,0.99597,0.99372,0.6261,0.93097,4.3168
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(wh, wt_w).cutBlind(l)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(wh, wt_w).cutBlind(l)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(wt_l, wh).cutBlind(w)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(wt_l, wh).cutBlind(w)",0.53794,0.13145,0.99596,0.99383,0.61757,0.91497,4.19172
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)",0.52303,0.11325,0.99609,0.99367,0.60698,0.89543,4.12845
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+wt_l = 15
+wt_w = 30
+
+r = cq.Workplane(""XY"").box(l, w, bt + wh)
+r = r.faces("">Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutThruAll()
+r = r.faces(""<Z"").workplane().rect(l - 2 * wt_l, w - 2 * wt_w).cutBlind(-bt)
+r = r.faces(""<X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces("">X"").workplane().center(0, (w - wt_w) / 2).rect(l, bt).cutBlind(wh)
+r = r.faces(""<Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)
+r = r.faces("">Y"").workplane().center((l - wt_l) / 2, 0).rect(bt, w).cutBlind(wh)",0.53317,0.10643,0.99591,0.99324,0.61855,0.91608,4.16338
