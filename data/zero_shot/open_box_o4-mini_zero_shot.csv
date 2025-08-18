@@ -1,0 +1,152 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+l = 150
+w = 100
+bh = 10
+wh = 40
+
+llt = 15
+wwt = 30
+
+outer = cq.Workplane(""XY"").box(l, w, bh + wh, centered=False)
+inner = cq.Workplane(""XY"").box(l - 2 * llt, w - 2 * wwt, wh, centered=False)
+inner = inner.translate((llt, wwt, bh))
+
+r = outer.cut(inner)",0.63743,0.34889,0.9968,0.99402,0.69594,0.961,4.63408
+"import cadquery as cq
+
+L = 150
+W = 100
+bottom_thk = 10
+wall_h = 40
+len_wall_thk = 15
+wid_wall_thk = 30
+
+outer = cq.Workplane(""XY"").box(L, W, bottom_thk + wall_h, centered=False)
+
+inner_L = L - 2 * len_wall_thk
+inner_W = W - 2 * wid_wall_thk
+inner = cq.Workplane(""XY"", origin=(len_wall_thk, wid_wall_thk, bottom_thk)).box(inner_L, inner_W, wall_h, centered=False)
+
+r = outer.cut(inner)",0.65418,0.40336,0.99673,0.99411,0.70822,0.97574,4.73234
+"import cadquery as cq
+
+length = 150
+width = 100
+bottom_thickness = 10
+wall_height = 40
+length_wall_thickness = 15
+width_wall_thickness = 30
+
+outer = cq.Workplane(""XY"").box(length, width, bottom_thickness + wall_height)
+
+inner_x = length - 2 * length_wall_thickness
+inner_y = width - 2 * width_wall_thickness
+inner = cq.Workplane(""XY"").workplane(offset=bottom_thickness).box(inner_x, inner_y, wall_height)
+
+r = outer.cut(inner)",0.57258,0.11169,0.99633,0.99343,0.66678,0.94361,4.28442
+"import cadquery as cq
+L = 150
+W = 100
+H = 40
+bt = 10
+lt = 15
+wt = 30
+base = cq.Workplane().box(L, W, bt)
+outer = (cq.Workplane()
+         .box(L, W, bt + H))
+r = outer.edges(""|Z"").fillet(0.5)
+r = r.cut(base)
+chan_x = (cq.Workplane()
+          .box(L, W - 2*lt, bt + H))
+chan_x = chan_x.translate((0, 0, H/2))
+r = r.cut(chan_x)
+chan_y = (cq.Workplane()
+          .box(L - 2*wt, W, bt + H))
+chan_y = chan_y.translate((0, 0, H/2))
+r = r.cut(chan_y)",0.28555,0.08008,0.99409,0.99018,0.48793,0.61548,3.45331
+"import cadquery as cq
+
+base = cq.Workplane(""XY"").box(150, 100, 10, centered=False)
+
+walls = cq.Workplane(""XY"").moveTo(15, 30).rect(150 - 2*15, 100 - 2*30).extrude(40)
+walls = walls.faces("">Z"").shell(-15)
+
+r = base.union(walls)",0.0623,0.03199,0.97072,0.96476,0.27241,0.15716,2.45934
+"import cadquery as cq
+
+length = 150
+width = 100
+bottom_thickness = 10
+wall_height = 40
+length_wall_thickness = 15
+width_wall_thickness = 30
+
+base = cq.Workplane(""XY"").box(length, width, bottom_thickness)
+
+wall1 = cq.Workplane(""XY"").workplane(offset=bottom_thickness) \
+    .center(length/2-length_wall_thickness/2, 0) \
+    .box(length_wall_thickness, width, wall_height)
+wall2 = cq.Workplane(""XY"").workplane(offset=bottom_thickness) \
+    .center(-length/2+length_wall_thickness/2, 0) \
+    .box(length_wall_thickness, width, wall_height)
+
+wall3 = cq.Workplane(""XY"").workplane(offset=bottom_thickness) \
+    .center(0, width/2-width_wall_thickness/2) \
+    .box(length, width_wall_thickness, wall_height)
+wall4 = cq.Workplane(""XY"").workplane(offset=bottom_thickness) \
+    .center(0, -width/2+width_wall_thickness/2) \
+    .box(length, width_wall_thickness, wall_height)
+
+r = base.union(wall1).union(wall2).union(wall3).union(wall4)",0.43024,0.07527,0.99609,0.99253,0.56688,0.75868,3.81969
+"import cadquery as cq
+
+l = 150
+w = 100
+bt = 10
+wh = 40
+lt = 15
+wt = 30
+
+base = cq.Workplane(""XY"").box(l, w, bt)
+lwall = cq.Workplane(""XY"").workplane(offset=bt).box(l, wt, wh)
+wwall = cq.Workplane(""XY"").workplane(offset=bt).box(lt, w, wh)
+r = base.union(lwall).union(wwall)",0.14657,0.06885,0.98946,0.98194,0.41196,0.35573,2.95451
+"import cadquery as cq
+
+base = (cq.Workplane(""XY"")
+        .box(150, 100, 10, centered=(True, True, False)))
+
+wall_len = (cq.Workplane(""XY"")
+            .transformed(offset=(0, 0, 25))
+            .box(15, 100, 40, centered=(False, True, False)))
+
+wall_wid = (cq.Workplane(""XY"")
+            .transformed(offset=(0, 0, 25))
+            .box(150, 30, 40, centered=(True, False, False)))
+
+r = base.union(wall_len).union(wall_wid)",0.1752,0.05959,0.98709,0.97787,0.52505,0.40648,3.13128
+"import cadquery as cq
+
+outer = cq.Workplane().box(150, 100, 50)
+inner = cq.Workplane().box(150-2*15, 100-2*30, 40)
+r = outer.cut(inner)",0.40033,0.09937,0.99423,0.98708,0.66825,0.75395,3.90321
+"import cadquery as cq
+
+base = cq.Workplane().box(150, 100, 10)
+base = base.translate((0, 0, 5))
+
+wall_long_1 = cq.Workplane().box(150, 15, 40)
+wall_long_1 = wall_long_1.translate((0, 42.5, 30))
+wall_long_2 = cq.Workplane().box(150, 15, 40)
+wall_long_2 = wall_long_2.translate((0, -42.5, 30))
+
+wall_short_1 = cq.Workplane().box(15, 70, 40)
+wall_short_1 = wall_short_1.translate((67.5, 0, 30))
+wall_short_2 = cq.Workplane().box(15, 70, 40)
+wall_short_2 = wall_short_2.translate((-67.5, 0, 30))
+
+walls = wall_long_1.union(wall_long_2).union(wall_short_1).union(wall_short_2)
+
+r = base.union(walls)",0.70522,0.13226,0.99865,0.9955,0.7069,0.856,4.39453

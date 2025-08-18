@@ -1,0 +1,210 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+r = (cq.Workplane(""XY"")
+     .circle(40)
+     .circle(10)
+     .extrude(20)
+     .faces("">Z"")
+     .rect(40, 20, forConstruction=True)
+     .vertices()
+     .rect(20, 10)
+     .extrude(10)
+     .faces(""<Z"")
+     .workplane()
+     .rect(40, 20, forConstruction=True)
+     .vertices()
+     .rect(20, 10)
+     .extrude(-2)
+     .combine())",0.59884,0.16036,0.99479,0.99111,0.98084,0.75071,4.47665
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .circle(40)
+    .extrude(20)
+    .circle(10)
+    .cutThruAll()
+)
+
+cog = (
+    cq.Workplane(""XY"")
+    .rect(20, 10)
+    .extrude(20)
+    .translate((0, 35, 0))
+    .translate((0, -2, 0))
+)
+
+for i in range(6):
+    r = r.union(cog.rotate((0, 0, 0), (0, 0, 1), i * 60))",0.69337,0.09191,0.99661,0.99458,0.87644,0.79234,4.44525
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(40).extrude(20)
+cog = cq.Workplane(""XZ"").rect(20, 10).extrude(20).translate((0, -10, 0))
+cogs = [cog.rotate((0, 0, 0), (0, 0, 1), i * 60) for i in range(6)]
+r = r.faces("">Z"").workplane().pushPoints([(0, 0) for _ in range(6)]).eachpoint(lambda loc: cogs[int(loc.wrapped.getAttribute(""index"") % 6)].val().located(loc))
+r = r.cut(cq.Workplane(""XY"").circle(10).extrude(20))",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+from math import sin, cos, pi
+
+r_inner = 10
+r_outer = 40
+thickness = 20
+num_cogs = 6
+cog_width = 20
+cog_height = 10
+insert_depth = 2
+
+gear = cq.Workplane(""XY"").circle(r_outer).extrude(thickness)
+gear = gear.faces("">Z"").workplane().circle(r_inner).cutThruAll()
+theta_step = 2 * pi / num_cogs
+for i in range(num_cogs):
+    angle = i * theta_step
+    x = (r_outer + cog_height / 2 - insert_depth) * cos(angle)
+    y = (r_outer + cog_height / 2 - insert_depth) * sin(angle)
+    cog = cq.Workplane(""XY"").rect(cog_width, cog_height).extrude(thickness)
+    cog = cog.rotate((0,0,0), (0,0,1), angle * 180 / pi)
+    cog = cog.translate((x, y, 0))
+    gear = gear.union(cog)
+
+r = gear",0.69308,0.16483,0.99848,0.99513,0.65696,0.70352,4.212
+"import cadquery as cq
+R_inner = 10
+R_outer = 40
+T = 20
+N = 6
+H = 10
+W = 20
+I = 2
+
+base = cq.Workplane(""XY"").circle(R_outer).circle(R_inner).extrude(T)
+
+cog = cq.Workplane(""XY"") \
+      .rect(W, H + R_outer - R_inner + I, centered=False) \
+      .extrude(T) \
+      .edges(""|Z and >Z"").fillet(1)
+
+angle = 360 / N
+cogs = base.center((R_outer + R_outer - I)/2, 0).eachpoint(lambda l: l, True).transformed(cq.Vector(0, 0, 0), cq.Vector(0, 0, angle).length(0)) \
+      .pushPoints([(0,0)]*N) \
+      .eachpoint(lambda l: cog.located(l), True)
+
+r = base.union(cogs)",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+gear = cq.Workplane(""XY"").cylinder(20, 40)
+cog = cq.Workplane(""XY"").box(20, 10, 20, centered=False).translate((0, 30, 0))
+
+cut = (gear.faces("">Z"").workplane(centerOption=""CenterOfMass"")
+       .hole(20))
+
+cogs = (cq.Workplane(""XY"")
+        .pushPoints([(0, 35), (-30.31, 17.5), (-30.31, -17.5),
+                     (0, -35), (30.31, -17.5), (30.31, 17.5)])
+        .eachpoint(lambda loc: cog.val().moved(loc), combine=True))
+
+r = gear + cogs",0.41489,0.09967,0.99462,0.98967,0.59557,0.57979,3.67421
+"import cadquery as cq
+
+gear = cq.Workplane()
+gear = gear.circle(40).circle(10).extrude(20)
+
+cog = cq.Workplane()
+cog = cog.rect(20, 10).extrude(20)
+cog = cog.translate((0, -30, 0))
+
+for i in range(6):
+    gear = gear.union(cog.rotate((0, 0, 0), (0, 0, 1), i * 60))
+
+r = gear",0.59741,0.06232,0.99545,0.99298,0.85419,0.81765,4.32
+"import cadquery as cq
+
+r = (cq.Workplane()
+     .circle(40)
+     .circle(10)
+     .extrude(20)
+     .faces("">Z"")
+     .workplane()
+     .rect(20, 10, forConstruction=True)
+     .vertices()
+     .circle(2)
+     .extrude(10, combine=False)
+     .rotate((0, 0, 0), (0, 0, 1), 0)
+     .union(
+         cq.Workplane()
+         .rect(20, 10, forConstruction=True)
+         .vertices()
+         .circle(2)
+         .extrude(10, combine=False)
+         .rotate((0, 0, 0), (0, 0, 1), 60)
+     )
+     .union(
+         cq.Workplane()
+         .rect(20, 10, forConstruction=True)
+         .vertices()
+         .circle(2)
+         .extrude(10, combine=False)
+         .rotate((0, 0, 0), (0, 0, 1), 120)
+     )
+     .union(
+         cq.Workplane()
+         .rect(20, 10, forConstruction=True)
+         .vertices()
+         .circle(2)
+         .extrude(10, combine=False)
+         .rotate((0, 0, 0), (0, 0, 1), 180)
+     )
+     .union(
+         cq.Workplane()
+         .rect(20, 10, forConstruction=True)
+         .vertices()
+         .circle(2)
+         .extrude(10, combine=False)
+         .rotate((0, 0, 0), (0, 0, 1), 240)
+     )
+     .union(
+         cq.Workplane()
+         .rect(20, 10, forConstruction=True)
+         .vertices()
+         .circle(2)
+         .extrude(10, combine=False)
+         .rotate((0, 0, 0), (0, 0, 1), 300)
+     )
+     .union(
+         cq.Workplane()
+         .circle(40)
+         .circle(10)
+         .extrude(20)
+     )
+)",0.68819,0.16912,0.99628,0.9938,0.91793,0.77899,4.54431
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").circle(40).extrude(20)
+
+cog1 = cq.Workplane(""XY"").rect(20, 20).extrude(10).translate((0, 0, 5))
+cog1 = cog1.intersect(r).translate((0, 0, -5))
+
+for i in range(6):
+    angle = i * 60
+    cog = cog1.rotate((0, 0, 0), (0, 0, 1), angle)
+    r = r.union(cog)
+
+r = r.faces("">Z"").circle(10).cutThruAll()",0.6889,0.16095,0.99655,0.99439,0.88892,0.77596,4.50567
+"import cadquery as cq
+
+tooth_width = 20
+tooth_height = 10
+gear_thickness = 20
+cog_insert = 2
+r = (cq.Workplane(""XY"")
+     .cylinder(gear_thickness, 40)
+     .cylinder(gear_thickness, 10, combine=""cut"")
+     .rect(40 + 2 * tooth_height - 2 * cog_insert, tooth_width)
+     .extrude(gear_thickness / 2)
+     .mirror(mirrorPlane=""XY"")
+     .union()
+     .rotate((0, 0, 0), (0, 0, 1), 0)
+     .rotate((0, 0, 0), (0, 0, 1), 60)
+     .rotate((0, 0, 0), (0, 0, 1), 120)
+     .rotate((0, 0, 0), (0, 0, 1), 180)
+     .rotate((0, 0, 0), (0, 0, 1), 240)
+     .rotate((0, 0, 0), (0, 0, 1), 300))",0.68458,0.08354,0.99645,0.99428,0.88153,0.78426,4.42464

@@ -1,0 +1,51 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.98396,0.93962,0.9996,0.99659,0.99521,0.9942,5.90918
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.96531,0.8283,0.9996,0.99658,0.98951,0.98692,5.766220000000001
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.95124,0.74472,0.99959,0.99668,0.98517,0.98136,5.65876
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.98326,0.94098,0.9996,0.99661,0.995,0.99393,5.9093800000000005
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.94768,0.33695,0.99958,0.99666,0.98407,0.97994,5.24488
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.98237,0.93439,0.99961,0.9966,0.99473,0.99358,5.90128
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.95817,0.34696,0.99959,0.99666,0.98731,0.9841,5.27279
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.96125,0.79749,0.9996,0.99662,0.98826,0.98532,5.72854
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.98726,0.97046,0.9996,0.99661,0.99622,0.99549,5.94564
+"import cadquery as cq
+outer_d, inner_d, h = 116, 66, 200
+r = cq.Workplane(""XY"").circle(outer_d / 2).extrude(h).cut(
+    cq.Workplane(""XY"").circle(inner_d / 2).extrude(h)
+)",0.91293,0.32151,0.99954,0.99672,0.97321,0.96588,5.16979

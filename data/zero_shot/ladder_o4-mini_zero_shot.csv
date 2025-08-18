@@ -1,0 +1,198 @@
+code,iou,viou,cd,wd,as,is,combined_score
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces("">Y"")
+    .hole(10)
+    .vertices(""|Z"")
+    .workplane()
+    .moveTo(0, -30)
+    .lineTo(0, 10)
+    .lineTo(40, 10)
+    .lineTo(40, -30)
+    .close()
+    .extrude(50)
+    .faces(""<X"")
+    .workplane()
+    .lineTo(0, -50)
+    .lineTo(-40, -50)
+    .lineTo(-40, 0)
+    .lineTo(0, 0)
+    .close()
+    .extrude(-50)
+)",0.41458,0.11323,0.97724,0.97096,0.73383,0.64714,3.85698
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces("">Z"")
+    .workplane()
+    .transformed(offset=(0, 0, 30))
+    .rect(60, 40)
+    .rect(60, 10, forConstruction=True)
+    .vertices()
+    .hole(10)
+    .faces("">Y"")
+    .workplane()
+    .moveTo(0, 0)
+    .lineTo(0, 80)
+    .lineTo(60, 80)
+    .lineTo(60, 0)
+    .close()
+    .cutThruAll()
+    .faces(""<X"")
+    .workplane()
+    .moveTo(0, 0)
+    .lineTo(0, 70)
+    .lineTo(60, 50)
+    .close()
+    .cutThruAll()
+)",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+r = (cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces(""<Z"")
+    .workplane()
+    .moveTo(0, -30)
+    .lineTo(0, 10)
+    .lineTo(-40, 10)
+    .lineTo(-40, -30)
+    .close()
+    .extrude(-50)
+    .faces("">X"")
+    .workplane()
+    .lineTo(0, 80)
+    .lineTo(-30, 80)
+    .lineTo(-30, 0)
+    .lineTo(0, 0)
+    .close()
+    .sweep(cq.Workplane(""XY"").lineTo(60, 30).lineTo(60, 80)).faces(""<X"")
+    .workplane(centerOption=""CenterOfMass"")
+    .lineTo(-30, 0)
+    .lineTo(-30, -50)
+    .close()
+    .sweep(cq.Workplane(""XY"").lineTo(60, 0).lineTo(60, -50)))",0.40914,0.04415,0.97667,0.96447,0.93309,0.79215,4.11967
+"import cadquery as cq
+
+r = cq.Workplane(""XY"") \
+    .box(60, 80, 50) \
+    .faces("">X"") \
+    .workplane() \
+    .transformed(offset=(0, 0, 0)) \
+    .rect(60, 40) \
+    .extrude(30) \
+    .faces("">X"") \
+    .workplane() \
+    .rect(60, 40) \
+    .extrude(20) \
+    .faces("">X"") \
+    .workplane() \
+    .transformed(offset=(0, 0, 0)) \
+    .rect(60, 40) \
+    .extrude(30) \
+    .faces("">X"") \
+    .workplane() \
+    .transformed(offset=(0, 0, 0)) \
+    .rect(60, 40) \
+    .extrude(30)",0.25713,0.02886,0.97325,0.96872,0.5584,0.49522,3.28158
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50).faces("">Y"").workplane().rect(60, 50).extrude(-30).faces(""<Y"").workplane().rect(60, 40).extrude(-40).faces("">Z"").workplane().lineTo(60, 0).lineTo(0, 50).close().extrude(-50)",0.46434,0.05017,0.97666,0.96868,0.74299,0.60557,3.80841
+"import cadquery as cq
+
+r = cq.Workplane(""XY"").box(60, 80, 50)
+
+r = r.faces(""<Z"").workplane().split(keepBottom=True).translate((0, 0, 50))
+
+r = r.faces(""<Z"").workplane().transformed(offset=(0, 0, 50)).rect(40, 80).extrude(30)
+
+r = r.faces(""<Z"").workplane().split(keepTop=False).translate((0, 0, 50))
+
+r = r.faces("">Y"").workplane().transformed(offset=(60, 0, 0)).rect(60, 80).extrude(50)
+
+r = r.faces(""<Z"").workplane().transformed(offset=(40, 30, 50)).extrude(30)",0.0,0.0,0.0,0.0,0.0,0.0,0.0
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces("">Y"")
+    .workplane()
+    .transformed(offset=(0, 0, 50))
+    .rect(60, 30)
+    .extrude(40)
+    .faces(""<Y"")
+    .workplane()
+    .transformed(offset=(0, 0, 10))
+    .rect(60, 30)
+    .extrude(10)
+    .faces(""<Y"")
+    .workplane()
+    .transformed(offset=(0, 0, 60))
+    .line(60, 0)
+    .line(0, -50)
+    .line(-60, 0)
+    .close()
+    .cutThruAll()
+)",0.1691,0.0367,0.96621,0.96296,0.44077,0.32338,2.89912
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces("">Y"")
+    .workplane()
+    .moveTo(-30, 0)
+    .lineTo(-30, 40)
+    .lineTo(30, 40)
+    .lineTo(30, 0)
+    .lineTo(-30, 0)
+    .close()
+    .cutThruAll()
+    .faces(""<Y"")
+    .workplane()
+    .transformed(offset=(0, 0, 50))
+    .lineTo(30, 0)
+    .lineTo(0, -40)
+    .lineTo(-30, 0)
+    .close()
+    .cutThruAll()
+)",0.37507,0.03801,0.981,0.97317,0.77095,0.62281,3.76101
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces("">Z"")
+    .workplane()
+    .rarray(1, 1, 1, 1)
+    .rect(40, 30)
+    .extrude(-40)
+    .faces(""<Y"")
+    .workplane()
+    .transformed(rotate=(0, 0, 58))
+    .rect(60, 80)
+    .cutThruAll()
+)",0.29752,0.14573,0.97626,0.9689,0.91228,0.86232,4.16301
+"import cadquery as cq
+
+r = (
+    cq.Workplane(""XY"")
+    .box(60, 80, 50)
+    .faces("">Y"")
+    .workplane()
+    .rect(40, 30)
+    .extrude(10)
+    .faces("">Y"")
+    .workplane(offset=10)
+    .rect(30, 20)
+    .extrude(10)
+    .faces("">Y"")
+    .workplane()
+    .transformed(offset=(60, 0, 0))
+    .cut(cq.Workplane(""XY"").lineTo(0, 80).lineTo(60, 0).close().extrude(50))
+)",0.43011,0.08351,0.98444,0.9782,0.84618,0.69731,4.01975
