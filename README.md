@@ -1,3 +1,7 @@
+# Applied AlphaEvolve
+
+This repository contains artifacts of the Applied AlphaEvolve project done on SMILES 2025. We applied OpenEvolve for CAD Reconstruction and Combinarotial Geometry.
+
 # OpenEvolve
 
 An open-source evolutionary coding agent that began as a faithful implementation of AlphaEvolve and has evolved far beyond it, enabling automated scientific and algorithmic discovery.
